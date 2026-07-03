@@ -21,3 +21,15 @@ export function useTelemetry() {
     },
   });
 }
+
+export function useTransactions(limit: number = 100) {
+  return useQuery({
+    queryKey: ['transactions', limit],
+    queryFn: async () => {
+      const res = await fetch(`/api/transactions?limit=${limit}`);
+      if (!res.ok) throw new Error('Failed to fetch transactions');
+      return res.json();
+    },
+  });
+}
+

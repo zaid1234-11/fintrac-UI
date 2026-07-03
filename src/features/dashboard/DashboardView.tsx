@@ -3,8 +3,17 @@
 import React from 'react';
 import { motion } from 'framer-motion';
 import CommandCenterPreview from '@/components/dashboard/CommandCenterPreview';
+import { useBehavioralProfile, useTelemetry, useTransactions } from './api/useDashboardData';
+import { mapKPIs, mapSpendingData, mapCategoryData } from './utils/dataMappers';
 
 export function DashboardView() {
+  const { data: profile } = useBehavioralProfile();
+  const { data: telemetry } = useTelemetry();
+  const { data: transactions } = useTransactions(200); // fetch last 200 txns
+
+  const kpis = mapKPIs(profile, telemetry, transactions || []);
+  const spendingData = mapSpendingData(transactions || []);
+  const categoryData = mapCategoryData(transactions || []);
   return (
     <div className="flex flex-col gap-8 pb-20">
       {/* Header */}
@@ -41,7 +50,11 @@ export function DashboardView() {
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.5, delay: 0.2 }}
       >
-        <CommandCenterPreview />
+        <CommandCenterPreview 
+          kpis={kpis}
+          spendingData={spendingData}
+          categoryData={categoryData}
+        />
       </motion.div>
     </div>
   );
