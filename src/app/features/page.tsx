@@ -13,35 +13,34 @@ const SECTION_HEIGHT = `${CARD_COUNT * CARD_SPACING_VH + 200}vh`;
 const TOTAL_FRAMES = 192;
 
 const chapters = [
-  { index: 1, label: "Classifier" },
+  { index: 1, label: "Memory" },
   { index: 2, label: "Learning" },
   { index: 3, label: "Savings" },
-  { index: 4, label: "Alerts" },
+  { index: 4, label: "Signals" },
   { index: 5, label: "Wellness" },
-  { index: 6, label: "Explainability" },
+  { index: 6, label: "Explainable" },
   { index: 7, label: "Twin" },
-  { index: 8, label: "Ledger" },
+  { index: 8, label: "Audit" },
 ];
 
 const cards = [
   {
-    title: "AI Classifier",
+    title: "Behavioral Memory",
     anchor: "#feature-classifier",
     children: (
-      <div className="flex flex-col gap-2 mt-6">
-        {[
-          ["01", "Cache Lookup", "O(1)"],
-          ["02", "Global Registry", "shared"],
-          ["03", "Heuristics", "rules"],
-          ["04", "Fuzzy Match", "Fuse.js"],
-          ["05", "GPT-4o-mini", "fallback"],
-        ].map(([num, stage, tag]) => (
-          <div key={stage} className="flex items-center gap-3">
-            <span className="font-mono text-[9px] text-[#474842]/30 w-5">{num}</span>
-            <div className="flex-1 bg-[#474842]/5 border border-[#474842]/10 rounded-lg px-3 py-2 text-[#474842]/80 text-[11px] font-bold shadow-sm">{stage}</div>
-            <span className="font-mono text-[9px] text-[#474842]/30 w-10 text-right">{tag}</span>
+      <div className="mt-6 flex flex-col gap-4">
+        <div className="bg-[#474842]/5 border border-[#474842]/10 rounded-xl p-4 shadow-sm">
+          <div className="flex justify-between items-center mb-3">
+            <span className="text-[#474842] font-semibold text-sm">₹450 Starbucks</span>
+            <div className="bg-[#8FA876]/20 text-[#3F4138] px-2 py-1 rounded text-[10px] font-bold flex items-center gap-1">
+              <span>✓</span> Coffee & Dining
+            </div>
           </div>
-        ))}
+          <div className="flex items-center gap-2 border-t border-[#474842]/10 pt-3 mt-1">
+            <div className="w-4 h-4 rounded-full bg-[#8FA876]/30 flex items-center justify-center text-[8px]">⚡</div>
+            <span className="text-[#474842]/60 text-[10px] font-medium">Learned from 4 previous corrections</span>
+          </div>
+        </div>
       </div>
     )
   },
@@ -50,76 +49,68 @@ const cards = [
     anchor: "#feature-friction",
     children: (
       <div className="mt-6 space-y-3">
-        <div className="bg-[#474842]/5 border border-[#474842]/8 rounded-xl p-4">
-          <div className="font-mono text-[9px] text-[#474842]/40 mb-2 tracking-widest">UPDATE RULE</div>
-          <p className="text-[#474842]/80 text-[11px] leading-relaxed font-mono font-semibold">
-            F(t+1) = F(t) + α × (1 − C) × Streak
-          </p>
+        <div className="flex justify-between items-center bg-[#474842]/5 border border-[#474842]/8 rounded-xl p-3">
+          <div className="flex items-center gap-2">
+            <span className="text-sm">🔒</span>
+            <span className="text-[#474842]/80 text-[11px] font-semibold">Dining & Coffee</span>
+          </div>
+          <span className="text-[#474842]/50 text-[10px] font-medium uppercase tracking-wider">Protected</span>
         </div>
-        <div className="grid grid-cols-3 gap-2 text-center">
-          {[["α", "0.10", "rate"], ["F₀", "0.50", "prior"], ["−0.05", "3mo", "decay"]].map(([val, sub1, sub2]) => (
-            <div key={val} className="bg-[#474842]/5 rounded-xl p-3">
-              <div className="text-[#474842] text-sm font-semibold">{val}</div>
-              <div className="text-[#474842]/40 text-[9px] mt-1">{sub1} {sub2}</div>
-            </div>
-          ))}
+        <div className="flex justify-between items-center bg-[#474842]/5 border border-[#474842]/8 rounded-xl p-3">
+          <div className="flex items-center gap-2">
+            <span className="text-sm">〰️</span>
+            <span className="text-[#474842]/80 text-[11px] font-semibold">Online Shopping</span>
+          </div>
+          <span className="text-[#474842]/50 text-[10px] font-medium uppercase tracking-wider">Flexible</span>
         </div>
       </div>
     )
   },
   {
-    title: "Elastic Savings",
+    title: "Adaptive Savings",
     anchor: "#feature-savings",
     children: (
       <div className="mt-6 space-y-3">
-        <div className="font-mono text-[9px] text-[#474842]/40 tracking-widest mb-2">FRICTION → CUT SIZE</div>
-        {[
-          ["Dining", 0.82, "protected"],
-          ["Shopping", 0.45, "moderate"],
-          ["Entertainment", 0.18, "absorbs most"],
-        ].map(([cat, f, label]) => (
-          <div key={cat} className="space-y-1">
-            <div className="flex justify-between">
-              <span className="text-[#474842]/70 text-[11px] font-semibold">{cat}</span>
-              <span className="text-[#474842]/50 text-[9px] font-mono font-medium">{label}</span>
+        <div className="bg-[#474842]/5 border border-[#474842]/8 rounded-xl p-4">
+          <div className="flex items-center gap-3 mb-4">
+            <div className="w-2 h-2 rounded-full bg-[#474842]/30" />
+            <div className="flex-1 h-px bg-[#474842]/20 relative">
+              <div className="absolute right-0 top-1/2 -translate-y-1/2 w-2 h-2 border-t border-r border-[#474842]/40 rotate-45" />
             </div>
-            <div className="h-1 bg-[#474842]/10 rounded-full overflow-hidden">
-              <div
-                className="h-full bg-[#474842]/70 rounded-full"
-                style={{ width: `${(1 - (f as number)) * 100}%` }}
-              />
-            </div>
+            <div className="w-8 h-8 rounded-full bg-[#8FA876]/20 flex items-center justify-center text-[14px]">🎯</div>
           </div>
-        ))}
+          <p className="text-[#474842]/70 text-[11px] font-medium leading-relaxed">
+            Automatically bypasses protected habits and finds micro-savings in discretionary categories.
+          </p>
+        </div>
       </div>
     )
   },
   {
-    title: "Behavioral Alerts",
+    title: "Behavioral Signals",
     anchor: "#feature-coaching",
     children: (
-      <div className="mt-6 grid grid-cols-2 gap-2">
-        {[
-          ["⚡", "Spending Spike", "7d vs 3-week avg"],
-          ["📉", "Category Drift", "+15pp wallet shift"],
-          ["🔥", "Salary Burn", "50% in 7 days"],
-          ["🌙", "Late Night", "₹1,500 after 11PM"],
-        ].map(([icon, name, sub]) => (
-          <div key={name} className="bg-[#474842]/5 border border-[#474842]/8 rounded-xl p-3">
-            <div className="text-base mb-1">{icon}</div>
-            <div className="text-[#474842]/90 text-[11px] font-bold leading-tight">{name}</div>
-            <div className="text-[#474842]/50 text-[9px] mt-1 font-medium">{sub}</div>
+      <div className="mt-6">
+        <div className="bg-[#474842]/5 border border-[#474842]/8 rounded-xl p-4 relative overflow-hidden">
+          <div className="absolute top-0 left-0 w-1 h-full bg-[#474842]/40" />
+          <div className="flex items-start gap-3 ml-2">
+            <span className="text-xl">🌙</span>
+            <div>
+              <div className="text-[#474842]/90 text-[12px] font-bold mb-1">Late night spending is up 20%</div>
+              <div className="text-[#474842]/60 text-[11px] leading-tight">
+                You've spent ₹1,500 after 11PM this week. Let's pace it to stay on track for your goal.
+              </div>
+            </div>
           </div>
-        ))}
+        </div>
       </div>
     )
   },
   {
-    title: "Wellness Score",
+    title: "Financial Wellness",
     anchor: "#feature-wellness",
     children: (
       <div className="mt-6 space-y-3">
-        <div className="font-mono text-[9px] text-[#474842]/40 tracking-widest">W ∈ [0, 100] · 4 PILLARS</div>
         {[
           ["Stability", 78],
           ["Savings", 62],
@@ -128,37 +119,41 @@ const cards = [
         ].map(([pillar, score]) => (
           <div key={pillar} className="flex items-center gap-3">
             <span className="text-[#474842]/80 text-[11px] w-24 shrink-0 font-semibold">{pillar}</span>
-            <div className="flex-1 h-[3px] bg-[#474842]/10 rounded-full overflow-hidden">
+            <div className="flex-1 h-[4px] bg-[#474842]/10 rounded-full overflow-hidden">
               <div
-                className="h-full bg-[#474842] rounded-full"
+                className="h-full bg-[#8FA876] rounded-full"
                 style={{ width: `${score}%` }}
               />
             </div>
-            <span className="text-[#474842]/40 font-mono text-[9px] w-5 text-right">{score}</span>
+            <span className="text-[#474842]/80 font-mono text-[10px] w-6 text-right font-bold">{score}</span>
           </div>
         ))}
       </div>
     )
   },
   {
-    title: "Explainability",
+    title: "Explainable Intelligence",
     anchor: "#feature-explainability",
     children: (
       <div className="mt-6">
-        <div className="bg-[#474842]/5 border border-[#474842]/8 rounded-xl p-4">
-          <div className="font-mono text-[9px] text-[#474842]/40 tracking-widest mb-3">WHY THIS INSIGHT?</div>
-          {[
-            ["Stage matched", "Fuzzy Levenshtein"],
-            ["Confidence", "0.87"],
-            ["Friction (Dining)", "0.72"],
-            ["Suggested cut", "₹1,200"],
-            ["Compliance streak", "2 months"],
-          ].map(([k, v]) => (
-            <div key={k} className="flex justify-between items-center py-2 border-b border-[#474842]/10 last:border-0">
-              <span className="text-[#474842]/60 text-[10px] font-medium">{k}</span>
-              <span className="text-[#474842]/80 text-[10px] font-mono font-semibold">{v}</span>
-            </div>
-          ))}
+        <div className="bg-[#474842]/5 border border-[#474842]/8 rounded-xl p-5">
+          <div className="text-center mb-4">
+            <div className="text-[#474842]/50 text-[10px] font-mono tracking-widest uppercase mb-1">Suggested Savings</div>
+            <div className="text-[#474842] text-2xl font-display">₹1,200</div>
+          </div>
+          <div className="space-y-2 border-t border-[#474842]/10 pt-4">
+            <div className="text-[#474842]/50 text-[9px] font-mono tracking-widest uppercase mb-2">Why?</div>
+            {[
+              "Dining spending down 18%",
+              "2-month compliance streak",
+              "Target achievable",
+            ].map((reason, i) => (
+              <div key={i} className="flex items-start gap-2">
+                <span className="text-[#8FA876] text-[10px] mt-[2px]">✓</span>
+                <span className="text-[#474842]/70 text-[11px] font-medium">{reason}</span>
+              </div>
+            ))}
+          </div>
         </div>
       </div>
     )
@@ -168,33 +163,51 @@ const cards = [
     anchor: "#feature-twin",
     children: (
       <div className="mt-6">
-        <div className="font-mono text-[9px] text-[#474842]/40 tracking-widest mb-3">TRAJECTORY DIVERGENCE</div>
-        <div className="flex items-end gap-2 h-16 w-full border-b border-[#474842]/10 pb-1">
-           <div className="w-1/2 h-[40%] bg-[#474842]/20 rounded-t-sm relative">
-             <div className="absolute -top-4 left-1/2 -translate-x-1/2 text-[8px] font-mono text-[#474842]/50">STATIC</div>
-           </div>
-           <div className="w-1/2 h-[90%] bg-[#474842]/70 rounded-t-sm relative">
-             <div className="absolute -top-4 left-1/2 -translate-x-1/2 text-[8px] font-mono text-[#474842]/80 font-bold">TWIN</div>
-           </div>
+        <div className="bg-[#474842]/5 border border-[#474842]/8 rounded-xl p-5">
+          <div className="text-[#474842]/50 text-[10px] font-mono tracking-widest uppercase mb-4 text-center">In 12 Months</div>
+          
+          <div className="space-y-4">
+            <div>
+              <div className="flex justify-between items-end mb-1">
+                <span className="text-[#474842]/70 text-[11px] font-semibold">Current Habits</span>
+                <span className="text-[#474842]/80 text-[12px] font-bold">₹18,200 Saved</span>
+              </div>
+              <div className="h-1.5 w-full bg-[#474842]/10 rounded-full overflow-hidden">
+                <div className="h-full w-[30%] bg-[#474842]/30 rounded-full" />
+              </div>
+            </div>
+            
+            <div>
+              <div className="flex justify-between items-end mb-1">
+                <span className="text-[#8FA876] text-[11px] font-bold">Adaptive Plan</span>
+                <span className="text-[#8FA876] text-[12px] font-bold">₹42,600 Saved</span>
+              </div>
+              <div className="h-1.5 w-full bg-[#474842]/10 rounded-full overflow-hidden">
+                <div className="h-full w-[85%] bg-[#8FA876] rounded-full" />
+              </div>
+            </div>
+          </div>
         </div>
       </div>
     )
   },
   {
-    title: "Audit Ledger",
+    title: "Audit Trail",
     anchor: "#feature-ledger",
     children: (
-      <div className="mt-6 space-y-2">
-        <div className="font-mono text-[9px] text-[#474842]/40 tracking-widest mb-2">CHAIN HASH</div>
+      <div className="mt-6 space-y-3">
         {[
-          "0x8f...2a1b",
-          "0x3c...9f4e",
-          "0x7d...5b22"
-        ].map((hash, i) => (
-          <div key={i} className="flex items-center gap-2">
-            <div className="w-2 h-2 rounded-full bg-[#474842]/30" />
-            <div className="h-5 flex-1 bg-[#474842]/5 border border-[#474842]/10 rounded flex items-center px-2">
-              <span className="font-mono text-[10px] text-[#474842]/60">{hash}</span>
+          "Starbucks · ₹450",
+          "Uber · ₹220",
+          "Amazon · ₹1,299"
+        ].map((txn, i) => (
+          <div key={i} className="flex items-center gap-3">
+            <div className="flex-1 bg-[#474842]/5 border border-[#474842]/10 rounded-lg p-3 shadow-sm flex justify-between items-center">
+              <span className="text-[#474842]/80 text-[11px] font-medium">{txn}</span>
+              <div className="flex items-center gap-1 text-[#8FA876]">
+                <span className="text-[10px]">✓</span>
+                <span className="text-[9px] font-mono uppercase tracking-wider font-bold">Verified</span>
+              </div>
             </div>
           </div>
         ))}
@@ -207,56 +220,98 @@ const detailSections = [
   {
     id: "feature-classifier",
     num: "01 / 08",
-    title: "AI Classifier",
-    body: "Understands intent before category.\n\nThe 8-stage cascade routes every transaction from a user-specific merchant memory cache (O(1), highest priority) through a global registry, keyword heuristics for Salary/Rent/EMI/Insurance, Fuse.js Levenshtein fuzzy matching, and finally GPT-4o-mini via OpenRouter for structured JSON output. The pipeline short-circuits the moment a stage matches. User corrections write back to the cache permanently — so every manual fix becomes the fastest path on next occurrence.",
-    highlight: `"Every correction trains the next lookup. The classifier gets smarter per user, permanently."`
+    title: "Behavioral Memory",
+    body: "Instead of rigid rules, FinTrac builds a living memory of your habits. Over time, it develops a personalized understanding of how you spend, making every future decision more accurate. Every time you correct a categorization, the system permanently learns your preference for that specific merchant.",
+    highlight: `"FinTrac doesn't just categorize your spending. It understands your intent."`,
+    metrics: [
+      { label: "Learns From", value: "1,248 Transactions" },
+      { label: "Accuracy", value: "97.4%" },
+      { label: "Corrections Saved", value: "Forever" }
+    ]
   },
   {
     id: "feature-friction",
     num: "02 / 08",
     title: "Friction Learning",
-    body: "At the start of each month, an Inngest cron job evaluates per-category compliance for every user. Non-compliance raises that category's friction score: F(t+1) = F(t) + α × (1 − C) × StreakPenalty. Consecutive failures escalate the penalty via a streak multiplier (1.0 + failures × 0.5). Three consecutive months of full compliance triggers a decay of −0.05, relaxing the budget as habits form. Cold-start prior: F = 0.50. Production learning rate: α = 0.10.",
-    highlight: `"Monte Carlo simulation (N=5,000, T=12 months): 97.08% simulated retention vs 63.54% for static budgeting."`,
-    footnote: `"Simulation outcome — not empirical user data."`
+    body: "We don't believe in static budgets that break when life happens. FinTrac constantly evaluates how easily you stick to your goals. When a goal consistently creates resistance, FinTrac adapts the strategy rather than repeating the same recommendation. If you struggle to cut back on dining, the system naturally learns that this category has high friction and shifts the savings pressure to areas where you naturally spend less effort.",
+    highlight: `"A financial system that bends to your lifestyle, so it never has to break."`,
+    metrics: [
+      { label: "Adapts", value: "Monthly" },
+      { label: "Categories Tracked", value: "4" },
+      { label: "Budget Resistance", value: "Measured" }
+    ]
   },
   {
     id: "feature-savings",
     num: "03 / 08",
-    title: "Elastic Savings",
-    body: "The Elastic Savings Engine allocates budget cuts inversely proportional to behavioral friction — protecting categories users find hardest to reduce, and routing more of the cut toward categories with low friction. An iterative water-filling loop (up to 100 iterations) handles categories that can't absorb their full assigned cut, redistributing the surplus until the savings target is met. Every output includes a Behavioral Cost — the total psychological pain of the proposed plan — displayed in the Friction Simulator before the user commits.",
-    highlight: `Cut(c) = T × (1 − F_c)² / Σ(1 − F_c')²`
+    title: "Adaptive Savings",
+    body: "Hitting your savings goals shouldn't feel like a punishment. Instead of flat percentage cuts across the board, FinTrac protects the habits you love most. It intelligently routes your budget reductions toward discretionary categories where it creates the least disruption to your lifestyle, minimizing psychological resistance while still hitting your targets.",
+    highlight: `"Save more money by cutting out what you don't care about, while protecting what you do."`,
+    metrics: [
+      { label: "Routing", value: "Dynamic" },
+      { label: "Protected Categories", value: "Honored" },
+      { label: "Micro-Savings", value: "Captured" }
+    ]
   },
   {
     id: "feature-coaching",
     num: "04 / 08",
-    title: "Behavioral Alerts",
-    body: "Four heuristic triggers evaluate transaction history continuously. Spending Spike: 7-day category spend ≥ ₹2,000 AND 50%+ above the 3-week weekly average. Category Drift: discretionary wallet share increases ≥15 percentage points over 14 vs 30 days. Salary Burn Velocity: total outflows in the 7 days post-salary exceed 50% of the credited amount. Impulsive Late-Night Spend: cumulative debits between 11PM and 5AM exceed ₹1,500. Each trigger fires a GPT-4o-mini explanation — non-judgmental, specific to that user's actual transactions."
+    title: "Behavioral Signals",
+    body: "Behavioral Signals continuously watches for meaningful changes in spending patterns and highlights them before they become long-term trends. By analyzing your spending behavior, it can detect subtle shifts—like late-night impulse buys or a sudden spike in discretionary spending after payday. It delivers gentle, highly personalized nudges exactly when you need them.",
+    highlight: `"Catch risky spending patterns before they turn into bad financial habits."`,
+    metrics: [
+      { label: "Spending Behavior", value: "Monitored" },
+      { label: "Latency", value: "Real-time" },
+      { label: "Nudges", value: "Personalized" }
+    ]
   },
   {
     id: "feature-wellness",
     num: "05 / 08",
-    title: "Wellness Score",
-    body: "A composite score W ∈ [0, 100] from four equally-weighted pillars. Spending Stability: base 100, penalized −10 per Category Drift event and −5 per Spending Spike. Savings Consistency: (Credits₉₀ − Debits₉₀) / Credits₉₀ × 100. Impulse Pacing: base 100, penalized by late-night and weekend impulse events. Subscription Buffer: fixed recurring outlay as a share of total spend. Dashboard renders each pillar as a live progress ring with real-time recalculation."
+    title: "Financial Wellness",
+    body: "Your entire financial ecosystem is distilled into a single, comprehensive health score from 0 to 100. Unlike traditional budgeting metrics, it measures behavioral consistency—not just account balances. The Wellness Score evaluates your spending stability, savings consistency, impulse control, and subscription burden, providing a true, holistic view of your financial momentum.",
+    highlight: `"Stop tracking expenses. Start tracking your financial health."`,
+    metrics: [
+      { label: "Core Pillars", value: "4" },
+      { label: "Recalculation", value: "Instant" },
+      { label: "Score Range", value: "0-100" }
+    ]
   },
   {
     id: "feature-explainability",
     num: "06 / 08",
-    title: "Explainability",
-    body: "Every AI insight card surfaces a help icon that opens a glassmorphic modal. Inside: which of the 8 pipeline stages matched the transaction, the confidence score at classification time, the nearest historical match for fuzzy-stage results, and for budget recommendations — the exact friction weights, suggested cut values, and compliance signals that generated the advice. No recommendation is unattributed. Every output traces back to the input data that produced it."
+    title: "Explainable Intelligence",
+    body: "Financial advice should never feel like a black box. Every insight, alert, and budget recommendation FinTrac makes comes with complete transparency. You can click on any piece of advice to see exactly why it was suggested—from your recent spending streaks to the specific habit shifts that triggered the alert.",
+    highlight: `"Every recommendation is fully transparent, verifiable, and personalized to your data."`,
+    metrics: [
+      { label: "Transparency", value: "100%" },
+      { label: "Trust", value: "Verifiable" },
+      { label: "Attribution", value: "Clear" }
+    ]
   },
   {
     id: "feature-twin",
     num: "07 / 08",
-    title: "Financial Twin (research feature)",
-    body: "The Financial Twin is a forward projection model built on FinTrac's POMDP simulation framework. It takes a user's current behavioral profile — friction scores, compliance streaks, spending distribution — and projects two parallel trajectories: one continuing current behavior, one following the adaptive engine's recommendations. The gap between them is the measurable value of compliance, rendered as a diverging line chart with month-by-month breakpoints. Built on the same Monte Carlo simulation that validated the adaptive engine at N=5,000 agents across 12 months.",
-    highlight: `"Three behavioral personas modeled: Aspirational Saver, Income Shock, Seasonal Spender. The adaptive engine outperformed static baselines under all three shock conditions."`
+    title: "Financial Twin",
+    body: "The Financial Twin creates a behavioral simulation of your financial future. It doesn't simply project balances—it models how your spending habits evolve over time and shows how small behavioral changes compound into different outcomes. By projecting two parallel realities—current habits vs. the adaptive plan—you can visually see the long-term compounding impact of your daily decisions.",
+    highlight: `"See where your current habits lead—and how small changes can completely alter the outcome."`,
+    metrics: [
+      { label: "Projection", value: "12 Months" },
+      { label: "Future Paths", value: "2" },
+      { label: "Simulation", value: "Behavior-Aware" }
+    ]
   },
   {
     id: "feature-ledger",
     num: "08 / 08",
-    title: "Cryptographic Audit Ledger",
-    body: "Every transaction insert fires a BEFORE INSERT SQL trigger that chains a SHA-256 hash from the prior transaction's hash, the current transaction ID, amount, and timestamp. The genesis block is derived from the user's Clerk ID. Any retroactive alteration of any record breaks the chain detectably. Built for expense report integrity, tax log tamper-proofing, and audit traceability without external dependencies — the entire chain lives in Supabase and is verified in-database.",
-    highlight: `Hash_n = SHA256(Hash_(n-1) ∥ ID_n ∥ Amount_n ∥ Date_n)`
+    title: "Audit Trail",
+    body: "Every transaction is permanently recorded and traceable, creating a trusted history of your financial activity. Your financial history remains intact, traceable, and verifiable—giving you complete confidence in every record.",
+    highlight: `"Bank-grade integrity and transparency."`,
+    metrics: [
+      { label: "Integrity", value: "Bank-Grade" },
+      { label: "Records", value: "Immutable" },
+      { label: "History", value: "Verifiable" }
+    ]
   }
 ];
 
@@ -282,6 +337,14 @@ export default function FeaturesScrollPage() {
   const [activeCard, setActiveCard] = useState(-1);
   const [scrollProgress, setScrollProgress] = useState(0);
   const [scrollYPos, setScrollYPos] = useState(0);
+  const [isDesktop, setIsDesktop] = useState(true);
+
+  useEffect(() => {
+    setIsDesktop(window.innerWidth >= 768);
+    const handleResize = () => setIsDesktop(window.innerWidth >= 768);
+    window.addEventListener("resize", handleResize);
+    return () => window.removeEventListener("resize", handleResize);
+  }, []);
 
   // Preload frames
   useEffect(() => {
@@ -300,31 +363,6 @@ export default function FeaturesScrollPage() {
   }, []);
 
   useEffect(() => {
-    // Sync active card perfectly with viewport using IntersectionObserver
-    const observers = cards.map((_, i) => {
-      const el = document.getElementById(`card-wrapper-${i}`);
-      if (!el) return null;
-      const obs = new IntersectionObserver(
-        ([entry]) => {
-          if (entry.isIntersecting) {
-            setActiveCard(i);
-          } else if (i === 0 && entry.boundingClientRect.top > window.innerHeight / 2) {
-            // User scrolled back up above the first card
-            setActiveCard(-1);
-          }
-        },
-        { rootMargin: "-45% 0px -45% 0px" } // Trigger when card hits the very center of the screen
-      );
-      obs.observe(el);
-      return obs;
-    });
-
-    return () => {
-      observers.forEach(obs => obs?.disconnect());
-    };
-  }, []);
-
-  useEffect(() => {
     const handleScroll = () => {
       if (!sectionRef.current) return;
       const sectionTop = sectionRef.current.getBoundingClientRect().top + window.scrollY;
@@ -334,6 +372,28 @@ export default function FeaturesScrollPage() {
 
       setScrollProgress(progress);
       setScrollYPos(window.scrollY);
+
+      // Determine active card by exact distance to screen center
+      let closestCard = -1;
+      let minDistance = Infinity;
+      const centerY = window.innerHeight / 2;
+      
+      cards.forEach((_, i) => {
+        const el = document.getElementById(`card-wrapper-${i}`);
+        if (el) {
+          const rect = el.getBoundingClientRect();
+          const cardCenter = rect.top + rect.height / 2;
+          const distance = Math.abs(cardCenter - centerY);
+          if (distance < minDistance) {
+            minDistance = distance;
+            closestCard = i;
+          }
+        }
+      });
+      
+      if (closestCard !== -1) {
+        setActiveCard(closestCard);
+      }
     };
 
     const loop = () => {
@@ -341,9 +401,7 @@ export default function FeaturesScrollPage() {
       requestAnimationFrame(loop);
     };
 
-    // Using RAF for buttery smooth scrubbing
     const rafId = requestAnimationFrame(loop);
-
     return () => cancelAnimationFrame(rafId);
   }, []);
 
@@ -378,14 +436,14 @@ export default function FeaturesScrollPage() {
           position="right"
           isFixed={true}
           items={[
-            { label: 'Classifier', ariaLabel: 'AI Classifier', link: '#feature-classifier' },
-            { label: 'Learning', ariaLabel: 'Friction learning', link: '#feature-friction' },
-            { label: 'Savings', ariaLabel: 'Elastic savings', link: '#feature-savings' },
-            { label: 'Alerts', ariaLabel: 'Behavioral alerts', link: '#feature-coaching' },
-            { label: 'Wellness', ariaLabel: 'Wellness Score', link: '#feature-wellness' },
-            { label: 'Insights', ariaLabel: 'Explainability', link: '#feature-explainability' },
+            { label: 'Memory', ariaLabel: 'Behavioral Memory', link: '#feature-classifier' },
+            { label: 'Learning', ariaLabel: 'Friction Learning', link: '#feature-friction' },
+            { label: 'Savings', ariaLabel: 'Adaptive Savings', link: '#feature-savings' },
+            { label: 'Signals', ariaLabel: 'Behavioral Signals', link: '#feature-coaching' },
+            { label: 'Wellness', ariaLabel: 'Financial Wellness', link: '#feature-wellness' },
+            { label: 'Explainable', ariaLabel: 'Explainable Intelligence', link: '#feature-explainability' },
             { label: 'Twin', ariaLabel: 'Financial Twin', link: '#feature-twin' },
-            { label: 'Ledger', ariaLabel: 'Audit Ledger', link: '#feature-ledger' }
+            { label: 'Audit', ariaLabel: 'Audit Trail', link: '#feature-ledger' }
           ]}
           socialItems={[
             { label: 'Twitter', link: '#' },
@@ -436,50 +494,49 @@ export default function FeaturesScrollPage() {
         >
           {/* Headline */}
           <div
-            className="absolute flex flex-col items-start text-left"
-            style={{ top: "18vh", left: "2vw" }}
+            className="absolute flex flex-col items-start text-left top-[12vh] md:top-[18vh] left-[5vw] z-10 w-[90vw] md:w-auto"
           >
             <WaterRevealText
-              text="Six systems."
+              text="Learns your habits."
               as="h1"
-              className="text-[clamp(28px,3.5vw,54px)] font-bold text-[#474842] tracking-[-0.12em] font-display leading-[0.98]"
+              className="text-[clamp(24px,3vw,46px)] font-bold text-[#474842] tracking-[-0.04em] font-display leading-[1.1]"
               delay={0.3}
             />
             <WaterRevealText
-              text="Built to learn"
+              text="Adapts your finances."
               as="h2"
-              className="text-[clamp(28px,3.5vw,54px)] font-bold text-[#474842] tracking-[-0.12em] font-display leading-[0.98]"
+              className="text-[clamp(18px,2.2vw,32px)] font-bold text-[#474842] tracking-[-0.02em] font-display leading-[1.2] mt-1"
               delay={0.6}
             />
             <WaterRevealText
-              text="how you spend."
+              text="Explains every decision."
               as="h2"
-              className="text-[clamp(28px,3.5vw,54px)] font-bold text-[#474842] tracking-[-0.12em] font-display leading-[0.98]"
+              className="text-[clamp(18px,2.2vw,32px)] font-bold text-[#474842] tracking-[-0.02em] font-display leading-[1.2]"
               delay={0.9}
             />
           </div>
 
           {/* Descriptor */}
           <p
-            className="absolute text-[14px]"
-            style={{ top: "20vh", right: "5vw", color: "rgba(20,20,20,0.45)", maxWidth: "280px" }}
+            className="absolute text-[13px] md:text-[14px] bottom-[16vh] top-auto md:top-[20vh] md:bottom-auto left-[5vw] md:left-auto md:right-[5vw] w-[85vw] md:max-w-[280px]"
+            style={{ color: "rgba(20,20,20,0.45)" }}
           >
-            FinTrac doesn't apply rules to your spending.<br />
-            It builds a behavioral model of how you actually<br />
+            FinTrac doesn't apply rules to your spending.<br className="hidden md:block" />
+            It builds a behavioral model of how you actually<br className="hidden md:block" />
             spend — then quietly adapts it every month.
           </p>
 
           {/* Chapter preview label */}
           <div
-            className="absolute font-mono text-[11px] uppercase"
+            className="hidden md:block absolute font-mono text-[11px] uppercase"
             style={{ bottom: "8vh", left: "5vw", letterSpacing: "0.2em", color: "rgba(20,20,20,0.35)" }}
           >
-            01 / 08 · AI Classifier
+            01 / 08 · Behavioral Memory
           </div>
 
           {/* Scroll indicator */}
           <div
-            className="absolute font-mono text-[11px] animate-oscillate transition-opacity duration-300"
+            className="hidden md:block absolute font-mono text-[11px] animate-oscillate transition-opacity duration-300"
             style={{
               bottom: "8vh",
               right: "5vw",
@@ -506,7 +563,7 @@ export default function FeaturesScrollPage() {
           />
 
           <div
-            className="absolute z-10 pointer-events-auto mix-blend-multiply scale-[1.5] md:scale-[2] transition-all duration-300"
+            className="absolute z-10 pointer-events-auto mix-blend-multiply scale-75 md:scale-100 translate-y-[15vh] md:translate-y-[1vh] transition-all duration-300"
             style={{
               opacity: Math.max(0, 0.5 - (scrollYPos / 600)),
               filter: `blur(${Math.min(20, scrollYPos / 15)}px)`,
@@ -574,7 +631,7 @@ export default function FeaturesScrollPage() {
           </div>
         </div>
 
-        {/* LAYER 3 — CARD COLUMN */}
+        {/* LAYER 3 — CARD COLUMN (Mobile Vertical Snap / Desktop Normal Stack) */}
         <div
           style={{
             position: "relative",
@@ -583,10 +640,15 @@ export default function FeaturesScrollPage() {
             paddingTop: "100vh",
             paddingBottom: "20vh",
           }}
-          className="flex flex-col items-center max-w-[2000px] mx-auto w-[96vw] px-0 lg:px-4"
+          className="flex flex-col items-center max-w-[2000px] mx-auto w-full px-4 lg:px-4 snap-y snap-mandatory md:snap-none"
         >
           {cards.map((card, i) => (
-            <div id={`card-wrapper-${i}`} key={card.anchor} style={{ minHeight: `${CARD_SPACING_VH}vh` }} className="w-full flex items-center justify-center">
+            <div 
+              id={`card-wrapper-${i}`} 
+              key={card.anchor} 
+              className="w-full shrink-0 snap-center flex flex-col items-center justify-center h-[100svh] md:h-auto py-10 md:py-0" 
+              style={{ minHeight: isDesktop ? `${CARD_SPACING_VH}vh` : 'auto' }}
+            >
               <CardWrapper
                 isActive={i === activeCard}
                 isPast={i < activeCard}
@@ -594,7 +656,7 @@ export default function FeaturesScrollPage() {
                 <EditorialCard
                   title={card.title}
                   side={i % 2 === 0 ? "left" : "right"}
-                  align={i % 2 === 0 ? "up" : "down"}
+                  align={isDesktop ? (i % 2 === 0 ? "up" : "down") : "up"}
                   index={i + 1}
                   imageSrc="/card-bg.png"
                   onAction={() =>
@@ -622,18 +684,15 @@ export default function FeaturesScrollPage() {
           <div
             key={section.id}
             id={section.id}
-            className="flex flex-col justify-center mx-auto relative z-20"
+            className="flex flex-col justify-center mx-auto relative z-20 w-[92vw] sm:w-[85vw] max-w-[860px] p-8 sm:p-16 mb-16 sm:mb-20"
             style={{
               minHeight: "100vh",
-              maxWidth: "860px",
               background: "rgba(255, 255, 255, 0.03)",
               backdropFilter: "blur(40px)",
               WebkitBackdropFilter: "blur(40px)",
               border: "1px solid rgba(255, 255, 255, 0.05)",
               boxShadow: "0 24px 64px 0 rgba(0, 0, 0, 0.4), inset 0 1px 0 0 rgba(255, 255, 255, 0.1)",
               borderRadius: "32px",
-              padding: "64px",
-              marginBottom: "80px"
             }}
           >
             <div className="font-mono text-white/30 text-[12px] mb-4">
@@ -651,17 +710,23 @@ export default function FeaturesScrollPage() {
                 <p className="font-mono text-white/90 text-sm md:text-base leading-relaxed drop-shadow-sm">
                   {section.highlight}
                 </p>
-                {section.footnote && (
-                  <p className="text-white/40 text-[10px] mt-4 uppercase tracking-widest font-mono">
-                    {section.footnote}
-                  </p>
-                )}
+              </div>
+            )}
+
+            {section.metrics && (
+              <div className="flex flex-col md:flex-row gap-4 md:gap-8 border-t border-white/10 pt-8 mb-8">
+                {section.metrics.map((metric, i) => (
+                  <div key={i} className="flex-1">
+                    <div className="text-white/40 font-mono text-[10px] uppercase tracking-widest mb-1">{metric.label}</div>
+                    <div className="text-white/90 font-semibold text-lg">{metric.value}</div>
+                  </div>
+                ))}
               </div>
             )}
 
             <button
               onClick={() => window.scrollTo({ top: 0, behavior: "smooth" })}
-              className="self-start mt-8 flex items-center gap-2 text-white/40 hover:text-white transition-colors text-sm font-medium tracking-wide uppercase font-mono"
+              className="self-start mt-4 flex items-center gap-2 text-white/40 hover:text-white transition-colors text-sm font-medium tracking-wide uppercase font-mono"
             >
               <span>←</span> Back to features
             </button>

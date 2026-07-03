@@ -10,7 +10,7 @@ interface CircularTextProps {
   className?: string;
 }
 
-const getRotationTransition = (duration: number, from: number, loop = true) => ({
+const getRotationTransition = (duration: number, from: number, loop = true): any => ({
   from,
   to: from + 360,
   ease: 'linear',
@@ -19,7 +19,7 @@ const getRotationTransition = (duration: number, from: number, loop = true) => (
   repeat: loop ? Infinity : 0
 });
 
-const getTransition = (duration: number, from: number) => ({
+const getTransition = (duration: number, from: number): any => ({
   rotate: getRotationTransition(duration, from),
   scale: {
     type: 'spring',
@@ -89,7 +89,7 @@ const CircularText = ({ text, spinDuration = 20, onHover = 'speedUp', className 
 
   return (
     <motion.div
-      className={`m-0 mx-auto rounded-full w-[200px] h-[200px] relative font-black text-center cursor-pointer origin-center ${className}`}
+      className={`m-0 mx-auto rounded-full w-[180px] h-[180px] relative font-black text-center cursor-pointer origin-center ${className}`}
       style={{ rotate: rotation }}
       initial={{ rotate: 0 }}
       animate={controls}
@@ -98,10 +98,7 @@ const CircularText = ({ text, spinDuration = 20, onHover = 'speedUp', className 
     >
       {letters.map((letter, i) => {
         const rotationDeg = (360 / letters.length) * i;
-        const factor = Math.PI / letters.length;
-        const x = factor * i;
-        const y = factor * i;
-        const transform = `rotateZ(${rotationDeg}deg) translate3d(${x}px, ${y}px, 0)`;
+        const transform = `rotateZ(${rotationDeg}deg) translateY(-70px)`;
 
         return (
           <span

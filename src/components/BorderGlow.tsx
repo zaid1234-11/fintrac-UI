@@ -226,7 +226,7 @@ const BorderGlow = ({
         />
       </span>
 
-      <div className="flex flex-col relative overflow-auto z-[1] h-full justify-center">
+      <div className="flex flex-col relative z-[1] h-full justify-center">
         {children}
       </div>
     </div>

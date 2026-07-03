@@ -169,7 +169,7 @@ export default function FrictionSection() {
 
       {/* Metrics & Caption */}
       <div className="max-w-4xl mx-auto">
-        <div className="grid grid-cols-2 gap-4 mb-8">
+        <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-8">
           <div className="bg-black/20 rounded-[16px] p-4 border border-white/5 text-center">
             <p className="text-[11px] uppercase tracking-wider text-white/40 mb-1">Traditional Pain</p>
             <p className="text-2xl font-mono text-white/60">{Math.round(traditionalTotalPain)}</p>

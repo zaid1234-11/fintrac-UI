@@ -16,6 +16,7 @@
     --color-card-text-primary: #2E2F2B;
     --color-card-text-secondary: #6E6B5F;
     --color-card-text-on-dark: #FFFFFF;
+    --color-text-quiet: #6B6D62;
 
     --color-season-growth: #8FA876;
     --color-season-harvest: #C9A23E;
@@ -63,8 +64,47 @@
         transform: translateY(-1px);
     }
 
+    .glass-panel::after {
+        content: "";
+        position: absolute;
+        inset: 0;
+        pointer-events: none;
+        border-radius: inherit;
+        background: radial-gradient(
+            800px circle at calc(var(--mouse-x, 0.5) * 100vw) calc(var(--mouse-y, 0.5) * 100vh),
+            rgba(255, 255, 255, 0.04),
+            transparent 40%
+        );
+        z-index: 10;
+        mix-blend-mode: color-dodge;
+    }
+
     .animate-slow-drift {
         animation: slow-drift 15s ease-in-out infinite alternate;
+    }
+
+    /* Hero headline — fluid type scale [SOURCED, CONCEPT_V3.2 §7.4] */
+    .hero-headline {
+        font-size: clamp(2rem, 6vw, 5rem);
+        line-height: 1.05;
+        letter-spacing: -0.03em;
+    }
+
+    /* Hide scrollbar but keep scroll behavior [for KPI horizontal scroll] */
+    .scrollbar-none {
+        -ms-overflow-style: none;
+        scrollbar-width: none;
+    }
+    .scrollbar-none::-webkit-scrollbar {
+        display: none;
+    }
+
+    /* Shadow system tokens */
+    .shadow-tooltip {
+        box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
+    }
+    .shadow-glass {
+        box-shadow: 0 16px 48px rgba(0, 0, 0, 0.45);
     }
 }
 

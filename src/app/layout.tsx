@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Inter, Lexend_Exa, Geist_Mono, Fraunces, Rozha_One } from "next/font/google";
 import "./globals.css";
+import { ClerkProvider } from "@clerk/nextjs";
 import SmoothScrollProvider from "@/components/SmoothScrollProvider";
 
 const inter = Inter({
@@ -34,6 +35,18 @@ export const metadata: Metadata = {
   description: "Behavior-aware budgeting. Some habits take time.",
 };
 
+import { Viewport } from "next";
+export const viewport: Viewport = {
+  width: "device-width",
+  initialScale: 1,
+  maximumScale: 1,
+  userScalable: false,
+};
+
+import NoiseOverlay from "@/components/NoiseOverlay";
+import ScrollProgress from "@/components/ScrollProgress";
+import GlobalMouseTracker from "@/components/GlobalMouseTracker";
+import PageTransition from "@/components/PageTransition";
 
 export default function RootLayout({
   children,
@@ -46,10 +59,17 @@ export default function RootLayout({
       className={`${inter.variable} ${lexendExa.variable} ${geistMono.variable} ${fraunces.variable} ${rozhaOne.variable}`}
       suppressHydrationWarning
     >
-      <body className="antialiased">
-        <SmoothScrollProvider>
-          {children}
-        </SmoothScrollProvider>
+      <body className="antialiased overflow-x-clip">
+        <ClerkProvider>
+          <GlobalMouseTracker />
+          <NoiseOverlay />
+          <ScrollProgress />
+          <SmoothScrollProvider>
+            <PageTransition>
+              {children}
+            </PageTransition>
+          </SmoothScrollProvider>
+        </ClerkProvider>
       </body>
     </html>
   );

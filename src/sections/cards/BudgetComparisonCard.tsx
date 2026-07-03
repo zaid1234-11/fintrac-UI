@@ -3,7 +3,8 @@ import EditorialCard from "@/components/EditorialCard";
 export default function BudgetComparisonCard() {
   return (
     <EditorialCard
-      headline="Why Traditional Budgets Fail"
+      title="Why Traditional Budgets Fail"
+      index={0}
       imageSrc="/card-bg.png"
     >
       <p className="text-white/60 text-sm mb-6 leading-relaxed">

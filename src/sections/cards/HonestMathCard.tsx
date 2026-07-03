@@ -4,7 +4,8 @@ import { CheckCircle2, CircleDashed } from "lucide-react";
 export default function HonestMathCard() {
   return (
     <EditorialCard
-      headline="Built on Honest Math"
+      title="Built on Honest Math"
+      index={2}
       imageSrc="/card-bg.png"
     >
       <div className="mt-4 mb-16 flex flex-col gap-6 w-full">

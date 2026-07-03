@@ -11,7 +11,8 @@ const steps = [
 export default function EngineCard() {
   return (
     <EditorialCard
-      headline="The FinTrac Engine"
+      title="The FinTrac Engine"
+      index={4}
       imageSrc="/card-bg.png"
     >
       <div className="mt-8 mb-16 max-w-[260px] flex flex-col justify-center gap-4">
