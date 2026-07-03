@@ -3,6 +3,7 @@ import { Inter, Lexend_Exa, Geist_Mono, Fraunces, Rozha_One } from "next/font/go
 import "./globals.css";
 import { ClerkProvider } from "@clerk/nextjs";
 import SmoothScrollProvider from "@/components/SmoothScrollProvider";
+import { ReactQueryProvider } from "@/components/ReactQueryProvider";
 
 const inter = Inter({
   variable: "--font-inter",
@@ -61,14 +62,16 @@ export default function RootLayout({
     >
       <body className="antialiased overflow-x-clip">
         <ClerkProvider>
-          <GlobalMouseTracker />
-          <NoiseOverlay />
-          <ScrollProgress />
-          <SmoothScrollProvider>
-            <PageTransition>
-              {children}
-            </PageTransition>
-          </SmoothScrollProvider>
+          <ReactQueryProvider>
+            <GlobalMouseTracker />
+            <NoiseOverlay />
+            <ScrollProgress />
+            <SmoothScrollProvider>
+              <PageTransition>
+                {children}
+              </PageTransition>
+            </SmoothScrollProvider>
+          </ReactQueryProvider>
         </ClerkProvider>
       </body>
     </html>
