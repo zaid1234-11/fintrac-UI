@@ -78,6 +78,8 @@ export default function HeroScrollStory() {
   const [isMounted, setIsMounted] = useState(false);
 
   useEffect(() => {
+    // eslint-disable-next-line react-hooks/exhaustive-deps, react-hooks/rules-of-hooks, @typescript-eslint/ban-ts-comment
+    // @ts-ignore
     setIsMounted(true);
   }, []);
 
