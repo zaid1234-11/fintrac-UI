@@ -27,7 +27,7 @@ export function ContributionAllocation() {
         <h2 className="text-label-small text-white">Allocation Sandbox</h2>
       </div>
 
-      <div className="fintrac-dark-glass-card p-8 rounded-[32px] relative z-10 flex flex-col gap-8 border border-white/10">
+      <div className="goal-glass-card p-8 relative z-10 flex flex-col gap-8">
         {allocatableGoals.map(goal => {
           const currentAllocation = previewAllocations[goal.id] || 0;
           const maxPossible = 10000;
