@@ -71,7 +71,7 @@ export default function EditorialCard({
         `}
       >
         {/* Tint and inner shadow layer */}
-        <div className="absolute inset-0 z-0 rounded-[28px] shadow-[inset_0_0_16px_4px_rgba(255,255,255,0.7)] bg-[rgba(254,254,254,0)] pointer-events-none" />
+        <div className="absolute inset-0 z-0 rounded-[28px] shadow-[inset_0_0_16px_4px_rgba(255,255,255,0.7)] bg-[#F8F8F4]/70 md:bg-transparent pointer-events-none" />
 
         {/* Backdrop blur and distortion layer */}
         <div

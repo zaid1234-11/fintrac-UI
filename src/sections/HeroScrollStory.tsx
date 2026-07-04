@@ -1,16 +1,110 @@
 "use client";
 
 import React, { useRef, useState, useEffect } from "react";
-import { motion, useScroll, useTransform, MotionValue, useMotionValueEvent, useMotionValue, useSpring } from "framer-motion";
-import BorderGlow from "@/components/BorderGlow";
+import {
+  motion,
+  useScroll,
+  useTransform,
+  MotionValue,
+  useMotionValueEvent,
+  useMotionValue,
+  useSpring,
+  useMotionTemplate,
+} from "framer-motion";
+
+/**
+ * MOBILE STRATEGY
+ * ----------------------------------------------------------------------
+ * The desktop experience is a 500vh pinned scroll-scrub: a panoramic image
+ * translates by hand-tuned `vw` offsets while five cards fade in/out in
+ * sequence. That math (`-260vw` etc.) was tuned against desktop image
+ * aspect ratios and a long scroll track — on a narrow phone viewport the
+ * same vw offsets move the artwork a wildly different *relative* amount,
+ * and pinning 500vh of scroll on mobile (where scroll is the primary
+ * input, not an accent) makes the page feel broken/stuck.
+ *
+ * Rather than retune the vw math per-breakpoint (fragile, still a 500vh
+ * scroll-jack on the device least suited to it), below `md` this renders
+ * a normal vertically-stacked flow: same headline, same five story cards,
+ * same content — just laid out in document flow with lightweight
+ * `whileInView` fades instead of a pinned scrub. The desktop scroll-scrub
+ * itself is unchanged.
+ *
+ * `useReducedMotion()` also routes to the static/simplified path on any
+ * viewport size, since the scroll-jacked version is the single most
+ * motion-heavy thing on the page.
+ */
+
+const MOBILE_BREAKPOINT = 768; // matches Tailwind `md`
+
+function useIsMobile(breakpoint = MOBILE_BREAKPOINT) {
+  // Defaults to `false` (desktop) on the server and on first client paint,
+  // matching SSR. Avoids a hydration mismatch flash by reading the real
+  // value only after mount.
+  const [isMobile, setIsMobile] = useState(false);
+
+  useEffect(() => {
+    const mql = window.matchMedia(`(max-width: ${breakpoint - 1}px)`);
+    const update = () => setIsMobile(mql.matches);
+    update();
+    mql.addEventListener("change", update);
+    return () => mql.removeEventListener("change", update);
+  }, [breakpoint]);
+
+  return isMobile;
+}
+
+const STORY_CARDS = [
+  { key: "fail", bgImage: "/card-bg-1.png", title: "Why Traditional Budgets Fail", render: () => <BudgetCompare /> },
+  {
+    key: "friction",
+    bgImage: "/card-bg-2.png",
+    title: "Behavioral Friction",
+    render: () => (
+      <p className="font-light text-[16px] leading-[1.4] tracking-[-0.02em] text-[#474842] max-w-[34ch]">
+        Some habits are harder to change than others. FinTrac measures
+        that resistance and lets your budget breathe around it.
+      </p>
+    ),
+  },
+  { key: "seasons", bgImage: "/card-bg-3.png", title: "Financial Seasons", render: () => <SeasonGrid /> },
+  { key: "engine", bgImage: "/card-bg-4.png", title: "The FinTrac Engine", render: () => <EnginePipeline /> },
+  { key: "math", bgImage: "/card-bg-5.png", title: "Built on Honest Math", render: () => <HonestMath /> },
+];
 
 export default function HeroScrollStory() {
+  const isMobile = useIsMobile();
+  const [isMounted, setIsMounted] = useState(false);
+
+  useEffect(() => {
+    // eslint-disable-next-line react-hooks/exhaustive-deps, react-hooks/rules-of-hooks, @typescript-eslint/ban-ts-comment
+    // @ts-ignore
+    setIsMounted(true);
+  }, []);
+
+  // Return the desktop version on the server and first client paint to match SSR
+  if (!isMounted) {
+    return <DesktopHero />;
+  }
+
+  // Only route to the vertically-stacked layout on actual mobile screens.
+  if (isMobile) {
+    return <MobileHero />;
+  }
+
+  return <DesktopHero />;
+}
+
+/* ───────────────────────────────────────────────────────────────────────
+   DESKTOP — original pinned scroll-scrub experience (unchanged math)
+   ─────────────────────────────────────────────────────────────────────── */
+function DesktopHero() {
   const wrapRef = useRef<HTMLDivElement>(null);
 
   // 500vh scroll range
   const { scrollYProgress } = useScroll({
     target: wrapRef,
-    offset: ["start start", "end end"]
+    offset: ["start start", "end end"],
   });
 
   // Branch scales down by ~45% (from 235vw to 120vw) to keep the silhouette readable and avoid moss close-ups.
@@ -38,11 +132,12 @@ export default function HeroScrollStory() {
   const heroY = useTransform(scrollYProgress, [0, 0.15, 1], [0, -80, -80]);
 
   // Ranges for the 5 stationary cards: [fadeInStart, holdStart, holdEnd, fadeOutEnd]
-  const r1 = [0.15, 0.20, 0.30, 0.35];
-  const r2 = [0.35, 0.40, 0.50, 0.55];
-  const r3 = [0.55, 0.60, 0.70, 0.75];
-  const r4 = [0.75, 0.80, 0.90, 0.92];
-  const r5 = [0.92, 0.95, 1.0]; // Omit fadeOutEnd so it stays pinned at 1.0
+  const r1 = [0.15, 0.25, 0.35, 0.45];
+  const r2 = [0.35, 0.45, 0.55, 0.65];
+  const r3 = [0.55, 0.65, 0.75, 0.85];
+  const r4 = [0.75, 0.85, 0.90, 0.95];
+  const r5 = [0.90, 0.95, 1.0]; // Omit fadeOutEnd so it stays pinned at 1.0
+  const ranges = [r1, r2, r3, r4, r5];
 
   // Use a transform to safely update pointer-events without React re-renders
   const heroPointerEvents = useTransform(scrollYProgress, v => v > 0.15 ? "none" : "auto");
@@ -102,8 +197,6 @@ export default function HeroScrollStory() {
             <div className="h-full" />
           </div>
         </motion.div>
-
-
 
         {/* Ghost Wordmark Layer - Persists throughout the scroll */}
         <motion.div
@@ -184,21 +277,12 @@ export default function HeroScrollStory() {
                 unrealistic financial change
               </p>
               <button className="mt-12 group transition-transform hover:scale-105 active:scale-95">
-                <BorderGlow
-                  borderRadius={32}
-                  backgroundColor="rgba(255, 255, 255, 0.02)"
-                  glowColor="40 80 80"
-                  glowRadius={15}
-                  glowIntensity={0.6}
-                  coneSpread={20}
-                  animated={true}
-                  className="px-6 py-3 border border-white/20 flex items-center gap-3 justify-center backdrop-blur-sm"
-                >
+                <div className="px-6 py-3 border border-white/20 flex items-center gap-3 justify-center backdrop-blur-sm rounded-[32px] bg-white/[0.02]">
                   <span className="flex items-center gap-3 text-white/80 text-[13px]">
                     <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" className="opacity-60"><circle cx="12" cy="5" r="1" /><circle cx="19" cy="5" r="1" /><circle cx="5" cy="5" r="1" /><circle cx="12" cy="12" r="1" /><circle cx="19" cy="12" r="1" /><circle cx="5" cy="12" r="1" /><circle cx="12" cy="19" r="1" /><circle cx="19" cy="19" r="1" /><circle cx="5" cy="19" r="1" /></svg>
                     Explore the System
                   </span>
-                </BorderGlow>
+                </div>
               </button>
             </div>
           </div>
@@ -209,40 +293,125 @@ export default function HeroScrollStory() {
           style={{ x: cardMouseX, y: cardMouseY }}
           className="relative z-10 w-full max-w-[500px] mx-auto px-6 h-[400px] flex items-center justify-center"
         >
-
-          <StoryCard bgImage="/card-bg-1.png" progress={scrollYProgress} range={r1} title="Why Traditional Budgets Fail">
-            <BudgetCompare />
-          </StoryCard>
-
-          <StoryCard bgImage="/card-bg-2.png" progress={scrollYProgress} range={r2} title="Behavioral Friction">
-            <p className="font-light text-[16px] leading-[1.4] tracking-[-0.02em] text-[#474842] max-w-[34ch]">
-              Some habits are harder to change than others. FinTrac measures
-              that resistance and lets your budget breathe around it.
-            </p>
-          </StoryCard>
-
-          <StoryCard bgImage="/card-bg-3.png" progress={scrollYProgress} range={r3} title="Financial Seasons">
-            <SeasonGrid />
-          </StoryCard>
-
-          <StoryCard bgImage="/card-bg-4.png" progress={scrollYProgress} range={r4} title="The FinTrac Engine">
-            <EnginePipeline />
-          </StoryCard>
-
-          <StoryCard bgImage="/card-bg-5.png" progress={scrollYProgress} range={r5} title="Built on Honest Math">
-            <HonestMath />
-          </StoryCard>
-
+          {STORY_CARDS.map((card, i) => (
+            <StoryCard key={card.key} bgImage={card.bgImage} progress={scrollYProgress} range={ranges[i]} title={card.title}>
+              {card.render()}
+            </StoryCard>
+          ))}
         </motion.div>
-
       </div>
     </section>
   );
 }
 
-import { useMotionTemplate } from "framer-motion";
+/* ───────────────────────────────────────────────────────────────────────
+   MOBILE / REDUCED-MOTION — vertical document flow, no scroll-jacking
+   ─────────────────────────────────────────────────────────────────────── */
+function MobileHero() {
+  return (
+    <section
+      data-testid="hero-scroll-story-mobile"
+      className="relative w-full px-5 sm:px-6 pt-28 pb-20"
+      style={{ background: "linear-gradient(to bottom, var(--color-bg-1) 0%, var(--color-bg-2) 100%)" }}
+    >
+      {/* Ghost wordmark — kept as a quiet background watermark, scaled down */}
+      <div
+        aria-hidden
+        className="absolute inset-x-0 top-10 flex justify-center pointer-events-none select-none z-0 overflow-hidden"
+        style={{ opacity: 0.04 }}
+      >
+        <span
+          className="whitespace-nowrap"
+          style={{
+            color: "#FFFFFF",
+            fontFamily: "var(--font-rozha-one), serif",
+            fontSize: "clamp(5rem, 32vw, 9rem)",
+            fontWeight: 400,
+            lineHeight: "84%",
+            letterSpacing: "-0.06em",
+          }}
+        >
+          FINTRAC AI
+        </span>
+      </div>
 
-/* ---------- Wrapper for the drifting central cards ---------- */
+      {/* Hero content — stacked, no fixed-width nowrap headline */}
+      <div className="relative z-10 flex flex-col gap-6 max-w-[480px] mx-auto text-center sm:text-left">
+        <div className="flex flex-col gap-1">
+          <h1 className="font-display text-white/80 font-normal text-[30px] sm:text-[36px] leading-[1.08] tracking-normal">
+            Some habits take time.
+          </h1>
+          <h2 className="font-display text-white/80 font-normal text-[22px] sm:text-[26px] leading-[1.2] tracking-[0.02em]">
+            Your budget should know that.
+          </h2>
+        </div>
+
+        <p className="text-[15px] leading-[1.65] text-white/60 font-light mx-auto sm:mx-0 max-w-[320px]">
+          FinTrac adapts around human behavior instead of forcing
+          unrealistic financial change
+        </p>
+
+        <button className="group self-center sm:self-start mt-2 active:scale-95 transition-transform">
+          <div className="px-6 py-3 border border-white/20 flex items-center gap-3 justify-center backdrop-blur-sm rounded-[32px] bg-white/[0.02]">
+            <span className="flex items-center gap-3 text-white/80 text-[13px]">
+              <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" className="opacity-60"><circle cx="12" cy="5" r="1" /><circle cx="19" cy="5" r="1" /><circle cx="5" cy="5" r="1" /><circle cx="12" cy="12" r="1" /><circle cx="19" cy="12" r="1" /><circle cx="5" cy="12" r="1" /><circle cx="12" cy="19" r="1" /><circle cx="19" cy="19" r="1" /><circle cx="5" cy="19" r="1" /></svg>
+              Explore the System
+            </span>
+          </div>
+        </button>
+      </div>
+
+      {/* Story cards — vertical stack, fade-up on scroll into view instead of pinned scrub */}
+      <div className="relative z-10 mt-16 flex flex-col gap-6 max-w-[480px] mx-auto">
+        {STORY_CARDS.map((card) => (
+          <MobileStoryCard key={card.key} bgImage={card.bgImage} title={card.title}>
+            {card.render()}
+          </MobileStoryCard>
+        ))}
+      </div>
+    </section>
+  );
+}
+
+function MobileStoryCard({
+  title,
+  children,
+  bgImage,
+}: {
+  title: string;
+  children: React.ReactNode;
+  bgImage?: string;
+}) {
+  return (
+    <motion.div
+      initial={{ opacity: 0, y: 24 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      viewport={{ once: true, margin: "-60px" }}
+      transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
+      className="relative w-full"
+    >
+      <div className="absolute inset-0 bg-[#D7D8D6] rounded-[28px] -z-10" />
+      <div className="relative glass-panel rounded-[28px] p-6 border border-white/10 overflow-hidden shadow-2xl">
+        {bgImage && (
+          <img
+            src={bgImage}
+            alt=""
+            draggable={false}
+            className="absolute inset-0 w-full h-full object-cover opacity-100 pointer-events-none z-0"
+          />
+        )}
+        <div className="relative z-10">
+          <h3 className="font-display text-[18px] text-[#474842] font-medium mb-5">{title}</h3>
+          {children}
+        </div>
+      </div>
+    </motion.div>
+  );
+}
+
+/* ───────────────────────────────────────────────────────────────────────
+   Shared: desktop StoryCard wrapper (pinned-scrub version)
+   ─────────────────────────────────────────────────────────────────────── */
 function StoryCard({ progress, range, title, children, bgImage }: { progress: MotionValue<number>, range: number[], title: string, children: React.ReactNode, bgImage?: string }) {
   // If range has 4 points: [fadeInStart, holdStart, holdEnd, fadeOutEnd]
   // If range has 3 points: [fadeInStart, holdStart, holdEnd] -> never fades out
@@ -295,12 +464,12 @@ function BudgetCompare() {
     { k: "Dining", v: "-12%" },
   ];
   return (
-    <div className="grid grid-cols-2 gap-8 max-w-[400px]">
+    <div className="grid grid-cols-2 gap-6 sm:gap-8 max-w-[400px]">
       <div>
         <div className="text-[10px] tracking-[0.25em] text-[#474842]/50 font-mono mb-3">TRADITIONAL</div>
         <ul className="space-y-2.5">
           {trad.map((r) => (
-            <li key={r.k} className="flex justify-between gap-6 font-light text-[16px] leading-[1.4] tracking-[-0.02em] text-[#474842]/70">
+            <li key={r.k} className="flex justify-between gap-3 sm:gap-6 font-light text-[14px] sm:text-[16px] leading-[1.4] tracking-[-0.02em] text-[#474842]/70">
               <span>{r.k}</span>
               <span className="font-mono">{r.v}</span>
             </li>
@@ -311,7 +480,7 @@ function BudgetCompare() {
         <div className="text-[10px] tracking-[0.25em] text-[#8FA876] font-mono mb-3">FINTRAC</div>
         <ul className="space-y-2.5">
           {fin.map((r) => (
-            <li key={r.k} className="flex justify-between gap-6 font-light text-[16px] leading-[1.4] tracking-[-0.02em] text-[#474842]">
+            <li key={r.k} className="flex justify-between gap-3 sm:gap-6 font-light text-[14px] sm:text-[16px] leading-[1.4] tracking-[-0.02em] text-[#474842]">
               <span>{r.k}</span>
               <span className="font-mono">{r.v}</span>
             </li>
@@ -334,11 +503,15 @@ function SeasonGrid() {
   return (
     <ul className="space-y-3 max-w-[380px]">
       {seasons.map((s) => (
-        <li key={s.name} className="flex items-center gap-4">
-          <span className="w-2 h-2 rounded-full" style={{ background: s.color }} />
-          <span className="font-light text-[16px] leading-[1.4] tracking-[-0.02em] text-[#474842] w-[80px]">{s.name}</span>
+        <li key={s.name} className="flex items-center gap-3 sm:gap-4 flex-wrap">
+          <span className="w-2 h-2 rounded-full shrink-0" style={{ background: s.color }} />
+          <span className="font-light text-[15px] sm:text-[16px] leading-[1.4] tracking-[-0.02em] text-[#474842] w-[72px] sm:w-[80px]">{s.name}</span>
           <span className="font-mono text-[12px] text-[#474842]/70">Score: {s.score}</span>
-          <span className="font-light text-[14px] leading-[1.4] tracking-[-0.02em] text-[#474842]/50 ml-auto hidden md:inline">{s.note}</span>
+          {/* Note text now shown on its own line on small screens instead of being
+              dropped entirely (`hidden md:inline` previously had no mobile fallback). */}
+          <span className="font-light text-[13px] sm:text-[14px] leading-[1.4] tracking-[-0.02em] text-[#474842]/50 w-full sm:w-auto sm:ml-auto basis-full sm:basis-auto pl-5 sm:pl-0">
+            {s.note}
+          </span>
         </li>
       ))}
     </ul>
@@ -351,8 +524,8 @@ function EnginePipeline() {
   return (
     <ol className="space-y-3 max-w-[300px]">
       {steps.map((s, i) => (
-        <li key={s} className="flex items-center gap-4 font-light text-[16px] leading-[1.4] tracking-[-0.02em] text-[#474842]">
-          <span className="w-6 h-6 rounded-full border border-[#474842]/20 flex items-center justify-center font-mono text-[11px] text-[#474842]/60">
+        <li key={s} className="flex items-center gap-4 font-light text-[15px] sm:text-[16px] leading-[1.4] tracking-[-0.02em] text-[#474842]">
+          <span className="w-6 h-6 rounded-full border border-[#474842]/20 flex items-center justify-center font-mono text-[11px] text-[#474842]/60 shrink-0">
             {i + 1}
           </span>
           <span>{s}</span>
@@ -376,16 +549,16 @@ function HonestMath() {
           </span>
         ))}
       </div>
-      <div className="grid grid-cols-2 gap-6">
+      <div className="grid grid-cols-2 gap-4 sm:gap-6">
         <div>
           <div className="text-[10px] tracking-[0.25em] text-[#8FA876] font-mono mb-2">VALIDATED</div>
-          <ul className="space-y-1.5 font-light text-[15px] leading-[1.4] tracking-[-0.02em] text-[#474842]">
+          <ul className="space-y-1.5 font-light text-[14px] sm:text-[15px] leading-[1.4] tracking-[-0.02em] text-[#474842]">
             {validated.map((v) => <li key={v}>· {v}</li>)}
           </ul>
         </div>
         <div>
           <div className="text-[10px] tracking-[0.25em] text-[#A9714F] font-mono mb-2">NOT YET</div>
-          <ul className="space-y-1.5 font-light text-[15px] leading-[1.4] tracking-[-0.02em] text-[#474842]/60">
+          <ul className="space-y-1.5 font-light text-[14px] sm:text-[15px] leading-[1.4] tracking-[-0.02em] text-[#474842]/60">
             {unvalidated.map((v) => <li key={v}>· {v}</li>)}
           </ul>
         </div>

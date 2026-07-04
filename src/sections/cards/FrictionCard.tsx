@@ -3,7 +3,8 @@ import EditorialCard from "@/components/EditorialCard";
 export default function FrictionCard() {
   return (
     <EditorialCard
-      headline="Behavioral Friction"
+      title="Behavioral Friction"
+      index={3}
       imageSrc="/card-bg.png"
     >
       <div className="mt-4 mb-16 max-w-[240px]">

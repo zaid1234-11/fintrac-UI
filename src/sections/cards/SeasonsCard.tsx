@@ -11,7 +11,8 @@ const seasons = [
 export default function SeasonsCard() {
   return (
     <EditorialCard
-      headline="Financial Seasons"
+      title="Financial Seasons"
+      index={1}
       imageSrc="/card-bg.png"
     >
       <div className="mt-4 mb-16 max-w-[280px]">
