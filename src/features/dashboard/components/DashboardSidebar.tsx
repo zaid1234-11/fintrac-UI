@@ -1,88 +1,151 @@
 'use client';
 
 import Link from 'next/link';
+import Image from 'next/image';
 import { usePathname } from 'next/navigation';
-import { motion } from 'framer-motion';
-import { 
-  LayoutDashboard, 
-  Wallet, 
-  Target, 
-  Settings, 
+import { motion, AnimatePresence } from 'framer-motion';
+import {
+  LayoutDashboard,
+  Wallet,
+  Target,
+  Settings,
   LogOut,
-  BrainCircuit
+  BrainCircuit,
+  LineChart,
+  ShieldCheck,
+  PanelLeftClose,
+  PanelLeftOpen
 } from 'lucide-react';
 import { UserButton } from '@clerk/nextjs';
 
 const navItems = [
   { icon: LayoutDashboard, label: 'Command Center', href: '/dashboard' },
-  { icon: Wallet, label: 'Transactions', href: '/dashboard/transactions' },
-  { icon: BrainCircuit, label: 'Behavioral Insights', href: '/dashboard/insights' },
   { icon: Target, label: 'Goals', href: '/dashboard/goals' },
+  { icon: LineChart, label: 'Forecast', href: '/dashboard/forecast' },
+  { icon: Wallet, label: 'Transactions', href: '/dashboard/transactions' },
+  { icon: BrainCircuit, label: 'Insights', href: '/dashboard/insights' },
+  { icon: ShieldCheck, label: 'Trust Center', href: '/dashboard/trust' },
   { icon: Settings, label: 'Settings', href: '/dashboard/settings' },
 ];
 
-export function DashboardSidebar() {
+export function DashboardSidebar({ isCollapsed = false, onToggle }: { isCollapsed?: boolean; onToggle?: () => void }) {
   const pathname = usePathname();
 
   return (
-    <aside className="fixed left-0 top-0 h-screen w-64 border-r border-white/5 bg-[#0a0a0a]/80 backdrop-blur-xl z-50 flex flex-col hidden md:flex">
-      {/* Brand */}
-      <div className="h-20 flex items-center px-8 border-b border-white/5">
-        <Link href="/dashboard" className="flex items-center gap-2 group">
-          <div className="w-8 h-8 rounded-full bg-white flex items-center justify-center group-hover:scale-105 transition-transform">
-            <div className="w-3 h-3 rounded-full bg-black" />
+    <motion.aside 
+      initial={false}
+      animate={{ width: isCollapsed ? 72 : 240 }}
+      transition={{ duration: 0.3, ease: [0.25, 0.1, 0.25, 1] }}
+      className="fintrac-light-card no-hover-effect !fixed left-4 top-4 h-[calc(100vh-2rem)] z-50 flex-col hidden md:flex overflow-hidden rounded-[40px]"
+    >
+      {/* Inner highlight for liquid edge */}
+      <div className="absolute inset-0 rounded-[40px] pointer-events-none shadow-[inset_0_1px_20px_rgba(255,255,255,0.02)]" />
+      
+      {/* Brand & Toggle */}
+      <div className={`h-24 flex items-center justify-between relative z-10 ${isCollapsed ? 'px-5' : 'px-6'}`}>
+        <Link 
+          href="/dashboard" 
+          className={`flex items-center gap-3 group ${isCollapsed ? 'cursor-pointer' : ''}`}
+          onClick={(e) => {
+            if (isCollapsed && onToggle) {
+              e.preventDefault();
+              onToggle();
+            }
+          }}
+        >
+          <div className="w-8 h-8 relative group-hover:scale-105 transition-transform shrink-0">
+            <Image src="/logo.png" alt="FinTrac Logo" fill className="object-contain" />
           </div>
-          <span className="font-lexend font-bold text-lg tracking-wide text-white">
-            FinTrac <span className="text-white/50">AI</span>
-          </span>
+          <AnimatePresence>
+            {!isCollapsed && (
+              <motion.span 
+                initial={{ opacity: 0, width: 0 }}
+                animate={{ opacity: 1, width: 'auto' }}
+                exit={{ opacity: 0, width: 0 }}
+                className="font-lexend font-medium text-base tracking-wide text-[#FFFBE6] whitespace-nowrap"
+              >
+                FinTrac <span className="text-[#FFFBE6]/70">OS</span>
+              </motion.span>
+            )}
+          </AnimatePresence>
         </Link>
+        
+        {!isCollapsed && onToggle && (
+          <button 
+            onClick={onToggle}
+            className="p-1.5 rounded-lg text-[#FFFBE6]/70 hover:text-[#FFFBE6] hover:bg-[#FFFBE6]/5 transition-colors shrink-0"
+          >
+            <PanelLeftClose className="w-4 h-4" />
+          </button>
+        )}
       </div>
 
       {/* Navigation */}
-      <nav className="flex-1 px-4 py-8 flex flex-col gap-2 overflow-y-auto">
+      <nav className={`flex-1 py-2 flex flex-col gap-2 overflow-y-auto relative z-10 ${isCollapsed ? 'px-3' : 'px-4'}`}>
         {navItems.map((item) => {
           const isActive = pathname === item.href;
-          
+
           return (
-            <Link 
-              key={item.href} 
+            <Link
+              key={item.href}
               href={item.href}
-              className={`relative flex items-center gap-3 px-4 py-3 rounded-xl transition-all duration-300 ${
-                isActive 
-                  ? 'text-black font-medium' 
-                  : 'text-white/60 hover:text-white hover:bg-white/5'
-              }`}
+              className={`relative flex items-center gap-3 px-3 py-2.5 rounded-xl transition-all duration-300 group ${isActive
+                  ? 'text-[#FFFBE6]'
+                  : 'text-[#FFFBE6]/80 hover:text-[#FFFBE6] hover:bg-[#FFFBE6]/5'
+                }`}
             >
               {isActive && (
                 <motion.div
                   layoutId="sidebar-active"
-                  className="absolute inset-0 bg-white rounded-xl"
-                  transition={{ type: 'spring', stiffness: 300, damping: 30 }}
+                  className="absolute inset-0 bg-white/[0.04] rounded-xl shadow-[inset_0_1px_4px_rgba(255,255,255,0.05)]"
+                  transition={{ type: 'spring', stiffness: 200, damping: 25 }}
                 />
               )}
-              <item.icon className={`w-5 h-5 relative z-10 ${isActive ? 'text-black' : ''}`} />
-              <span className="relative z-10 text-sm">{item.label}</span>
+              <item.icon className={`w-4 h-4 relative z-10 transition-colors shrink-0 ${isActive ? 'text-[#FFFBE6] drop-shadow-[0_0_8px_rgba(255,251,230,0.2)]' : 'group-hover:text-[#FFFBE6]'}`} />
+              <AnimatePresence>
+                {!isCollapsed && (
+                  <motion.span 
+                    initial={{ opacity: 0, width: 0 }}
+                    animate={{ opacity: 1, width: 'auto' }}
+                    exit={{ opacity: 0, width: 0 }}
+                    className="relative z-10 text-sm font-medium tracking-wide whitespace-nowrap overflow-hidden"
+                  >
+                    {item.label}
+                  </motion.span>
+                )}
+              </AnimatePresence>
             </Link>
           );
         })}
       </nav>
 
       {/* User Section */}
-      <div className="p-4 border-t border-white/5">
-        <div className="flex items-center gap-3 px-4 py-3 rounded-xl bg-white/5 border border-white/10">
-          <UserButton 
-            appearance={{
-              elements: {
-                userButtonAvatarBox: "w-10 h-10 border border-white/20"
-              }
-            }}
-          />
-          <div className="flex flex-col">
-            <span className="text-sm font-medium text-white">Profile</span>
-            <span className="text-xs text-white/50">Manage Account</span>
+      <div className={`relative z-10 mb-2 ${isCollapsed ? 'p-3' : 'p-4'}`}>
+        <div className="flex items-center gap-3 px-3 py-2 rounded-xl hover:bg-[#FFFBE6]/5 transition-colors cursor-pointer group">
+          <div className="shrink-0">
+            <UserButton
+              appearance={{
+                elements: {
+                  userButtonAvatarBox: "w-8 h-8 border border-[#FFFBE6]/10 shadow-md"
+                }
+              }}
+            />
           </div>
+          <AnimatePresence>
+            {!isCollapsed && (
+              <motion.div 
+                initial={{ opacity: 0, width: 0 }}
+                animate={{ opacity: 1, width: 'auto' }}
+                exit={{ opacity: 0, width: 0 }}
+                className="flex flex-col whitespace-nowrap overflow-hidden"
+              >
+                <span className="text-sm font-medium text-[#FFFBE6] group-hover:text-[#FFFBE6] transition-colors">Profile</span>
+                <span className="text-xs text-[#FFFBE6]/70">Settings & Trust</span>
+              </motion.div>
+            )}
+          </AnimatePresence>
         </div>
       </div>
-    </aside>
+    </motion.aside>
   );
 }

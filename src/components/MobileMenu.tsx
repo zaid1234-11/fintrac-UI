@@ -85,9 +85,9 @@ export default function MobileMenu({ isOpen, onClose }: MobileMenuProps) {
             transition={{ delay: 0.3, duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
             className="relative z-10 px-6 pb-12 w-full flex justify-center"
           >
-            <button className="w-full max-w-[420px] bg-white text-black py-4 rounded-[32px] font-medium tracking-wide transition-transform active:scale-[0.98]" onClick={onClose}>
+            <Link href="/sign-up" className="w-full max-w-[420px] bg-white text-black py-4 rounded-[32px] font-medium tracking-wide transition-transform active:scale-[0.98] flex items-center justify-center" onClick={onClose}>
               Join Waitlist
-            </button>
+            </Link>
           </motion.div>
         </motion.div>
       )}

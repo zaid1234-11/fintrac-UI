@@ -11,7 +11,6 @@ import {
   useSpring,
   useMotionTemplate,
 } from "framer-motion";
-import BorderGlow from "@/components/BorderGlow";
 
 /**
  * MOBILE STRATEGY
@@ -278,21 +277,12 @@ function DesktopHero() {
                 unrealistic financial change
               </p>
               <button className="mt-12 group transition-transform hover:scale-105 active:scale-95">
-                <BorderGlow
-                  borderRadius={32}
-                  backgroundColor="rgba(255, 255, 255, 0.02)"
-                  glowColor="40 80 80"
-                  glowRadius={15}
-                  glowIntensity={0.6}
-                  coneSpread={20}
-                  animated={true}
-                  className="px-6 py-3 border border-white/20 flex items-center gap-3 justify-center backdrop-blur-sm"
-                >
+                <div className="px-6 py-3 border border-white/20 flex items-center gap-3 justify-center backdrop-blur-sm rounded-[32px] bg-white/[0.02]">
                   <span className="flex items-center gap-3 text-white/80 text-[13px]">
                     <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" className="opacity-60"><circle cx="12" cy="5" r="1" /><circle cx="19" cy="5" r="1" /><circle cx="5" cy="5" r="1" /><circle cx="12" cy="12" r="1" /><circle cx="19" cy="12" r="1" /><circle cx="5" cy="12" r="1" /><circle cx="12" cy="19" r="1" /><circle cx="19" cy="19" r="1" /><circle cx="5" cy="19" r="1" /></svg>
                     Explore the System
                   </span>
-                </BorderGlow>
+                </div>
               </button>
             </div>
           </div>
@@ -362,21 +352,12 @@ function MobileHero() {
         </p>
 
         <button className="group self-center sm:self-start mt-2 active:scale-95 transition-transform">
-          <BorderGlow
-            borderRadius={32}
-            backgroundColor="rgba(255, 255, 255, 0.02)"
-            glowColor="40 80 80"
-            glowRadius={15}
-            glowIntensity={0.6}
-            coneSpread={20}
-            animated={true}
-            className="px-6 py-3 border border-white/20 flex items-center gap-3 justify-center backdrop-blur-sm"
-          >
+          <div className="px-6 py-3 border border-white/20 flex items-center gap-3 justify-center backdrop-blur-sm rounded-[32px] bg-white/[0.02]">
             <span className="flex items-center gap-3 text-white/80 text-[13px]">
               <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round" className="opacity-60"><circle cx="12" cy="5" r="1" /><circle cx="19" cy="5" r="1" /><circle cx="5" cy="5" r="1" /><circle cx="12" cy="12" r="1" /><circle cx="19" cy="12" r="1" /><circle cx="5" cy="12" r="1" /><circle cx="12" cy="19" r="1" /><circle cx="19" cy="19" r="1" /><circle cx="5" cy="19" r="1" /></svg>
               Explore the System
             </span>
-          </BorderGlow>
+          </div>
         </button>
       </div>
 

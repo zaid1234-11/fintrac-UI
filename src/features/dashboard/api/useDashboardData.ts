@@ -4,9 +4,14 @@ export function useBehavioralProfile() {
   return useQuery({
     queryKey: ['behavioral-profile'],
     queryFn: async () => {
-      const res = await fetch('/api/behavioral-profile');
-      if (!res.ok) throw new Error('Failed to fetch behavioral profile');
-      return res.json();
+      console.log('Fetching behavioral profile...');
+      try {
+        const res = await fetch('/api/behavioral-profile');
+        if (!res.ok) return null;
+        return await res.json();
+      } catch (err) {
+        return null;
+      }
     },
   });
 }
@@ -15,9 +20,13 @@ export function useTelemetry() {
   return useQuery({
     queryKey: ['telemetry'],
     queryFn: async () => {
-      const res = await fetch('/api/telemetry');
-      if (!res.ok) throw new Error('Failed to fetch telemetry');
-      return res.json();
+      try {
+        const res = await fetch('/api/telemetry');
+        if (!res.ok) return null;
+        return await res.json();
+      } catch (err) {
+        return null;
+      }
     },
   });
 }
@@ -26,9 +35,13 @@ export function useTransactions(limit: number = 100) {
   return useQuery({
     queryKey: ['transactions', limit],
     queryFn: async () => {
-      const res = await fetch(`/api/transactions?limit=${limit}`);
-      if (!res.ok) throw new Error('Failed to fetch transactions');
-      return res.json();
+      try {
+        const res = await fetch(`/api/transactions?limit=${limit}`);
+        if (!res.ok) return null;
+        return await res.json();
+      } catch (err) {
+        return null;
+      }
     },
   });
 }

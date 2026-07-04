@@ -1,7 +1,6 @@
 import Navbar from "@/components/Navbar";
 import HeroScrollStory from "@/sections/HeroScrollStory";
 import FrictionSection from "@/sections/FrictionSection";
-import CommandCenterPreview from "@/components/dashboard/CommandCenterPreview";
 import ForecastTeaseSection from "@/components/home/ForecastTeaseSection";
 import FeaturesPreviewSection from "@/components/home/FeaturesPreviewSection";
 import TrustTeaseSection from "@/components/home/TrustTeaseSection";
@@ -17,7 +16,6 @@ export default function Home() {
       <FrictionSection />
 
       {/* ── New Spec Sections ── */}
-      <CommandCenterPreview />
       <ForecastTeaseSection />
       <FeaturesPreviewSection />
       <TrustTeaseSection />

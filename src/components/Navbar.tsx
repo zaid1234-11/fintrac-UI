@@ -108,7 +108,11 @@ export default function Navbar({ variant = "fixed", rightOpacity = 1 }: { varian
       <div 
         className="pointer-events-auto flex items-center gap-2 md:gap-4 transition-opacity duration-300"
       >
-        <button data-testid="nav-login" className="hidden md:block group transition-transform hover:scale-105 active:scale-95">
+        <button 
+          data-testid="nav-login" 
+          onClick={() => router.push('/sign-in')}
+          className="hidden md:block group transition-transform hover:scale-105 active:scale-95"
+        >
           <BorderGlow
             borderRadius={32}
             backgroundColor="rgba(255, 255, 255, 0.02)"
