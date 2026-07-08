@@ -239,7 +239,7 @@ function DesktopHero() {
                   alt=""
                   draggable={false}
                   style={{ filter: "drop-shadow(0px 10px 20px rgba(0,0,0,.15)) drop-shadow(0px 30px 80px rgba(0,0,0,.25)) drop-shadow(0px 80px 160px rgba(0,0,0,.12))" }}
-                  className={`w-[100vw] max-w-none h-auto object-contain select-none grayscale-[15%] shrink-0 ${i !== 0 ? "-ml-[2px]" : ""}`}
+                  className={`w-[100vw] max-w-none h-auto object-contain select-none grayscale-[15%] shrink-0 ${i !== 0 ? "-ml-[2px]" : ""} ${num === 1 ? "mix-blend-multiply" : ""}`}
                 />
               ))}
             </div>
