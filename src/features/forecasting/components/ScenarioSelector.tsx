@@ -23,6 +23,51 @@ function ScenarioOriginBadge({ origin }: { origin: ForecastScenario['origin'] })
   );
 }
 
+function GlassScenarioButton({ scenario, isActive, onClick }: { scenario: ForecastScenario, isActive: boolean, onClick: () => void }) {
+  const btnRef = React.useRef<HTMLButtonElement>(null);
+
+  React.useEffect(() => {
+    // @ts-ignore
+    if (typeof window !== 'undefined' && window.liquidGlass && btnRef.current) {
+      // @ts-ignore
+      const glass = window.liquidGlass(btnRef.current, { scale: -112, chroma: 6 });
+      return () => { if (glass && glass.destroy) glass.destroy(); };
+    }
+  }, []);
+
+  return (
+    <motion.button
+      ref={btnRef}
+      onClick={onClick}
+      className={`goal-liquid-glass relative w-full text-left p-5 transition-all duration-300 group ${
+        isActive
+          ? 'shadow-[inset_0_1px_4px_rgba(255,255,255,0.05),0_8px_32px_rgba(0,0,0,0.2)] bg-white/10'
+          : 'hover:bg-white/5'
+      }`}
+      whileHover={{ scale: 1.005 }}
+      whileTap={{ scale: 0.995 }}
+    >
+      {isActive && (
+        <motion.div
+          layoutId="scenario-active"
+          className="absolute left-0 top-3 bottom-3 w-[3px] bg-emerald-400 rounded-full"
+          transition={{ type: 'spring', stiffness: 200, damping: 25 }}
+        />
+      )}
+
+      <div className="flex items-start justify-between gap-3">
+        <div className="flex-1 min-w-0">
+          <div className="flex items-center gap-2 mb-2">
+            <ScenarioOriginBadge origin={scenario.origin} />
+          </div>
+          <h3 className="font-display text-sm text-white mb-1 truncate">{scenario.label}</h3>
+          <p className="text-xs text-white/50 font-lexend leading-relaxed line-clamp-2">{scenario.description}</p>
+        </div>
+      </div>
+    </motion.button>
+  );
+}
+
 export function ScenarioSelector() {
   const { scenarios, activeScenario, selectScenario } = useForecastEngine();
 
@@ -41,35 +86,12 @@ export function ScenarioSelector() {
         {scenarios.map((scenario) => {
           const isActive = scenario.scenarioId === activeScenario.scenarioId;
           return (
-            <motion.button
+            <GlassScenarioButton
               key={scenario.scenarioId}
+              scenario={scenario}
+              isActive={isActive}
               onClick={() => selectScenario(scenario.scenarioId)}
-              className={`relative w-full text-left p-5 rounded-2xl border transition-all duration-300 group ${
-                isActive
-                  ? 'bg-white/[0.10] border-white/[0.18] shadow-[inset_0_1px_4px_rgba(255,255,255,0.05),0_8px_32px_rgba(0,0,0,0.2)] backdrop-blur-xl'
-                  : 'bg-white/[0.06] border-white/[0.10] hover:bg-white/[0.08] hover:border-white/[0.14] backdrop-blur-xl'
-              }`}
-              whileHover={{ scale: 1.005 }}
-              whileTap={{ scale: 0.995 }}
-            >
-              {isActive && (
-                <motion.div
-                  layoutId="scenario-active"
-                  className="absolute left-0 top-3 bottom-3 w-[3px] bg-emerald-400 rounded-full"
-                  transition={{ type: 'spring', stiffness: 200, damping: 25 }}
-                />
-              )}
-
-              <div className="flex items-start justify-between gap-3">
-                <div className="flex-1 min-w-0">
-                  <div className="flex items-center gap-2 mb-2">
-                    <ScenarioOriginBadge origin={scenario.origin} />
-                  </div>
-                  <h3 className="font-display text-sm text-white mb-1 truncate">{scenario.label}</h3>
-                  <p className="text-xs text-white/50 font-lexend leading-relaxed line-clamp-2">{scenario.description}</p>
-                </div>
-              </div>
-            </motion.button>
+            />
           );
         })}
       </div>

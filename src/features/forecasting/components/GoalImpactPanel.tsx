@@ -22,6 +22,16 @@ const healthLabels: Record<GoalForecast['healthLabel'], string> = {
 function GoalForecastCard({ goal, index }: { goal: GoalForecast; index: number }) {
   const colors = healthColors[goal.healthLabel];
   const progress = Math.min(100, (goal.currentAmount / goal.targetAmount) * 100);
+  const cardRef = React.useRef<HTMLDivElement>(null);
+
+  React.useEffect(() => {
+    // @ts-ignore
+    if (typeof window !== 'undefined' && window.liquidGlass && cardRef.current) {
+      // @ts-ignore
+      const glass = window.liquidGlass(cardRef.current, { scale: -112, chroma: 6 });
+      return () => { if (glass && glass.destroy) glass.destroy(); };
+    }
+  }, []);
 
   const baseDate = new Date(goal.baselineCompletionDate);
   const projDate = new Date(goal.projectedCompletionDate);
@@ -32,8 +42,8 @@ function GoalForecastCard({ goal, index }: { goal: GoalForecast; index: number }
       initial={{ opacity: 0, y: 15 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.5, delay: 0.15 + index * 0.1 }}
-      className="p-6 rounded-2xl bg-white/[0.08] backdrop-blur-xl border border-white/[0.12] hover:bg-white/[0.12] hover:border-white/[0.18] transition-all duration-300 group shadow-[0_8px_32px_rgba(0,0,0,0.2)]"
     >
+      <div ref={cardRef} className="goal-liquid-glass p-6 transition-all duration-300 group">
       {/* Header */}
       <div className="flex items-start justify-between mb-5">
         <div>
@@ -95,6 +105,7 @@ function GoalForecastCard({ goal, index }: { goal: GoalForecast; index: number }
           <TrendingUp className="w-3 h-3 ml-auto opacity-50" />
         </div>
       )}
+      </div>
     </motion.div>
   );
 }

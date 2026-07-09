@@ -27,6 +27,17 @@ export function ForecastVisualizer({
     currentPath: p.currentPath,
   }));
 
+  const cardRef = React.useRef<HTMLDivElement>(null);
+
+  React.useEffect(() => {
+    // @ts-ignore
+    if (typeof window !== 'undefined' && window.liquidGlass && cardRef.current) {
+      // @ts-ignore
+      const glass = window.liquidGlass(cardRef.current, { scale: -112, chroma: 6 });
+      return () => { if (glass && glass.destroy) glass.destroy(); };
+    }
+  }, []);
+
   return (
     <motion.section
       initial={{ opacity: 0, y: 10 }}
@@ -38,7 +49,7 @@ export function ForecastVisualizer({
         <h2 className="text-[10px] tracking-[0.2em] text-white/40 font-mono uppercase">Current Path vs Optimized</h2>
       </div>
 
-      <div className="p-6 rounded-2xl bg-white/[0.08] backdrop-blur-xl border border-white/[0.12] shadow-[0_8px_32px_rgba(0,0,0,0.2)]">
+      <div ref={cardRef} className="goal-liquid-glass p-6">
         <ForecastForkChart
           baselineData={baselineData}
           todayIndex={todayIndex}

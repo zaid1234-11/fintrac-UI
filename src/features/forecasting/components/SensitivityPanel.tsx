@@ -7,14 +7,24 @@ import type { SensitivityLever } from '../types';
 
 function LeverRow({ lever, index, maxDays }: { lever: SensitivityLever; index: number; maxDays: number }) {
   const barWidth = Math.min(100, (lever.impactDays / maxDays) * 100);
+  const cardRef = React.useRef<HTMLDivElement>(null);
+
+  React.useEffect(() => {
+    // @ts-ignore
+    if (typeof window !== 'undefined' && window.liquidGlass && cardRef.current) {
+      // @ts-ignore
+      const glass = window.liquidGlass(cardRef.current, { scale: -112, chroma: 6 });
+      return () => { if (glass && glass.destroy) glass.destroy(); };
+    }
+  }, []);
 
   return (
     <motion.div
       initial={{ opacity: 0, x: -10 }}
       animate={{ opacity: 1, x: 0 }}
       transition={{ duration: 0.4, delay: 0.1 + index * 0.06 }}
-      className="flex items-center gap-4 p-4 rounded-xl bg-white/[0.06] backdrop-blur-xl border border-white/[0.10] hover:bg-white/[0.10] hover:border-white/[0.15] transition-all duration-300 group shadow-[0_4px_16px_rgba(0,0,0,0.15)]"
     >
+      <div ref={cardRef} className="goal-liquid-glass flex items-center gap-4 p-4 transition-all duration-300 group">
       {/* Icon */}
       <div className="w-9 h-9 rounded-lg bg-white/[0.08] flex items-center justify-center text-lg shrink-0 group-hover:scale-110 transition-transform">
         {lever.icon}
@@ -47,6 +57,7 @@ function LeverRow({ lever, index, maxDays }: { lever: SensitivityLever; index: n
             {lever.impactPercent}% impact
           </span>
         </div>
+      </div>
       </div>
     </motion.div>
   );
