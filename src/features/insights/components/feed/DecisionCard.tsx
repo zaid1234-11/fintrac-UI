@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import { LucideChevronDown, LucideChevronUp, Target, Droplet, PiggyBank, AlertTriangle, Activity, Shield, LucideArrowRight } from 'lucide-react';
 import { Decision, LinkedEntity } from '../../types';
@@ -64,12 +64,24 @@ export function DecisionCard({ decision, onAccept, onLater, onDismiss, onFeedbac
     }, 400); // Wait for exit animation
   };
 
+  const cardRef = React.useRef<HTMLDivElement>(null);
+
+  React.useEffect(() => {
+    // @ts-ignore
+    if (typeof window !== 'undefined' && window.liquidGlass && cardRef.current) {
+      // @ts-ignore
+      const glass = window.liquidGlass(cardRef.current, { scale: -112, chroma: 6 });
+      return () => { if (glass && glass.destroy) glass.destroy(); };
+    }
+  }, [decision.status]);
+
   if (decision.status === 'completed') {
     return (
       <motion.div
+        ref={cardRef}
         initial={{ opacity: 0, scale: 0.95 }}
         animate={{ opacity: 1, scale: 1 }}
-        className="relative rounded-2xl bg-white/5 border border-white/10 p-6 overflow-hidden"
+        className="goal-liquid-glass p-6 overflow-hidden"
       >
         <div className="flex items-center gap-2 text-emerald-400 mb-4">
           <svg viewBox="0 0 24 24" fill="none" className="w-5 h-5" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round">
@@ -106,6 +118,7 @@ export function DecisionCard({ decision, onAccept, onLater, onDismiss, onFeedbac
 
   return (
     <motion.div
+      ref={cardRef}
       initial={{ opacity: 0, y: 10 }}
       animate={{ 
         opacity: isAnimatingOut ? 0 : 1, 
@@ -113,7 +126,7 @@ export function DecisionCard({ decision, onAccept, onLater, onDismiss, onFeedbac
         scale: isAnimatingOut ? 0.98 : 1
       }}
       transition={{ duration: 0.3 }}
-      className="relative rounded-2xl bg-black/40 backdrop-blur-xl border border-white/10 p-6 shadow-2xl overflow-hidden"
+      className="goal-liquid-glass p-6 overflow-hidden"
     >
       <DecisionStatus status={decision.status} />
 
