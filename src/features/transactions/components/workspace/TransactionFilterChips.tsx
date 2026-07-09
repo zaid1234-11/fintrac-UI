@@ -20,7 +20,7 @@ export function TransactionFilterChips() {
   };
 
   return (
-    <div className="flex items-center gap-2 overflow-x-auto pb-4 scrollbar-hide mb-2">
+    <div className="flex items-center gap-2 overflow-x-auto pb-4 mb-2 [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-width:none]">
       {CHIPS.map((chip) => {
         // Mock active state
         const isActive = 
