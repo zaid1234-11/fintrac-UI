@@ -14,7 +14,7 @@ export function InsightsLayout({ children }: InsightsLayoutProps) {
           muted
           loop
           playsInline
-          className="w-full h-full object-cover opacity-30 mix-blend-screen scale-105"
+          className="w-full h-full object-cover opacity-80 mix-blend-screen scale-105"
         >
           <source 
             src="https://d8j0ntlcm91z4.cloudfront.net/user_38xzZboKViGWJOttwIXH07lWA1P/hf_20260307_083826_e938b29f-a43a-41ec-a153-3d4730578ab8.mp4" 
@@ -23,8 +23,8 @@ export function InsightsLayout({ children }: InsightsLayoutProps) {
         </video>
         
         {/* Gradient Overlays */}
-        <div className="absolute inset-0 bg-gradient-to-b from-black/80 via-black/40 to-black/90" />
-        <div className="absolute inset-0 bg-gradient-to-r from-black/80 via-transparent to-black/80" />
+        <div className="absolute inset-0 bg-gradient-to-b from-black/30 via-transparent to-black/80" />
+        <div className="absolute inset-0 bg-gradient-to-r from-black/40 via-transparent to-black/40" />
       </div>
 
       <div className="relative z-10 w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-24 min-h-screen">

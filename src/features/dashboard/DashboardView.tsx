@@ -83,15 +83,7 @@ export function DashboardView() {
           style={{ background: 'radial-gradient(ellipse at center, rgba(36,44,30,.08), rgba(36,44,30,0) 70%)' }}
         />
         
-        <div 
-          className="mx-auto fintrac-glass-card w-full max-w-[1600px] h-full min-h-[calc(100vh-64px)] rounded-[40px] flex flex-col p-8 md:p-12 relative"
-        >
-            
-            {/* Edge highlights simulating physical glass thickness */}
-            <div className="absolute inset-0 rounded-[40px] pointer-events-none shadow-[inset_0_1px_20px_rgba(255,255,255,0.05)] z-0" />
-
-            {/* Canvas Content */}
-            <div className="relative z-10 flex flex-col gap-12 w-full h-full max-w-7xl mx-auto">
+        <div className="relative z-10 flex flex-col gap-12 w-full max-w-7xl mx-auto pt-24">
               
               {/* Context Engine: Top Row */}
               <motion.div 
@@ -144,7 +136,6 @@ export function DashboardView() {
 
               <AiMonitoringFooter />
             </div>
-        </div>
       </main>
     </div>
   );
