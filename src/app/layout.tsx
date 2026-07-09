@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { Inter, Lexend_Exa, Geist_Mono, Fraunces, Rozha_One } from "next/font/google";
+import Script from "next/script";
 import "./globals.css";
 import { ClerkProvider } from "@clerk/nextjs";
 import SmoothScrollProvider from "@/components/SmoothScrollProvider";
@@ -61,6 +62,7 @@ export default function RootLayout({
       suppressHydrationWarning
     >
       <body className="antialiased overflow-x-clip">
+        <Script src="/liquid-glass.js" strategy="afterInteractive" />
         <ClerkProvider>
           <ReactQueryProvider>
             <GlobalMouseTracker />
