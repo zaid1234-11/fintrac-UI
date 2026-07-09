@@ -4,6 +4,7 @@ import Link from 'next/link';
 import Image from 'next/image';
 import { usePathname } from 'next/navigation';
 import { motion, AnimatePresence } from 'framer-motion';
+import { useRef, useEffect } from 'react';
 import {
   LayoutDashboard,
   Wallet,
@@ -24,23 +25,33 @@ const navItems = [
   { icon: LineChart, label: 'Forecast', href: '/dashboard/forecast' },
   { icon: Wallet, label: 'Transactions', href: '/dashboard/transactions' },
   { icon: BrainCircuit, label: 'Insights', href: '/dashboard/insights' },
-  { icon: ShieldCheck, label: 'Trust Center', href: '/dashboard/trust' },
+  { icon: ShieldCheck, label: 'Trust Center', href: '/dashboard/trust-center' },
   { icon: Settings, label: 'Settings', href: '/dashboard/settings' },
 ];
 
 export function DashboardSidebar({ isCollapsed = false, onToggle }: { isCollapsed?: boolean; onToggle?: () => void }) {
   const pathname = usePathname();
+  const sidebarRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    // @ts-ignore
+    if (typeof window !== 'undefined' && window.liquidGlass && sidebarRef.current) {
+      // @ts-ignore
+      const glass = window.liquidGlass(sidebarRef.current, { scale: -112, chroma: 6 });
+      return () => {
+        if (glass && glass.destroy) glass.destroy();
+      };
+    }
+  }, []);
 
   return (
     <motion.aside 
+      ref={sidebarRef}
       initial={false}
       animate={{ width: isCollapsed ? 72 : 240 }}
       transition={{ duration: 0.3, ease: [0.25, 0.1, 0.25, 1] }}
-      className="fintrac-light-card no-hover-effect !fixed left-4 top-4 h-[calc(100vh-2rem)] z-50 flex-col hidden md:flex overflow-hidden rounded-[40px]"
+      className="sidebar-liquid-glass !fixed left-4 top-4 h-[calc(100vh-2rem)] z-50 flex-col hidden md:flex overflow-hidden"
     >
-      {/* Inner highlight for liquid edge */}
-      <div className="absolute inset-0 rounded-[40px] pointer-events-none shadow-[inset_0_1px_20px_rgba(255,255,255,0.02)]" />
-      
       {/* Brand & Toggle */}
       <div className={`h-24 flex items-center justify-between relative z-10 ${isCollapsed ? 'px-5' : 'px-6'}`}>
         <Link 
