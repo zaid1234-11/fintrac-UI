@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import { motion, AnimatePresence, useMotionValue, useMotionTemplate } from 'framer-motion';
 import { useGoalEngine } from '../hooks/useGoalEngine';
 import { Check, X, SlidersHorizontal } from 'lucide-react';
@@ -12,6 +12,17 @@ export function ContributionAllocation() {
     commitChanges,
     discardChanges
   } = useGoalEngine();
+
+  const cardRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    // @ts-ignore
+    if (typeof window !== 'undefined' && window.liquidGlass && cardRef.current) {
+      // @ts-ignore
+      const glass = window.liquidGlass(cardRef.current, { scale: -112, chroma: 6 });
+      return () => { if (glass && glass.destroy) glass.destroy(); };
+    }
+  }, []);
 
   const allocatableGoals = goals.filter(g => g.state === 'active');
 
@@ -34,10 +45,10 @@ export function ContributionAllocation() {
     >
       <div className="flex items-center gap-3 mb-2 ml-2">
         <SlidersHorizontal className="w-5 h-5 text-white opacity-80" />
-        <h2 className="text-label-small text-white">Allocation Sandbox</h2>
+        <h2 className="text-xs font-semibold uppercase tracking-[0.22em] text-white/80">Allocation Sandbox</h2>
       </div>
 
-      <div className="fintrac-dark-glass-card p-8 rounded-[32px] relative z-10 flex flex-col gap-8 border border-white/10">
+      <div ref={cardRef} className="goal-liquid-glass p-8 relative z-10 flex flex-col gap-8">
         {allocatableGoals.map(goal => {
           const currentAllocation = previewAllocations[goal.id] || 0;
           const maxPossible = 10000;
