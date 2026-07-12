@@ -1,7 +1,7 @@
 "use client";
 
 import React from "react";
-import { motion } from "framer-motion";
+import { m } from "framer-motion";
 import { EASE_REVEAL } from "@/lib/chartTheme";
 
 interface FounderNoteProps {
@@ -20,7 +20,7 @@ interface FounderNoteProps {
  */
 export default function FounderNote({ quote, name, role }: FounderNoteProps) {
   return (
-    <motion.blockquote
+    <m.blockquote
       initial={{ opacity: 0, y: 16 }}
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true, margin: "-60px" }}
@@ -53,6 +53,6 @@ export default function FounderNote({ quote, name, role }: FounderNoteProps) {
           <div className="text-[11px] text-white/40 font-mono">{role}</div>
         </div>
       </footer>
-    </motion.blockquote>
+    </m.blockquote>
   );
 }

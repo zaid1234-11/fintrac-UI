@@ -577,3 +577,17 @@
     }
   }
 }
+/* Progressive Enhancement: WaterRevealText */
+@keyframes waterReveal {
+  0% { transform: translateY(110%) scale(0.98); opacity: 0; }
+  100% { transform: translateY(0%) scale(1); opacity: 1; }
+}
+.water-word {
+  display: inline-block;
+  transform-origin: bottom center;
+  opacity: 0;
+  will-change: transform, opacity;
+}
+.water-word.animate-now {
+  animation: waterReveal 0.9s cubic-bezier(0.22, 1, 0.36, 1) forwards;
+}

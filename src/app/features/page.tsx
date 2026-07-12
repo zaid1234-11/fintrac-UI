@@ -1,11 +1,34 @@
 "use client";
 
 import React, { useRef, useState, useEffect } from "react";
-import EditorialCard from "@/components/EditorialCard";
+import { preload } from "react-dom";
+import { m, useScroll, useTransform, useMotionValueEvent } from "framer-motion";
+import dynamic from "next/dynamic";
 import Navbar from "@/components/Navbar";
 import WaterRevealText from "@/components/Hero/WaterRevealText";
-import CircularText from "@/components/CircularText";
-import StaggeredMenu from "@/components/StaggeredMenu";
+
+const EditorialCard = dynamic(() => import("@/components/EditorialCard"));
+const StaggeredMenu = dynamic(() => import("@/components/StaggeredMenu"), { ssr: false });
+const CircularText = dynamic(() => import("@/components/CircularText"), { ssr: false });
+
+// Phase 8.9: Global Hydration Queue
+// Prevents massive React commit spikes when multiple heavy cards intersect the viewport simultaneously (e.g., during fast scrolling)
+const mountQueue: (() => void)[] = [];
+let isMounting = false;
+
+const processMountQueue = async () => {
+  if (isMounting || mountQueue.length === 0) return;
+  isMounting = true;
+  while (mountQueue.length > 0) {
+    const mountFn = mountQueue.shift();
+    if (mountFn) {
+      mountFn();
+      // Allow 150ms for React to commit and the browser to breathe before hydrating the next card
+      await new Promise(resolve => setTimeout(resolve, 150));
+    }
+  }
+  isMounting = false;
+};
 
 const CARD_COUNT = 8;
 const CARD_SPACING_VH = 85; // vh per card
@@ -332,82 +355,154 @@ function CardWrapper({ children, isActive, isPast }: { children: React.ReactNode
   );
 }
 
+const imageCache = new Map<string, HTMLImageElement>();
+
 export default function FeaturesScrollPage() {
+  preload("/features_frames/frame_0001.webp", { as: "image", fetchPriority: "high" });
+
   const sectionRef = useRef<HTMLDivElement>(null);
-  const [activeCard, setActiveCard] = useState(-1);
-  const [scrollProgress, setScrollProgress] = useState(0);
-  const [scrollYPos, setScrollYPos] = useState(0);
+  const imgRef = useRef<HTMLImageElement>(null);
+  const [activeCard, setActiveCard] = useState(0);
+  const [isMenuVisible, setIsMenuVisible] = useState(false);
   const [isDesktop, setIsDesktop] = useState(true);
 
+  const { scrollY } = useScroll();
+  const { scrollYProgress: sectionProgress } = useScroll({
+    target: sectionRef,
+    offset: ["start start", "end end"]
+  });
+
+  const [shouldMountMenu, setShouldMountMenu] = useState(false);
+  const [hasScrolled, setHasScrolled] = useState(false);
+
   useEffect(() => {
-    setIsDesktop(window.innerWidth >= 768);
-    const handleResize = () => setIsDesktop(window.innerWidth >= 768);
-    window.addEventListener("resize", handleResize);
-    return () => window.removeEventListener("resize", handleResize);
+    // isDesktop logic was removed as it's handled by Tailwind CSS md: classes
   }, []);
 
-  // Preload frames
+  // Optimized Preload Sequence
   useEffect(() => {
-    // Immediate preload for first batch
-    for (let i = 1; i <= Math.min(30, TOTAL_FRAMES); i++) {
-      const img = new Image();
-      img.src = `/features_frames/frame_${String(i).padStart(4, "0")}.webp`;
-    }
-    // Lazy preload the rest
-    setTimeout(() => {
-      for (let i = 31; i <= TOTAL_FRAMES; i++) {
-        const img = new Image();
-        img.src = `/features_frames/frame_${String(i).padStart(4, "0")}.webp`;
-      }
-    }, 1000);
-  }, []);
-
-  useEffect(() => {
-    const handleScroll = () => {
-      if (!sectionRef.current) return;
-      const sectionTop = sectionRef.current.getBoundingClientRect().top + window.scrollY;
-      const sectionHeight = sectionRef.current.offsetHeight - window.innerHeight;
-      const rawProgress = (window.scrollY - sectionTop) / sectionHeight;
-      const progress = Math.min(1, Math.max(0, rawProgress));
-
-      setScrollProgress(progress);
-      setScrollYPos(window.scrollY);
-
-      // Determine active card by exact distance to screen center
-      let closestCard = -1;
-      let minDistance = Infinity;
-      const centerY = window.innerHeight / 2;
+    const preloadImage = async (index: number, decode: boolean = true) => {
+      const src = `/features_frames/frame_${String(index).padStart(4, "0")}.webp`;
+      if (imageCache.has(src)) return imageCache.get(src);
       
-      cards.forEach((_, i) => {
-        const el = document.getElementById(`card-wrapper-${i}`);
-        if (el) {
-          const rect = el.getBoundingClientRect();
-          const cardCenter = rect.top + rect.height / 2;
-          const distance = Math.abs(cardCenter - centerY);
-          if (distance < minDistance) {
-            minDistance = distance;
-            closestCard = i;
+      const img = new Image();
+      img.src = src;
+      if (decode) {
+        try {
+          await img.decode();
+        } catch (e) {
+          // ignore decode errors if unsupported
+        }
+      }
+      imageCache.set(src, img);
+      return img;
+    };
+
+    const yieldToMain = () => new Promise(resolve => setTimeout(resolve, 50));
+
+    const runPreload = async () => {
+      // Phase 8.1: Priority loading (Frame 1 is already handled via fetchPriority in HTML)
+      for (let i = 2; i <= Math.min(10, TOTAL_FRAMES); i++) {
+        await preloadImage(i, true);
+      }
+      
+      await yieldToMain();
+
+      // Phase 8.2 & 8.3: Chunked preload scheduler with yield for frames 11-40
+      for (let i = 11; i <= Math.min(40, TOTAL_FRAMES); i += 5) {
+        const batch = [];
+        for (let j = 0; j < 5 && i + j <= Math.min(40, TOTAL_FRAMES); j++) {
+          batch.push(preloadImage(i + j, true));
+        }
+        await Promise.all(batch);
+        await yieldToMain();
+      }
+    };
+    
+    setTimeout(runPreload, 300);
+  }, []);
+
+  // Phase 8.8: Scroll-triggered background load for distant frames
+  useEffect(() => {
+    if (!hasScrolled) return;
+    
+    const preloadDistantFrames = async () => {
+      for (let i = 41; i <= TOTAL_FRAMES; i += 10) {
+        for (let j = 0; j < 10 && i + j <= TOTAL_FRAMES; j++) {
+          const src = `/features_frames/frame_${String(i + j).padStart(4, "0")}.webp`;
+          if (!imageCache.has(src)) {
+            const img = new Image();
+            img.src = src;
+            imageCache.set(src, img);
           }
         }
-      });
-      
-      if (closestCard !== -1) {
-        setActiveCard(closestCard);
+        await new Promise(resolve => setTimeout(resolve, 100)); // slow drip feed
       }
     };
+    
+    preloadDistantFrames();
+  }, [hasScrolled]);
 
-    const loop = () => {
-      handleScroll();
-      requestAnimationFrame(loop);
-    };
+  const overlayRef = useRef<HTMLDivElement>(null);
+  useMotionValueEvent(scrollY, "change", (y) => {
+    if (overlayRef.current) {
+      const opacity = Math.max(0, 1 - y / 80);
+      overlayRef.current.style.opacity = opacity.toString();
+    }
+  });
 
-    const rafId = requestAnimationFrame(loop);
-    return () => cancelAnimationFrame(rafId);
-  }, []);
+  // Direct DOM mutation for scrubbing & Mathematical active card
+  useMotionValueEvent(sectionProgress, "change", (latest) => {
+    if (imgRef.current) {
+      const frameIndex = Math.floor(latest * (TOTAL_FRAMES - 1)) + 1;
+      const clampedIndex = Math.max(1, Math.min(TOTAL_FRAMES, frameIndex));
+      imgRef.current.src = `/features_frames/frame_${String(clampedIndex).padStart(4, "0")}.webp`;
+    }
 
-  const frameIndex = Math.floor(scrollProgress * (TOTAL_FRAMES - 1));
-  const frameSrc = `/features_frames/frame_${String(frameIndex + 1).padStart(4, "0")}.webp`;
+    const computedIndex = Math.round(latest * (cards.length - 1));
+    const clampedCardIndex = Math.max(0, Math.min(cards.length - 1, computedIndex));
+    
+    setActiveCard((prev) => (prev !== clampedCardIndex ? clampedCardIndex : prev));
+    setIsMenuVisible(latest >= 0.98);
+    
+    // Phase 8.5: GSAP Mount Deferral
+    if (latest >= 0.85 && !shouldMountMenu) {
+      setShouldMountMenu(true);
+    }
+  });
 
+  useMotionValueEvent(scrollY, "change", (latest) => {
+    if (latest > 50 && !hasScrolled) {
+      setHasScrolled(true);
+    }
+  });
+
+  // Convert scrollY values to Transforms for circular text
+  // overlayOpacity is now handled directly via DOM mutation in useMotionValueEvent
+  const indicatorOpacity = useTransform(scrollY, [0, 10], [1, 0]);
+  const circularOpacity = useTransform(scrollY, [0, 300], [0.5, 0]);
+  const circularBlur = useTransform(scrollY, [0, 300], ["blur(0px)", "blur(20px)"]);
+  const circularPointerEvents = useTransform(scrollY, v => v > 300 ? "none" : "auto");
+
+  // Phase 8.7: Individual LazyMount to prevent mass hydration spikes
+  const LazyMount = ({ children }: { children: React.ReactNode }) => {
+    const [mounted, setMounted] = useState(false);
+    const ref = useRef<HTMLDivElement>(null);
+    useEffect(() => {
+      if (!hasScrolled) return;
+      const observer = new IntersectionObserver(([entry]) => {
+        if (entry.isIntersecting) {
+          // Phase 8.9: Staggered hydration
+          mountQueue.push(() => setMounted(true));
+          processMountQueue();
+          observer.disconnect();
+        }
+      }, { rootMargin: "100px" });
+      if (ref.current) observer.observe(ref.current);
+      return () => observer.disconnect();
+    }, [hasScrolled]);
+    return <div ref={ref} className="w-full h-full flex flex-col items-center justify-center">{mounted && children}</div>;
+  };
 
   return (
     <div className="w-full bg-[#E8E8E8] min-h-screen text-[#1a1a1a] font-sans relative overflow-visible">
@@ -425,15 +520,16 @@ export default function FeaturesScrollPage() {
           animation: oscillate 2s infinite ease-in-out;
         }
       `}} />
-      <Navbar variant="fixed" rightOpacity={scrollProgress < 0.98 ? 1 : 0} />
+      <Navbar variant="fixed" rightOpacity={isMenuVisible ? 0 : 1} />
 
       {/* GLOBAL STAGGERED MENU for Features Page */}
       <div 
         className="fixed top-0 left-0 w-full h-screen z-50 pointer-events-none transition-opacity duration-500"
-        style={{ opacity: scrollProgress >= 0.98 ? 1 : 0 }}
+        style={{ opacity: isMenuVisible ? 1 : 0 }}
       >
-        <StaggeredMenu
-          position="right"
+        {shouldMountMenu && (
+          <StaggeredMenu
+            position="right"
           isFixed={true}
           items={[
             { label: 'Memory', ariaLabel: 'Behavioral Memory', link: '#feature-classifier' },
@@ -457,6 +553,7 @@ export default function FeaturesScrollPage() {
           colors={['#2E2F2B', '#3F4138', '#8FA876']}
           accentColor="#8FA876"
         />
+        )}
       </div>
 
       {/* SVG Filter for Liquid Glass Card */}
@@ -489,8 +586,9 @@ export default function FeaturesScrollPage() {
       {/* FIRST VIEW ABSOLUTE OVERLAYS */}
       <div className="fixed top-0 left-0 right-0 h-[100vh] pointer-events-none z-20">
         <div
-          style={{ opacity: Math.max(0, 1 - scrollYPos / 80) }}
-          className="absolute inset-0 transition-opacity duration-75"
+          ref={overlayRef}
+          className="absolute inset-0"
+          style={{ opacity: 1 }}
         >
           {/* Headline */}
           <div
@@ -533,20 +631,20 @@ export default function FeaturesScrollPage() {
           >
             01 / 08 · Behavioral Memory
           </div>
-
-          {/* Scroll indicator */}
-          <div
-            className="hidden md:block absolute font-mono text-[11px] animate-oscillate transition-opacity duration-300"
-            style={{
-              bottom: "8vh",
-              right: "5vw",
-              color: "rgba(20,20,20,0.3)",
-              opacity: scrollYPos > 10 ? 0 : 1
-            }}
-          >
-            ↓  scroll to explore
-          </div>
         </div>
+
+        {/* Scroll indicator */}
+        <m.div
+          style={{ opacity: indicatorOpacity }}
+          className="hidden md:block absolute font-mono text-[11px] animate-oscillate"
+          style={{
+            bottom: "8vh",
+            right: "5vw",
+            color: "rgba(20,20,20,0.3)"
+          }}
+        >
+          ↓  scroll to explore
+        </m.div>
       </div>
 
       <div
@@ -557,17 +655,20 @@ export default function FeaturesScrollPage() {
         {/* LAYER 1 — STICKY IMAGE SEQUENCE */}
         <div className="sticky top-0 h-[100vh] w-full z-0 overflow-hidden flex items-center justify-center pointer-events-none">
           <img
-            src={frameSrc}
+            ref={imgRef}
+            src="/features_frames/frame_0001.webp"
             alt=""
+            fetchPriority="high"
             className="absolute inset-0 w-full h-full object-cover"
+            style={{ willChange: "transform", transform: "translateZ(0)" }}
           />
 
-          <div
-            className="absolute z-10 pointer-events-auto mix-blend-multiply scale-75 md:scale-100 translate-y-[15vh] md:translate-y-[1vh] transition-all duration-300"
+          <m.div
+            className="absolute z-10 pointer-events-auto mix-blend-multiply scale-75 md:scale-100 translate-y-[15vh] md:translate-y-[1vh]"
             style={{
-              opacity: Math.max(0, 0.5 - (scrollYPos / 600)),
-              filter: `blur(${Math.min(20, scrollYPos / 15)}px)`,
-              pointerEvents: scrollYPos > 300 ? "none" : "auto"
+              opacity: circularOpacity,
+              filter: circularBlur,
+              pointerEvents: circularPointerEvents
             }}
           >
             <CircularText
@@ -576,7 +677,7 @@ export default function FeaturesScrollPage() {
               spinDuration={20}
               className="text-[#474842]"
             />
-          </div>
+          </m.div>
           {/* Animated drop shadow pulse mapped to match existing shadow area */}
           <div
             className="absolute w-[30vw] max-w-[350px] h-[80px] rounded-full animate-shadow-pulse pointer-events-none mix-blend-multiply"
@@ -599,7 +700,6 @@ export default function FeaturesScrollPage() {
               const isAdjacent = Math.abs(distance) === 1;
               const isHidden = Math.abs(distance) > 1;
               
-              // distance = -1 (above active), distance = 1 (below active)
               const yOffset = distance * 120;
               
               return (
@@ -646,25 +746,26 @@ export default function FeaturesScrollPage() {
             <div 
               id={`card-wrapper-${i}`} 
               key={card.anchor} 
-              className="w-full shrink-0 snap-center flex flex-col items-center justify-center h-[100svh] md:h-auto py-10 md:py-0" 
-              style={{ minHeight: isDesktop ? `${CARD_SPACING_VH}vh` : 'auto' }}
+              className="w-full shrink-0 snap-center flex flex-col items-center justify-center h-[100svh] md:h-auto py-10 md:py-0 md:min-h-[70vh]" 
             >
               <CardWrapper
                 isActive={i === activeCard}
                 isPast={i < activeCard}
               >
-                <EditorialCard
-                  title={card.title}
-                  side={i % 2 === 0 ? "left" : "right"}
-                  align={isDesktop ? (i % 2 === 0 ? "up" : "down") : "up"}
-                  index={i + 1}
-                  imageSrc="/card-bg.png"
-                  onAction={() =>
-                    document.querySelector(card.anchor)?.scrollIntoView({ behavior: "smooth" })
-                  }
-                >
-                  {card.children}
-                </EditorialCard>
+                <LazyMount>
+                  <EditorialCard
+                    title={card.title}
+                    side={i % 2 === 0 ? "left" : "right"}
+                    align={i % 2 === 0 ? "up" : "down"}
+                    index={i + 1}
+                    imageSrc="/card-bg.png"
+                    onAction={() =>
+                      document.querySelector(card.anchor)?.scrollIntoView({ behavior: "smooth" })
+                    }
+                  >
+                    {card.children}
+                  </EditorialCard>
+                </LazyMount>
               </CardWrapper>
             </div>
           ))}
@@ -693,6 +794,8 @@ export default function FeaturesScrollPage() {
               border: "1px solid rgba(255, 255, 255, 0.05)",
               boxShadow: "0 24px 64px 0 rgba(0, 0, 0, 0.4), inset 0 1px 0 0 rgba(255, 255, 255, 0.1)",
               borderRadius: "32px",
+              contentVisibility: "auto",
+              containIntrinsicSize: "1000px"
             }}
           >
             <div className="font-mono text-white/30 text-[12px] mb-4">
