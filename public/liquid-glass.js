@@ -218,8 +218,25 @@
     }
 
     refresh();
-    el.style.backdropFilter =
-      "url(#" + id + ") blur(" + o.blur + "px) saturate(" + o.saturate + ")";
+    const svgFilterStr = "url(#" + id + ") blur(" + o.blur + "px) saturate(" + o.saturate + ")";
+    const fallbackStr = "blur(" + o.fallbackBlur + "px) saturate(" + o.saturate + ")";
+    
+    el.style.backdropFilter = svgFilterStr;
+
+    let isScrolling = false;
+    let scrollTimeout = null;
+    const onScroll = () => {
+      if (!isScrolling) {
+        isScrolling = true;
+        el.style.backdropFilter = fallbackStr;
+      }
+      clearTimeout(scrollTimeout);
+      scrollTimeout = setTimeout(() => {
+        isScrolling = false;
+        el.style.backdropFilter = svgFilterStr;
+      }, 150);
+    };
+    window.addEventListener("scroll", onScroll, { passive: true });
 
     let timer = null;
     const ro = new ResizeObserver(function () {
@@ -233,7 +250,9 @@
       refresh: refresh,
       destroy: function () {
         ro.disconnect();
+        window.removeEventListener("scroll", onScroll);
         clearTimeout(timer);
+        clearTimeout(scrollTimeout);
         parts.filter.remove();
         el.style.backdropFilter = "";
       },
