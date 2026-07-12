@@ -1,7 +1,7 @@
 "use client";
 
 import { useRef } from "react";
-import { motion, useInView } from "framer-motion";
+import { m, useInView } from "framer-motion";
 import {
   TrendingDown,
   TrendingUp,
@@ -56,7 +56,7 @@ export default function IntelligenceSection() {
     >
       <div className="max-w-7xl mx-auto px-6 lg:px-12">
         {/* Header */}
-        <motion.div
+        <m.div
           initial={{ opacity: 0, y: 40 }}
           animate={isInView ? { opacity: 1, y: 0 } : {}}
           transition={{ duration: 0.8 }}
@@ -73,7 +73,7 @@ export default function IntelligenceSection() {
             intelligence runs quietly in the background. An 8-stage classification
             pipeline continuously studies your ecosystem without you lifting a finger.
           </p>
-        </motion.div>
+        </m.div>
 
         {/* Insights Grid */}
         <div className="max-w-5xl mx-auto">
@@ -86,7 +86,7 @@ export default function IntelligenceSection() {
           {insights.map((insight, i) => {
             const Icon = insight.icon;
             return (
-               <motion.div
+               <m.div
                 key={insight.label}
                 initial={{ opacity: 0, y: 30 }}
                 animate={isInView ? { opacity: 1, y: 0 } : {}}
@@ -118,7 +118,7 @@ export default function IntelligenceSection() {
                 <p className="text-[14px] text-white/50 leading-relaxed font-light">
                   {insight.detail}
                 </p>
-              </motion.div>
+              </m.div>
             );
           })}
           </div>

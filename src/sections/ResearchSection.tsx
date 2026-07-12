@@ -1,7 +1,7 @@
 "use client";
 
 import { useRef } from "react";
-import { motion, useInView } from "framer-motion";
+import { m, useInView } from "framer-motion";
 import {
   Brain,
   FlaskConical,
@@ -78,7 +78,7 @@ export default function ResearchSection() {
 
       <div className="relative max-w-7xl mx-auto px-6 lg:px-8">
         {/* Header */}
-        <motion.div
+        <m.div
           initial={{ opacity: 0, y: 40 }}
           animate={isInView ? { opacity: 1, y: 0 } : {}}
           transition={{ duration: 0.8 }}
@@ -94,14 +94,14 @@ export default function ResearchSection() {
             No hype. No exaggerated AI claims. Every model is documented,
             every result is reproducible.
           </p>
-        </motion.div>
+        </m.div>
 
         {/* Research Grid */}
         <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
           {researchItems.map((item, i) => {
             const Icon = item.icon;
             return (
-              <motion.div
+              <m.div
                 key={item.title}
                 initial={{ opacity: 0, y: 30 }}
                 animate={isInView ? { opacity: 1, y: 0 } : {}}
@@ -134,13 +134,13 @@ export default function ResearchSection() {
                 <p className="text-sm text-white/45 leading-relaxed">
                   {item.description}
                 </p>
-              </motion.div>
+              </m.div>
             );
           })}
         </div>
 
         {/* Honesty statement */}
-        <motion.div
+        <m.div
           initial={{ opacity: 0, y: 20 }}
           animate={isInView ? { opacity: 1, y: 0 } : {}}
           transition={{ duration: 0.8, delay: 0.8 }}
@@ -151,7 +151,7 @@ export default function ResearchSection() {
             simulation and what&apos;s still being tested. Transparency is not a
             feature—it&apos;s the foundation.
           </p>
-        </motion.div>
+        </m.div>
       </div>
     </section>
   );

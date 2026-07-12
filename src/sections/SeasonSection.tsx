@@ -1,7 +1,7 @@
 "use client";
 
 import { useRef, useState } from "react";
-import { motion, useInView, AnimatePresence } from "framer-motion";
+import { m, useInView, AnimatePresence } from "framer-motion";
 import {
   Sun,
   Sprout,
@@ -110,7 +110,7 @@ export default function SeasonSection() {
     >
       <div className="max-w-7xl mx-auto px-6 lg:px-8">
         {/* Header */}
-        <motion.div
+        <m.div
           initial={{ opacity: 0, y: 40 }}
           animate={isInView ? { opacity: 1, y: 0 } : {}}
           transition={{ duration: 0.8 }}
@@ -127,10 +127,10 @@ export default function SeasonSection() {
             through seasons—each with its own rhythm, challenges, and
             opportunities.
           </p>
-        </motion.div>
+        </m.div>
 
         {/* Season Selector */}
-        <motion.div
+        <m.div
           initial={{ opacity: 0, y: 20 }}
           animate={isInView ? { opacity: 1, y: 0 } : {}}
           transition={{ duration: 0.8, delay: 0.2 }}
@@ -154,11 +154,11 @@ export default function SeasonSection() {
               </button>
             );
           })}
-        </motion.div>
+        </m.div>
 
         {/* Active Season Card */}
         <AnimatePresence mode="wait">
-          <motion.div
+          <m.div
             key={activeSeason.id}
             initial={{ opacity: 0, y: 20, scale: 0.98 }}
             animate={{ opacity: 1, y: 0, scale: 1 }}
@@ -222,7 +222,7 @@ export default function SeasonSection() {
                 </div>
               </div>
             </div>
-          </motion.div>
+          </m.div>
         </AnimatePresence>
       </div>
     </section>
