@@ -1,9 +1,6 @@
-"use client";
-
 import React from "react";
-import { motion } from "framer-motion";
-import ForecastForkChart from "@/components/forecasting/ForecastForkChart";
-import { EASE_REVEAL } from "@/lib/chartTheme";
+import ForecastChartShell from "@/components/home/ForecastChartShell";
+import ScrollFadeIn from "@/components/ScrollFadeIn";
 
 // ──────────────────────────────────────────────
 // Mock baseline data — realistic 12-month projection
@@ -45,13 +42,7 @@ export default function ForecastTeaseSection({
       data-testid="forecast-tease"
       className="relative w-full py-20 sm:py-28 px-6 sm:px-8"
     >
-      <motion.div
-        initial={{ opacity: 0, y: 16 }}
-        whileInView={{ opacity: 1, y: 0 }}
-        viewport={{ once: true, margin: "-40px" }}
-        transition={{ duration: 0.9, ease: EASE_REVEAL }}
-        className="max-w-[680px] mx-auto"
-      >
+      <ScrollFadeIn className="max-w-[680px] mx-auto" delay={0.1} yOffset={40}>
         {/* Section label */}
         <div className="font-mono text-[10px] tracking-[0.3em] text-white/40 mb-3 text-center">
           FORECASTING ENGINE
@@ -74,12 +65,12 @@ export default function ForecastTeaseSection({
             border: "1px solid rgba(255, 255, 255, 0.08)",
           }}
         >
-          <ForecastForkChart
+          <ForecastChartShell
             baselineData={baselineData}
             todayIndex={todayIndex}
           />
         </div>
-      </motion.div>
+      </ScrollFadeIn>
     </section>
   );
 }
