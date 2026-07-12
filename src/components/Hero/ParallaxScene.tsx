@@ -1,7 +1,7 @@
 "use client";
 
 import { useRef, useEffect, useState } from "react";
-import { motion, useScroll, useTransform } from "framer-motion";
+import { m, useScroll, useTransform } from "framer-motion";
 
 interface ParallaxLayer {
   id: string;
@@ -129,7 +129,7 @@ export default function ParallaxScene() {
           isMobile || prefersReducedMotion ? 0 : mousePos.y * layer.mouseSpeed;
 
         return (
-          <motion.div
+          <m.div
             key={layer.id}
             className="absolute inset-0 will-change-transform gpu-accelerated"
             style={{
@@ -294,7 +294,7 @@ export default function ParallaxScene() {
                 />
               </div>
             ) : null}
-          </motion.div>
+          </m.div>
         );
       })}
     </div>

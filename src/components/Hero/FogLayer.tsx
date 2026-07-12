@@ -1,7 +1,7 @@
 "use client";
 
 import { useRef } from "react";
-import { motion, useScroll, useTransform } from "framer-motion";
+import { m, useScroll, useTransform } from "framer-motion";
 
 export default function FogLayer() {
   const ref = useRef<HTMLDivElement>(null);
@@ -16,7 +16,7 @@ export default function FogLayer() {
   return (
     <div ref={ref} className="absolute inset-0 overflow-hidden pointer-events-none z-20">
       {/* Primary fog layer - slow drift */}
-      <motion.div
+      <m.div
         style={{ opacity: fogOpacity, y: fogY }}
         className="absolute inset-0 gpu-accelerated"
       >
@@ -28,10 +28,10 @@ export default function FogLayer() {
             animation: "fog-drift 20s ease-in-out infinite",
           }}
         />
-      </motion.div>
+      </m.div>
 
       {/* Secondary fog layer - opposite drift */}
-      <motion.div
+      <m.div
         style={{
           opacity: useTransform(scrollYProgress, [0, 0.4, 0.8], [0.5, 0.2, 0]),
           y: useTransform(scrollYProgress, [0, 1], ["0%", "-60%"]),
@@ -46,10 +46,10 @@ export default function FogLayer() {
             animation: "fog-drift-slow 25s ease-in-out infinite",
           }}
         />
-      </motion.div>
+      </m.div>
 
       {/* Soft top vignette */}
-      <motion.div
+      <m.div
         style={{
           opacity: useTransform(scrollYProgress, [0, 0.3], [0.4, 0]),
         }}
@@ -63,7 +63,7 @@ export default function FogLayer() {
               "linear-gradient(to bottom, rgba(16,32,42,0.3) 0%, transparent 100%)",
           }}
         />
-      </motion.div>
+      </m.div>
     </div>
   );
 }

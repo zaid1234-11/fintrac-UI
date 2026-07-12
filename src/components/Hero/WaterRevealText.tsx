@@ -1,7 +1,4 @@
-"use client";
-
-import { useRef } from "react";
-import { motion, useInView } from "framer-motion";
+import React from "react";
 
 interface WaterRevealTextProps {
   text: string;
@@ -16,43 +13,20 @@ export default function WaterRevealText({
   delay = 0,
   as: Tag = "h1",
 }: WaterRevealTextProps) {
-  const ref = useRef<HTMLDivElement>(null);
-  const isInView = useInView(ref, { once: true, margin: "-10%" });
-
+  // Computed once on the server
   const words = text.split(" ");
 
   return (
-    <div ref={ref} className={`overflow-hidden ${className}`}>
+    <div className={`overflow-hidden ${className}`}>
       <Tag className="inline">
         {words.map((word, i) => (
           <span key={i} className="inline-block overflow-hidden mr-[0.3em]">
-            <motion.span
-              className="inline-block"
-              initial={{
-                y: "110%",
-                rotateX: 40,
-                opacity: 0,
-                filter: "blur(4px)",
-              }}
-              animate={
-                isInView
-                  ? {
-                      y: "0%",
-                      rotateX: 0,
-                      opacity: 1,
-                      filter: "blur(0px)",
-                    }
-                  : {}
-              }
-              transition={{
-                duration: 1,
-                delay: delay + i * 0.08,
-                ease: [0.22, 1, 0.36, 1],
-              }}
-              style={{ transformOrigin: "bottom center" }}
+            <span
+              className="water-word animate-now"
+              style={{ animationDelay: `${delay + i * 0.08}s` }}
             >
               {word}
-            </motion.span>
+            </span>
           </span>
         ))}
       </Tag>
