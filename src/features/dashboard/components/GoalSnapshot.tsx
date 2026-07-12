@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { motion } from 'framer-motion';
+import { m } from 'framer-motion';
 import { GoalObject } from '../types/dashboardTypes';
 import { Target, AlertCircle, CheckCircle2, Clock, Zap } from 'lucide-react';
 
@@ -82,7 +82,7 @@ export function GoalSnapshot({ goals }: { goals: GoalObject[] }) {
   if (!goals || goals.length === 0) return null;
 
   return (
-    <motion.section
+    <m.section
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.6, delay: 0.4, ease: [0.22, 1, 0.36, 1] }}
@@ -101,6 +101,6 @@ export function GoalSnapshot({ goals }: { goals: GoalObject[] }) {
           <GoalCard key={goal.goal_id} goal={goal} mounted={mounted} />
         ))}
       </div>
-    </motion.section>
+    </m.section>
   );
 }

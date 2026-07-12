@@ -1,8 +1,8 @@
 import React from 'react';
-import { motion } from 'framer-motion';
+import { m } from 'framer-motion';
 
 const SkeletonBase = ({ className, delay = 0 }: { className: string, delay?: number }) => (
-  <motion.div
+  <m.div
     initial={{ opacity: 0.3 }}
     animate={{ opacity: 0.6 }}
     transition={{

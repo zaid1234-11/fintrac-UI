@@ -1,5 +1,5 @@
 import React, { useEffect, useRef } from 'react';
-import { motion, useMotionValue, animate, useTransform } from 'framer-motion';
+import { m, useMotionValue, animate, useTransform } from 'framer-motion';
 import { DashboardState } from '../types/dashboardTypes';
 
 export function FinancialStatusHeader({ state }: { state: DashboardState }) {
@@ -22,7 +22,7 @@ export function FinancialStatusHeader({ state }: { state: DashboardState }) {
   }, []);
 
   return (
-    <motion.div 
+    <m.div 
       initial={{ opacity: 0, y: 10 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.8, ease: "easeOut" }}
@@ -49,7 +49,7 @@ export function FinancialStatusHeader({ state }: { state: DashboardState }) {
             <div className="flex flex-col">
                <span className="text-xs font-semibold uppercase tracking-[0.22em] text-white/50 mb-3">Health Score</span>
                <div className="flex items-baseline gap-2">
-                 <motion.span className="text-3xl font-display text-white leading-none">{rounded}</motion.span>
+                 <m.span className="text-3xl font-display text-white leading-none">{rounded}</m.span>
                </div>
                <div className="flex items-center gap-3 mt-2">
                  <span className="text-sm font-medium text-emerald-400">Excellent</span>
@@ -73,6 +73,6 @@ export function FinancialStatusHeader({ state }: { state: DashboardState }) {
           </div>
         </div>
       </div>
-    </motion.div>
+    </m.div>
   );
 }

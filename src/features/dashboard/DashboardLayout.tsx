@@ -1,7 +1,7 @@
 'use client';
 
 import { DashboardSidebar } from './components/DashboardSidebar';
-import { motion, AnimatePresence } from 'framer-motion';
+import { m, AnimatePresence } from 'framer-motion';
 import { usePathname } from 'next/navigation';
 import { useState } from 'react';
 
@@ -15,13 +15,13 @@ export function DashboardLayout({ children }: { children: React.ReactNode }) {
         isCollapsed={isSidebarCollapsed} 
         onToggle={() => setIsSidebarCollapsed(!isSidebarCollapsed)} 
       />
-      <motion.div 
+      <m.div 
         className="flex-1 w-full"
         animate={{ paddingLeft: isSidebarCollapsed ? '88px' : '272px' }}
         transition={{ duration: 0.3, ease: [0.25, 0.1, 0.25, 1] }}
       >
         <AnimatePresence mode="wait">
-      <motion.div
+      <m.div
         key={pathname}
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
@@ -29,9 +29,9 @@ export function DashboardLayout({ children }: { children: React.ReactNode }) {
         transition={{ duration: 0.3 }}
       >
         {children}
-      </motion.div>
+      </m.div>
         </AnimatePresence>
-      </motion.div>
+      </m.div>
     </div>
   );
 }

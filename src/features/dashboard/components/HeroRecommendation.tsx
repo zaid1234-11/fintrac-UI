@@ -1,5 +1,5 @@
 import React, { useState, useRef, useEffect } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
+import { m, AnimatePresence } from 'framer-motion';
 import { RecommendationObject, ForecastObject } from '../types/dashboardTypes';
 import { Target, Zap, Clock, ShieldCheck, ChevronDown, CheckCircle2, ArrowRight } from 'lucide-react';
 

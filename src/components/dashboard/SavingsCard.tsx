@@ -2,7 +2,7 @@
 
 import React from "react";
 import { formatINR } from "@/lib/formatINR";
-import { motion } from "framer-motion";
+import { m } from "framer-motion";
 import { FADE_UP } from "@/lib/chartTheme";
 
 interface SavingsCardProps {
@@ -14,7 +14,7 @@ export default function SavingsCard({ amount, deltaPercent }: SavingsCardProps) 
   const isPositive = deltaPercent >= 0;
 
   return (
-    <motion.div
+    <m.div
       {...FADE_UP}
       className="min-w-[180px] rounded-2xl bg-white/[0.03] border border-white/[0.06] p-5 flex flex-col gap-2"
     >
@@ -47,6 +47,6 @@ export default function SavingsCard({ amount, deltaPercent }: SavingsCardProps) 
         </span>
         <span className="text-[11px] text-white/35 font-mono">this month</span>
       </div>
-    </motion.div>
+    </m.div>
   );
 }

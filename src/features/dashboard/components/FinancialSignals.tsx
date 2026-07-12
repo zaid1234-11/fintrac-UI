@@ -1,5 +1,5 @@
 import React from 'react';
-import { motion } from 'framer-motion';
+import { m } from 'framer-motion';
 import { RecommendationObject } from '../types/dashboardTypes';
 import { Activity, AlertTriangle, TrendingUp, Info } from 'lucide-react';
 
@@ -15,7 +15,7 @@ export function FinancialSignals({ signals }: { signals: RecommendationObject[] 
   };
 
   return (
-    <motion.section
+    <m.section
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.6, delay: 0.4, ease: [0.22, 1, 0.36, 1] }}
@@ -28,7 +28,7 @@ export function FinancialSignals({ signals }: { signals: RecommendationObject[] 
 
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
         {signals.map((signal, i) => (
-          <motion.div
+          <m.div
             key={signal.recommendation_id}
             initial={{ opacity: 0, scale: 0.95 }}
             animate={{ opacity: 1, scale: 1 }}
@@ -47,9 +47,9 @@ export function FinancialSignals({ signals }: { signals: RecommendationObject[] 
             <div className="mt-4 pt-4 border-t border-white/10 relative z-10">
               <p className="text-white/50 text-xs">{signal.reason}</p>
             </div>
-          </motion.div>
+          </m.div>
         ))}
       </div>
-    </motion.section>
+    </m.section>
   );
 }

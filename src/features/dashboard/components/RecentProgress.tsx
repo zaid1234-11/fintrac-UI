@@ -1,5 +1,5 @@
 import React, { useRef, useEffect } from 'react';
-import { motion } from 'framer-motion';
+import { m } from 'framer-motion';
 import { Activity } from 'lucide-react';
 
 export function RecentProgress() {
@@ -10,7 +10,7 @@ export function RecentProgress() {
   ];
 
   return (
-    <motion.section
+    <m.section
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.6, delay: 0.4, ease: [0.22, 1, 0.36, 1] }}
@@ -26,7 +26,7 @@ export function RecentProgress() {
           <GlassCard key={item.id} item={item} />
         ))}
       </div>
-    </motion.section>
+    </m.section>
   );
 }
 
