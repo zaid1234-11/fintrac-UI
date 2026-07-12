@@ -1,5 +1,5 @@
 "use client";
-import { motion, useMotionValue, useSpring } from "framer-motion";
+import { m, useMotionValue, useSpring } from "framer-motion";
 import { useRef, useState } from "react";
 
 export default function Magnetic({ children, radius = 8, className = "" }: { children: React.ReactNode, radius?: number, className?: string }) {
@@ -35,7 +35,7 @@ export default function Magnetic({ children, radius = 8, className = "" }: { chi
   };
 
   return (
-    <motion.div
+    <m.div
       ref={ref}
       onMouseMove={handleMouseMove}
       onMouseEnter={() => setIsHovered(true)}
@@ -44,6 +44,6 @@ export default function Magnetic({ children, radius = 8, className = "" }: { chi
       className={`inline-block origin-center ${className}`}
     >
       {children}
-    </motion.div>
+    </m.div>
   );
 }

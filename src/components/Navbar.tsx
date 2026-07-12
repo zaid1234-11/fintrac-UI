@@ -5,9 +5,11 @@ import { Menu } from "lucide-react";
 
 import { useState, useEffect } from "react";
 import { usePathname, useRouter } from "next/navigation";
-import { motion } from "framer-motion";
+import { m } from "framer-motion";
 import BorderGlow from "./BorderGlow";
-import MobileMenu from "./MobileMenu";
+import dynamic from "next/dynamic";
+
+const MobileMenu = dynamic(() => import("./MobileMenu"), { ssr: false });
 
 const NAV_ITEMS = ["Home", "Features", "Contact"];
 
@@ -90,7 +92,7 @@ export default function Navbar({ variant = "fixed", rightOpacity = 1 }: { varian
                     }`}
                 >
                   {isActive && (
-                    <motion.div
+                    <m.div
                       layoutId="navbar-active-pill"
                       className="absolute inset-0 rounded-[32px] bg-white/[0.08] z-0"
                       transition={{ type: "spring", stiffness: 350, damping: 30 }}

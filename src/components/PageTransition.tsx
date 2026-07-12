@@ -3,13 +3,19 @@
 import { useEffect, useState } from "react";
 import { usePathname } from "next/navigation";
 import Loader from "./Loader";
-import { AnimatePresence, motion } from "framer-motion";
+import { AnimatePresence, m } from "framer-motion";
 
 export default function PageTransition({ children }: { children: React.ReactNode }) {
   const pathname = usePathname();
-  const [isLoading, setIsLoading] = useState(true);
+  const [isLoading, setIsLoading] = useState(false);
+  const [isInitialMount, setIsInitialMount] = useState(true);
 
   useEffect(() => {
+    if (isInitialMount) {
+      setIsInitialMount(false);
+      return;
+    }
+
     // Trigger the loader
     setIsLoading(true);
     
@@ -19,13 +25,13 @@ export default function PageTransition({ children }: { children: React.ReactNode
     }, 1500);
 
     return () => clearTimeout(timeout);
-  }, [pathname]);
+  }, [pathname, isInitialMount]);
 
   return (
     <>
       <AnimatePresence mode="wait">
         {isLoading && (
-          <motion.div
+          <m.div
             key="preloader"
             initial={{ opacity: 1 }}
             exit={{ opacity: 0 }}
@@ -33,7 +39,7 @@ export default function PageTransition({ children }: { children: React.ReactNode
             className="fixed inset-0 z-[9999] flex items-center justify-center bg-white"
           >
             <Loader />
-          </motion.div>
+          </m.div>
         )}
       </AnimatePresence>
       

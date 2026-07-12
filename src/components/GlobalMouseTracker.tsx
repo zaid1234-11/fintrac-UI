@@ -22,8 +22,15 @@ export default function GlobalMouseTracker() {
     document.documentElement.style.setProperty("--mouse-x", "0.5");
     document.documentElement.style.setProperty("--mouse-y", "0.5");
 
-    window.addEventListener("mousemove", handleMouseMove, { passive: true });
-    return () => window.removeEventListener("mousemove", handleMouseMove);
+    // Defer initialization to avoid blocking main thread on load
+    const timer = setTimeout(() => {
+      window.addEventListener("mousemove", handleMouseMove, { passive: true });
+    }, 100);
+
+    return () => {
+      clearTimeout(timer);
+      window.removeEventListener("mousemove", handleMouseMove);
+    };
   }, []);
 
   return null;
