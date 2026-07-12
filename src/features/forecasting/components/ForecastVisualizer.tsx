@@ -1,7 +1,7 @@
 'use client';
 
 import React from 'react';
-import { motion } from 'framer-motion';
+import { m } from 'framer-motion';
 import { GitFork } from 'lucide-react';
 import ForecastForkChart from '@/components/forecasting/ForecastForkChart';
 import type { ForecastChartPoint } from '../types';
@@ -39,7 +39,7 @@ export function ForecastVisualizer({
   }, []);
 
   return (
-    <motion.section
+    <m.section
       initial={{ opacity: 0, y: 10 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.5, delay: 0.2 }}
@@ -55,6 +55,6 @@ export function ForecastVisualizer({
           todayIndex={todayIndex}
         />
       </div>
-    </motion.section>
+    </m.section>
   );
 }

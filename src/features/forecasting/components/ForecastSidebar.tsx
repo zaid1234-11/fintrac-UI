@@ -1,7 +1,7 @@
 'use client';
 
 import React from 'react';
-import { motion } from 'framer-motion';
+import { m } from 'framer-motion';
 import { Activity, TrendingUp, Clock, ShieldCheck } from 'lucide-react';
 import { useForecastEngine } from '../hooks/useForecastEngine';
 import { formatINR } from '@/lib/formatINR';
@@ -20,7 +20,7 @@ export function ForecastSidebar() {
   }, []);
 
   return (
-    <motion.div
+    <m.div
       initial={{ opacity: 0, y: -20 }}
       animate={{ opacity: 1, y: 0 }}
     >
@@ -62,7 +62,7 @@ export function ForecastSidebar() {
           </div>
 
           <div className="h-1 w-full bg-white/5 rounded-full overflow-hidden mt-1">
-            <motion.div
+            <m.div
               className={`h-full rounded-full ${overallConfidence >= 70 ? 'bg-emerald-500' : 'bg-amber-400'}`}
               initial={{ width: 0 }}
               animate={{ width: `${overallConfidence}%` }}
@@ -70,6 +70,6 @@ export function ForecastSidebar() {
           </div>
         </div>
       </div>
-    </motion.div>
+    </m.div>
   );
 }

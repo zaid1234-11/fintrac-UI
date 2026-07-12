@@ -1,5 +1,5 @@
 import React, { useRef, useEffect } from 'react';
-import { motion } from 'framer-motion';
+import { m } from 'framer-motion';
 import { History, CheckCircle2, AlertCircle, Clock } from 'lucide-react';
 import { GoalEvent } from '../types/goalEngineTypes';
 
@@ -60,7 +60,7 @@ export function GoalEventsLog() {
   };
 
   return (
-    <motion.section
+    <m.section
       initial={{ opacity: 0, y: 10 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.5, delay: 0.4 }}
@@ -96,6 +96,6 @@ export function GoalEventsLog() {
         </div>
 
       </div>
-    </motion.section>
+    </m.section>
   );
 }

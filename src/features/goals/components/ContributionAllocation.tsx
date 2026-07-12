@@ -1,5 +1,5 @@
 import React, { useState, useRef, useEffect } from 'react';
-import { motion, AnimatePresence, useMotionValue, useMotionTemplate } from 'framer-motion';
+import { m, AnimatePresence, useMotionValue, useMotionTemplate } from 'framer-motion';
 import { useGoalEngine } from '../hooks/useGoalEngine';
 import { Check, X, SlidersHorizontal } from 'lucide-react';
 
@@ -37,7 +37,7 @@ export function ContributionAllocation() {
   };
 
   return (
-    <motion.section
+    <m.section
       initial={{ opacity: 0, y: 10 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.5, delay: 0.3 }}
@@ -62,7 +62,7 @@ export function ContributionAllocation() {
               onMouseEnter={() => setHoveredGoal(goal.id)}
               onMouseLeave={() => setHoveredGoal(null)}
             >
-              <motion.div
+              <m.div
                 className="absolute inset-0 z-0 bg-emerald-500/15 pointer-events-none rounded-2xl transition-opacity duration-300"
                 style={{
                   opacity: hoveredGoal === goal.id ? 1 : 0,
@@ -92,11 +92,11 @@ export function ContributionAllocation() {
                   onChange={(e) => updatePreviewAllocation(goal.id, Number(e.target.value))}
                   className="absolute inset-0 w-full opacity-0 cursor-pointer z-20"
                 />
-                <motion.div
+                <m.div
                   className="absolute h-full rounded-full bg-emerald-500 transition-all"
                   style={{ width: `${percentage}%` }}
                 />
-                <motion.div
+                <m.div
                   className="absolute w-4 h-4 bg-white shadow-[0_0_10px_rgba(255,255,255,0.5)] rounded-full z-10"
                   style={{ left: `calc(${percentage}% - 8px)` }}
                 />
@@ -109,7 +109,7 @@ export function ContributionAllocation() {
       {/* Floating Action Bar (Preview State) */}
       <AnimatePresence>
         {isDirty && (
-          <motion.div
+          <m.div
             initial={{ opacity: 0, y: 50, scale: 0.95 }}
             animate={{ opacity: 1, y: 0, scale: 1 }}
             exit={{ opacity: 0, y: 50, scale: 0.95 }}
@@ -135,9 +135,9 @@ export function ContributionAllocation() {
               <Check className="w-4 h-4" />
               Apply Changes
             </button>
-          </motion.div>
+          </m.div>
         )}
       </AnimatePresence>
-    </motion.section>
+    </m.section>
   );
 }

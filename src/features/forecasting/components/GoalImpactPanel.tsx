@@ -1,7 +1,7 @@
 'use client';
 
 import React from 'react';
-import { motion } from 'framer-motion';
+import { m } from 'framer-motion';
 import { ArrowRight, Clock, Shield, TrendingUp } from 'lucide-react';
 import type { GoalForecast } from '../types';
 
@@ -38,7 +38,7 @@ function GoalForecastCard({ goal, index }: { goal: GoalForecast; index: number }
   const formatDate = (d: Date) => d.toLocaleDateString('en-IN', { month: 'short', year: 'numeric' });
 
   return (
-    <motion.div
+    <m.div
       initial={{ opacity: 0, y: 15 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.5, delay: 0.15 + index * 0.1 }}
@@ -68,7 +68,7 @@ function GoalForecastCard({ goal, index }: { goal: GoalForecast; index: number }
           <span className="text-[10px] font-mono text-white/50">{progress.toFixed(0)}%</span>
         </div>
         <div className="h-1.5 w-full bg-white/5 rounded-full overflow-hidden">
-          <motion.div
+          <m.div
             className={`h-full rounded-full ${colors.dot}`}
             initial={{ width: 0 }}
             animate={{ width: `${progress}%` }}
@@ -106,13 +106,13 @@ function GoalForecastCard({ goal, index }: { goal: GoalForecast; index: number }
         </div>
       )}
       </div>
-    </motion.div>
+    </m.div>
   );
 }
 
 export function GoalImpactPanel({ goalForecasts }: { goalForecasts: GoalForecast[] }) {
   return (
-    <motion.section
+    <m.section
       initial={{ opacity: 0, y: 10 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.5, delay: 0.3 }}
@@ -127,6 +127,6 @@ export function GoalImpactPanel({ goalForecasts }: { goalForecasts: GoalForecast
           <GoalForecastCard key={goal.goalId} goal={goal} index={i} />
         ))}
       </div>
-    </motion.section>
+    </m.section>
   );
 }

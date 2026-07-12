@@ -1,7 +1,7 @@
 'use client';
 
 import React from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
+import { m, AnimatePresence } from 'framer-motion';
 import { Zap, Lightbulb, User } from 'lucide-react';
 import { useForecastEngine } from '../hooks/useForecastEngine';
 import type { ForecastScenario } from '../types';
@@ -36,7 +36,7 @@ function GlassScenarioButton({ scenario, isActive, onClick }: { scenario: Foreca
   }, []);
 
   return (
-    <motion.button
+    <m.button
       ref={btnRef}
       onClick={onClick}
       className={`goal-liquid-glass relative w-full text-left p-5 transition-all duration-300 group ${
@@ -48,7 +48,7 @@ function GlassScenarioButton({ scenario, isActive, onClick }: { scenario: Foreca
       whileTap={{ scale: 0.995 }}
     >
       {isActive && (
-        <motion.div
+        <m.div
           layoutId="scenario-active"
           className="absolute left-0 top-3 bottom-3 w-[3px] bg-emerald-400 rounded-full"
           transition={{ type: 'spring', stiffness: 200, damping: 25 }}
@@ -64,7 +64,7 @@ function GlassScenarioButton({ scenario, isActive, onClick }: { scenario: Foreca
           <p className="text-xs text-white/50 font-lexend leading-relaxed line-clamp-2">{scenario.description}</p>
         </div>
       </div>
-    </motion.button>
+    </m.button>
   );
 }
 
@@ -72,7 +72,7 @@ export function ScenarioSelector() {
   const { scenarios, activeScenario, selectScenario } = useForecastEngine();
 
   return (
-    <motion.section
+    <m.section
       initial={{ opacity: 0, y: 10 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.5, delay: 0.1 }}
@@ -95,6 +95,6 @@ export function ScenarioSelector() {
           );
         })}
       </div>
-    </motion.section>
+    </m.section>
   );
 }

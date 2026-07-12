@@ -1,7 +1,7 @@
 'use client';
 
 import React from 'react';
-import { motion } from 'framer-motion';
+import { m } from 'framer-motion';
 import { BarChart3 } from 'lucide-react';
 import type { SensitivityLever } from '../types';
 
@@ -19,7 +19,7 @@ function LeverRow({ lever, index, maxDays }: { lever: SensitivityLever; index: n
   }, []);
 
   return (
-    <motion.div
+    <m.div
       initial={{ opacity: 0, x: -10 }}
       animate={{ opacity: 1, x: 0 }}
       transition={{ duration: 0.4, delay: 0.1 + index * 0.06 }}
@@ -41,7 +41,7 @@ function LeverRow({ lever, index, maxDays }: { lever: SensitivityLever; index: n
 
         {/* Impact Bar */}
         <div className="h-1 w-full bg-white/5 rounded-full overflow-hidden">
-          <motion.div
+          <m.div
             className="h-full rounded-full bg-gradient-to-r from-emerald-500/60 to-emerald-400"
             initial={{ width: 0 }}
             animate={{ width: `${barWidth}%` }}
@@ -59,7 +59,7 @@ function LeverRow({ lever, index, maxDays }: { lever: SensitivityLever; index: n
         </div>
       </div>
       </div>
-    </motion.div>
+    </m.div>
   );
 }
 
@@ -68,7 +68,7 @@ export function SensitivityPanel({ levers }: { levers: SensitivityLever[] }) {
   const maxDays = sorted[0]?.impactDays ?? 1;
 
   return (
-    <motion.section
+    <m.section
       initial={{ opacity: 0, y: 10 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.5, delay: 0.45 }}
@@ -84,6 +84,6 @@ export function SensitivityPanel({ levers }: { levers: SensitivityLever[] }) {
           <LeverRow key={lever.lever} lever={lever} index={i} maxDays={maxDays} />
         ))}
       </div>
-    </motion.section>
+    </m.section>
   );
 }

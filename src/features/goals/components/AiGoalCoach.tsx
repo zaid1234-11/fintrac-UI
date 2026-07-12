@@ -1,5 +1,5 @@
 import React, { useRef, useEffect } from 'react';
-import { motion } from 'framer-motion';
+import { m } from 'framer-motion';
 import { Sparkles, ArrowRight } from 'lucide-react';
 
 export function AiGoalCoach() {
@@ -15,7 +15,7 @@ export function AiGoalCoach() {
   }, []);
 
   return (
-    <motion.section
+    <m.section
       initial={{ opacity: 0, y: 10 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.5, delay: 0.3 }}
@@ -75,6 +75,6 @@ export function AiGoalCoach() {
         </div>
 
       </div>
-    </motion.section>
+    </m.section>
   );
 }

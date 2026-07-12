@@ -1,5 +1,5 @@
 import React, { useRef, useEffect } from 'react';
-import { motion } from 'framer-motion';
+import { m } from 'framer-motion';
 import { useGoalEngine } from '../hooks/useGoalEngine';
 import { Zap, Clock, ShieldCheck, Activity } from 'lucide-react';
 
@@ -34,7 +34,7 @@ export function PrimaryGoalFocus() {
   const confidenceScore = Math.min(100, (primaryGoal.confidence + preview.confidenceChange) * 100);
 
   return (
-    <motion.section
+    <m.section
       initial={{ opacity: 0, y: 10 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.5, delay: 0.1 }}
@@ -106,7 +106,7 @@ export function PrimaryGoalFocus() {
 
               {/* Confidence Bar */}
               <div className="h-1.5 w-full bg-white/10 rounded-full overflow-hidden">
-                <motion.div
+                <m.div
                   className={`h-full rounded-full transition-all duration-300 ${confidenceScore >= 70 ? 'bg-emerald-500' : 'bg-amber-400'}`}
                   initial={{ width: 0 }}
                   animate={{ width: `${confidenceScore}%` }}
@@ -116,7 +116,7 @@ export function PrimaryGoalFocus() {
 
             {/* Live ETA Impact (Only shows when dragging sliders) */}
             {preview.etaChangeDays !== 0 && (
-              <motion.div
+              <m.div
                 initial={{ opacity: 0, height: 0 }}
                 animate={{ opacity: 1, height: 'auto' }}
                 className={`p-4 rounded-xl border flex items-start gap-3 ${preview.etaChangeDays > 0 ? 'bg-emerald-500/10 border-emerald-500/20 text-emerald-400' : 'bg-red-500/10 border-red-500/20 text-red-400'}`}
@@ -128,13 +128,13 @@ export function PrimaryGoalFocus() {
                     Goal arrives {Math.abs(preview.etaChangeDays)} days {preview.etaChangeDays > 0 ? 'sooner' : 'later'}.
                   </span>
                 </div>
-              </motion.div>
+              </m.div>
             )}
 
           </div>
 
         </div>
       </div>
-    </motion.section>
+    </m.section>
   );
 }
