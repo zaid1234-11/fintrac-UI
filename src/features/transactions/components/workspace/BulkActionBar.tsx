@@ -1,7 +1,7 @@
 'use client';
 
 import React from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
+import { m, AnimatePresence } from 'framer-motion';
 import { useTransactionSelection } from '../../hooks/useTransactionSelection';
 import { Check, X, Edit2, SplitSquareHorizontal, Trash2 } from 'lucide-react';
 
@@ -12,7 +12,7 @@ export function BulkActionBar() {
   return (
     <AnimatePresence>
       {count > 0 && (
-        <motion.div
+        <m.div
           initial={{ opacity: 0, y: 50, scale: 0.95 }}
           animate={{ opacity: 1, y: 0, scale: 1 }}
           exit={{ opacity: 0, y: 50, scale: 0.95 }}
@@ -52,7 +52,7 @@ export function BulkActionBar() {
               <X className="w-5 h-5" />
             </button>
           </div>
-        </motion.div>
+        </m.div>
       )}
     </AnimatePresence>
   );

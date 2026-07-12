@@ -1,7 +1,7 @@
 'use client';
 
 import React from 'react';
-import { motion } from 'framer-motion';
+import { m } from 'framer-motion';
 import { useTransactions } from '../../hooks/useTransactions';
 
 export function AIStatusBanner() {
@@ -12,7 +12,7 @@ export function AIStatusBanner() {
   const autoPercentage = Math.round((snapshot.autoCategorizedCount / snapshot.transactionsCount) * 100) || 0;
 
   return (
-    <motion.div
+    <m.div
       initial={{ opacity: 0, y: -10 }}
       animate={{ opacity: 1, y: 0 }}
       className="flex items-center justify-between p-4 rounded-xl bg-emerald-500/[0.05] border border-emerald-500/[0.15] backdrop-blur-md mb-6"
@@ -33,6 +33,6 @@ export function AIStatusBanner() {
           </span>
         )}
       </div>
-    </motion.div>
+    </m.div>
   );
 }

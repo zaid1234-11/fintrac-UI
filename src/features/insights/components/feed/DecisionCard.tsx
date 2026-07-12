@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
+import { m, AnimatePresence } from 'framer-motion';
 import { LucideChevronDown, LucideChevronUp, Target, Droplet, PiggyBank, AlertTriangle, Activity, Shield, LucideArrowRight } from 'lucide-react';
 import { Decision, LinkedEntity } from '../../types';
 import { DecisionStatus } from './DecisionStatus';
@@ -77,7 +77,7 @@ export function DecisionCard({ decision, onAccept, onLater, onDismiss, onFeedbac
 
   if (decision.status === 'completed') {
     return (
-      <motion.div
+      <m.div
         ref={cardRef}
         initial={{ opacity: 0, scale: 0.95 }}
         animate={{ opacity: 1, scale: 1 }}
@@ -112,12 +112,12 @@ export function DecisionCard({ decision, onAccept, onLater, onDismiss, onFeedbac
             onSubmit={onFeedback} 
           />
         )}
-      </motion.div>
+      </m.div>
     );
   }
 
   return (
-    <motion.div
+    <m.div
       ref={cardRef}
       initial={{ opacity: 0, y: 10 }}
       animate={{ 
@@ -207,7 +207,7 @@ export function DecisionCard({ decision, onAccept, onLater, onDismiss, onFeedbac
       {/* Expanded Content */}
       <AnimatePresence>
         {expanded && (
-          <motion.div
+          <m.div
             initial={{ height: 0, opacity: 0 }}
             animate={{ height: 'auto', opacity: 1 }}
             exit={{ height: 0, opacity: 0 }}
@@ -226,10 +226,10 @@ export function DecisionCard({ decision, onAccept, onLater, onDismiss, onFeedbac
               effort={decision.effort}
             />
             <DecisionTimeline events={decision.timeline} />
-          </motion.div>
+          </m.div>
         )}
       </AnimatePresence>
 
-    </motion.div>
+    </m.div>
   );
 }

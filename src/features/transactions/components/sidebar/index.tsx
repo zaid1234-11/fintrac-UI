@@ -1,7 +1,7 @@
 'use client';
 
 import React from 'react';
-import { motion } from 'framer-motion';
+import { m } from 'framer-motion';
 import { AlertCircle, Zap, RefreshCw, BarChart2, ShieldAlert } from 'lucide-react';
 import { useTransactions } from '../../hooks/useTransactions';
 import { formatINR } from '@/lib/formatINR';
@@ -19,7 +19,7 @@ function CardWrapper({ children, title, icon: Icon, delay = 0, alert = false }: 
   }, []);
 
   return (
-    <motion.div
+    <m.div
       initial={{ opacity: 0, y: 15 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.5, delay }}
@@ -36,7 +36,7 @@ function CardWrapper({ children, title, icon: Icon, delay = 0, alert = false }: 
         </div>
         {children}
       </div>
-    </motion.div>
+    </m.div>
   );
 }
 

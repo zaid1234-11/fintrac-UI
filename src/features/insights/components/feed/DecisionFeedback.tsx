@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import { LucideThumbsUp, LucideThumbsDown } from 'lucide-react';
-import { motion, AnimatePresence } from 'framer-motion';
+import { m, AnimatePresence } from 'framer-motion';
 
 interface DecisionFeedbackProps {
   decisionId: string;
@@ -62,7 +62,7 @@ export function DecisionFeedback({ decisionId, currentRating, onSubmit }: Decisi
 
       <AnimatePresence>
         {showReasons && !currentRating && (
-          <motion.div
+          <m.div
             initial={{ height: 0, opacity: 0 }}
             animate={{ height: 'auto', opacity: 1 }}
             exit={{ height: 0, opacity: 0 }}
@@ -82,7 +82,7 @@ export function DecisionFeedback({ decisionId, currentRating, onSubmit }: Decisi
                 ))}
               </div>
             </div>
-          </motion.div>
+          </m.div>
         )}
       </AnimatePresence>
     </div>

@@ -1,7 +1,7 @@
 'use client';
 
 import React from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
+import { m, AnimatePresence } from 'framer-motion';
 import { X, ExternalLink, MessageSquare, BrainCircuit, History } from 'lucide-react';
 import { Transaction } from '../../types';
 import { formatINR } from '@/lib/formatINR';
@@ -16,7 +16,7 @@ export function TransactionDetailsDrawer({ transaction, onClose }: TransactionDe
 
   return (
     <AnimatePresence>
-      <motion.div
+      <m.div
         initial={{ opacity: 0, x: 20 }}
         animate={{ opacity: 1, x: 0 }}
         exit={{ opacity: 0, x: 20 }}
@@ -108,7 +108,7 @@ export function TransactionDetailsDrawer({ transaction, onClose }: TransactionDe
           </div>
         )}
 
-      </motion.div>
+      </m.div>
     </AnimatePresence>
   );
 }
