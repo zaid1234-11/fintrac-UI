@@ -1,7 +1,7 @@
 "use client";
 
 import { useRef } from "react";
-import { motion, useScroll, useTransform } from "framer-motion";
+import { m, useScroll, useTransform } from "framer-motion";
 import ParallaxScene from "@/components/Hero/ParallaxScene";
 import FogLayer from "@/components/Hero/FogLayer";
 import WaterRevealText from "@/components/Hero/WaterRevealText";
@@ -39,7 +39,7 @@ export default function HeroSection() {
       />
 
       {/* Hero Content */}
-      <motion.div
+      <m.div
         style={{ opacity: contentOpacity, y: contentY }}
         className="relative z-30 text-center px-6 max-w-4xl mx-auto"
       >
@@ -57,7 +57,7 @@ export default function HeroSection() {
         />
 
         {/* Subheadline */}
-        <motion.p
+        <m.p
           initial={{ opacity: 0, y: 30 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 1, delay: 1.6, ease: [0.22, 1, 0.36, 1] }}
@@ -66,10 +66,10 @@ export default function HeroSection() {
           FinTrac routes budget adjustments where they create the least
           behavioral resistance, adapting over time instead of forcing change all
           at once.
-        </motion.p>
+        </m.p>
 
         {/* CTAs */}
-        <motion.div
+        <m.div
           initial={{ opacity: 0, y: 30 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 1, delay: 2, ease: [0.22, 1, 0.36, 1] }}
@@ -91,11 +91,11 @@ export default function HeroSection() {
           >
             How It Works
           </a>
-        </motion.div>
-      </motion.div>
+        </m.div>
+      </m.div>
 
       {/* Scroll indicator */}
-      <motion.div
+      <m.div
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
         transition={{ delay: 2.5, duration: 1 }}
@@ -104,14 +104,14 @@ export default function HeroSection() {
         <span className="text-white/50 text-xs tracking-widest uppercase font-[family-name:var(--font-body)]">
           Scroll
         </span>
-        <motion.div
+        <m.div
           animate={{ y: [0, 8, 0] }}
           transition={{ repeat: Infinity, duration: 2, ease: "easeInOut" }}
           className="w-5 h-8 rounded-full border-2 border-white/30 flex items-start justify-center pt-1.5"
         >
           <div className="w-1 h-2 rounded-full bg-white/60" />
-        </motion.div>
-      </motion.div>
+        </m.div>
+      </m.div>
     </section>
   );
 }

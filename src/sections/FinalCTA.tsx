@@ -1,7 +1,7 @@
 "use client";
 
 import React from "react";
-import { motion } from "framer-motion";
+import { m } from "framer-motion";
 import { EASE_REVEAL } from "@/lib/chartTheme";
 import Magnetic from "@/components/Magnetic";
 import Link from "next/link";
@@ -24,7 +24,7 @@ export default function FinalCTA({
       data-testid="final-cta"
       className="relative w-full min-h-[40vh] md:min-h-[60vh] flex items-center justify-center py-24 sm:py-32 px-6 sm:px-8 md:px-14"
     >
-      <motion.div
+      <m.div
         initial={{ opacity: 0, y: 16 }}
         whileInView={{ opacity: 1, y: 0 }}
         viewport={{ once: true, margin: "-40px" }}
@@ -80,7 +80,7 @@ export default function FinalCTA({
             See all features <span>→</span>
           </Link>
         </div>
-      </motion.div>
+      </m.div>
     </section>
   );
 }

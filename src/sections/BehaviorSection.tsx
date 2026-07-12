@@ -1,7 +1,7 @@
 "use client";
 
 import { useRef } from "react";
-import { motion, useInView } from "framer-motion";
+import { m, useInView } from "framer-motion";
 import { Scale, Zap, Shield, Repeat } from "lucide-react";
 
 const pillars = [
@@ -58,7 +58,7 @@ export default function BehaviorSection() {
     >
       <div className="max-w-7xl mx-auto px-6 lg:px-12">
         {/* Section header */}
-        <motion.div
+        <m.div
           initial={{ opacity: 0, y: 40 }}
           animate={isInView ? { opacity: 1, y: 0 } : {}}
           transition={{ duration: 0.8, ease: [0.22, 1, 0.36, 1] }}
@@ -73,11 +73,11 @@ export default function BehaviorSection() {
           <p className="text-white/60 text-[15px] md:text-[16px] font-light max-w-2xl mx-auto leading-relaxed">
             By analyzing the friction behind your habits, our coaching engine provides real-time wellness pillars and contextual alerts to keep your ecosystem balanced.
           </p>
-        </motion.div>
+        </m.div>
 
         <div className="grid lg:grid-cols-2 gap-8 lg:gap-16 max-w-6xl mx-auto">
           {/* Wellness Pillars */}
-          <motion.div
+          <m.div
             initial={{ opacity: 0, y: 40 }}
             animate={isInView ? { opacity: 1, y: 0 } : {}}
             transition={{ duration: 0.8, delay: 0.2 }}
@@ -109,10 +109,10 @@ export default function BehaviorSection() {
                 </div>
               ))}
             </div>
-          </motion.div>
+          </m.div>
 
           {/* Alert Triggers & Engine */}
-          <motion.div
+          <m.div
             initial={{ opacity: 0, y: 40 }}
             animate={isInView ? { opacity: 1, y: 0 } : {}}
             transition={{ duration: 0.8, delay: 0.4 }}
@@ -152,7 +152,7 @@ export default function BehaviorSection() {
                 growth periods are maximized.
               </p>
             </div>
-          </motion.div>
+          </m.div>
         </div>
       </div>
     </section>
