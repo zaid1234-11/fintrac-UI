@@ -1,9 +1,6 @@
-"use client";
-
 import React from "react";
-import { motion } from "framer-motion";
 import FounderNote from "@/components/trust/FounderNote";
-import { EASE_REVEAL } from "@/lib/chartTheme";
+import ScrollFadeIn from "@/components/ScrollFadeIn";
 import Link from "next/link";
 
 // ──────────────────────────────────────────────
@@ -41,27 +38,15 @@ export default function TrustTeaseSection({
     >
       <div className="max-w-[680px] mx-auto">
         {/* Section label */}
-        <motion.div
-          initial={{ opacity: 0 }}
-          whileInView={{ opacity: 1 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.5, ease: EASE_REVEAL }}
-          className="font-mono text-[10px] tracking-[0.3em] text-white/40 mb-6 text-center"
-        >
+        <ScrollFadeIn delay={0} yOffset={10} className="font-mono text-[10px] tracking-[0.3em] text-white/40 mb-6 text-center">
           TRUST ARCHITECTURE
-        </motion.div>
+        </ScrollFadeIn>
 
         {/* The note itself */}
         <FounderNote quote={quote} name={name} role={role} />
 
         {/* Link to full trust page */}
-        <motion.div
-          initial={{ opacity: 0 }}
-          whileInView={{ opacity: 1 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.5, delay: 0.3, ease: EASE_REVEAL }}
-          className="mt-6 text-center"
-        >
+        <ScrollFadeIn delay={0.3} yOffset={10} className="mt-6 text-center">
           <Link
             href="/trust"
             className="inline-flex items-center gap-1 text-[12px] font-mono text-white/35 hover:text-white/60 transition-colors"
@@ -69,7 +54,7 @@ export default function TrustTeaseSection({
             Read how we handle your data
             <span className="text-[11px]">→</span>
           </Link>
-        </motion.div>
+        </ScrollFadeIn>
       </div>
     </section>
   );

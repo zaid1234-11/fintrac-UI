@@ -9,6 +9,7 @@ export default function SmoothScrollProvider({
   children: React.ReactNode;
 }) {
   const [isReducedMotion, setIsReducedMotion] = useState(false);
+  const [isReady, setIsReady] = useState(false);
 
   useEffect(() => {
     const mediaQuery = window.matchMedia("(prefers-reduced-motion: reduce)");
@@ -19,21 +20,28 @@ export default function SmoothScrollProvider({
     };
     
     mediaQuery.addEventListener("change", handleChange);
-    return () => mediaQuery.removeEventListener("change", handleChange);
+    
+    // Defer Lenis initialization to avoid blocking the main thread during hydration
+    const timer = setTimeout(() => setIsReady(true), 100);
+    
+    return () => {
+      mediaQuery.removeEventListener("change", handleChange);
+      clearTimeout(timer);
+    };
   }, []);
 
-  if (isReducedMotion) {
+  if (isReducedMotion || !isReady) {
     return <>{children}</>;
   }
 
   return (
     <ReactLenis root options={{ 
-      lerp: 0.075, 
+      lerp: 0.1, 
       duration: 1.2,
       smoothWheel: true, 
       syncTouch: true,
-      wheelMultiplier: 0.9,
-      touchMultiplier: 1.1 
+      wheelMultiplier: 1.0,
+      touchMultiplier: 1.2 
     }}>
       {children}
     </ReactLenis>

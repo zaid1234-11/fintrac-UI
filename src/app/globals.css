@@ -267,6 +267,38 @@
     cursor: pointer;
   }
 
+  /* Liquid Glass Sidebar Dressing (adapted from official recipe) */
+  .sidebar-liquid-glass {
+    position: relative;
+    isolation: isolate;
+    border-radius: 40px;
+    background: linear-gradient(180deg, rgba(14, 14, 22, 0.18), rgba(14, 14, 22, 0.32));
+    box-shadow:
+      0 24px 60px rgba(0, 0, 0, 0.45),
+      inset 0 1px 1px rgba(255, 255, 255, 0.5),
+      inset 0 -8px 20px rgba(255, 255, 255, 0.06),
+      inset 0 0 0 1px rgba(255, 255, 255, 0.13);
+    transform: translateZ(0);
+    will-change: transform, backdrop-filter;
+    backface-visibility: hidden;
+  }
+
+  /* Liquid Glass Card — same recipe as sidebar, tuned for content cards */
+  .goal-liquid-glass {
+    position: relative;
+    isolation: isolate;
+    border-radius: 32px;
+    background: linear-gradient(180deg, rgba(14, 14, 22, 0.18), rgba(14, 14, 22, 0.32));
+    box-shadow:
+      0 24px 60px rgba(0, 0, 0, 0.45),
+      inset 0 1px 1px rgba(255, 255, 255, 0.5),
+      inset 0 -8px 20px rgba(255, 255, 255, 0.06),
+      inset 0 0 0 1px rgba(255, 255, 255, 0.13);
+    transform: translateZ(0);
+    will-change: transform, backdrop-filter;
+    backface-visibility: hidden;
+  }
+
   /* Tint and inner shadow layer */
   .liquid-glass-card::before {
     content: '';
@@ -544,4 +576,18 @@
       opacity: 1;
     }
   }
+}
+/* Progressive Enhancement: WaterRevealText */
+@keyframes waterReveal {
+  0% { transform: translateY(110%) scale(0.98); opacity: 0; }
+  100% { transform: translateY(0%) scale(1); opacity: 1; }
+}
+.water-word {
+  display: inline-block;
+  transform-origin: bottom center;
+  opacity: 0;
+  will-change: transform, opacity;
+}
+.water-word.animate-now {
+  animation: waterReveal 0.9s cubic-bezier(0.22, 1, 0.36, 1) forwards;
 }

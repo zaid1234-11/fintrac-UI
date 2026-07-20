@@ -1,7 +1,7 @@
 "use client";
 
-import React, { useRef, useState, useEffect } from "react";
-import { motion, useScroll, useTransform } from "framer-motion";
+import React, { useRef } from "react";
+import { m, useScroll, useTransform } from "framer-motion";
 import { ArrowUpRight } from "lucide-react";
 
 interface EditorialCardProps {
@@ -41,13 +41,7 @@ export default function EditorialCard({
     offset: ["0 1", "0.6 0.6"],
   });
 
-  const [isDesktop, setIsDesktop] = useState(true);
-  useEffect(() => {
-    setIsDesktop(window.innerWidth >= 768);
-    const handleResize = () => setIsDesktop(window.innerWidth >= 768);
-    window.addEventListener("resize", handleResize);
-    return () => window.removeEventListener("resize", handleResize);
-  }, []);
+
 
   const y = useTransform(scrollYProgress, [0, 1], ["15vh", "0vh"]);
   const scale = useTransform(scrollYProgress, [0, 1], [0.95, 1]);
@@ -60,7 +54,7 @@ export default function EditorialCard({
       className={`relative grid grid-cols-12 gap-4 md:gap-8 w-full ${align === "up" ? "mt-[-2vh]" : "mt-[20vh]"
         }`}
     >
-      <motion.article
+      <m.article
         style={{ y, scale, opacity }}
         className={`
           relative rounded-[28px] isolate cursor-pointer overflow-hidden
@@ -109,7 +103,7 @@ export default function EditorialCard({
         >
           <ArrowUpRight size={18} strokeWidth={1.8} />
         </button>
-      </motion.article>
+      </m.article>
     </div>
   );
 }

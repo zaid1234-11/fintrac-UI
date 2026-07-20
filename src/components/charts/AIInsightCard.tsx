@@ -1,7 +1,7 @@
 "use client";
 
 import React from "react";
-import { motion } from "framer-motion";
+import { m } from "framer-motion";
 import { SEASON, scoreToSeason, EASE_REVEAL } from "@/lib/chartTheme";
 import Magnetic from "@/components/Magnetic";
 
@@ -21,7 +21,7 @@ export default function AIInsightCard({ insight }: AIInsightCardProps) {
   const urgencyColor = SEASON[insight.urgency];
 
   return (
-    <motion.div
+    <m.div
       initial={{ opacity: 0, y: 12 }}
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true, margin: "-40px" }}
@@ -81,6 +81,6 @@ export default function AIInsightCard({ insight }: AIInsightCardProps) {
           </button>
         </Magnetic>
       </div>
-    </motion.div>
+    </m.div>
   );
 }

@@ -1,7 +1,7 @@
 "use client";
 
 import { useRef, useEffect, useState } from "react";
-import { motion, useInView } from "framer-motion";
+import { m, useInView } from "framer-motion";
 
 /* River tributary data */
 const tributaries = [
@@ -90,7 +90,7 @@ export default function RiverSection() {
 
       <div className="max-w-7xl mx-auto px-6 lg:px-8">
         {/* Header */}
-        <motion.div
+        <m.div
           initial={{ opacity: 0, y: 40 }}
           animate={isInView ? { opacity: 1, y: 0 } : {}}
           transition={{ duration: 0.8 }}
@@ -107,10 +107,10 @@ export default function RiverSection() {
             splitting into tributaries where each category finds its natural
             channel.
           </p>
-        </motion.div>
+        </m.div>
 
         {/* River SVG */}
-        <motion.div
+        <m.div
           initial={{ opacity: 0 }}
           animate={isInView ? { opacity: 1 } : {}}
           transition={{ duration: 1, delay: 0.3 }}
@@ -147,7 +147,7 @@ export default function RiverSection() {
             </defs>
 
             {/* Main income river */}
-            <motion.path
+            <m.path
               d="M 580 0 C 580 40 575 80 580 120 Q 590 150 600 160 Q 610 150 620 120 C 625 80 620 40 620 0 Z"
               fill="url(#mainRiverGrad)"
               initial={{ opacity: 0, pathLength: 0 }}
@@ -156,7 +156,7 @@ export default function RiverSection() {
             />
 
             {/* Income label */}
-            <motion.text
+            <m.text
               x="600"
               y="15"
               textAnchor="middle"
@@ -166,7 +166,7 @@ export default function RiverSection() {
               transition={{ delay: 0.5 }}
             >
               INCOME
-            </motion.text>
+            </m.text>
 
             {/* Tributaries */}
             {tributaries.map((t, i) => {
@@ -176,7 +176,7 @@ export default function RiverSection() {
               return (
                 <g key={t.id}>
                   {/* Tributary path */}
-                  <motion.path
+                  <m.path
                     d={pathData[t.id] || ""}
                     fill="none"
                     stroke={t.color}
@@ -227,7 +227,7 @@ export default function RiverSection() {
               ];
 
               return (
-                <motion.g
+                <m.g
                   key={`label-${t.id}`}
                   initial={{ opacity: 0, y: 10 }}
                   animate={isInView ? { opacity: 1, y: 0 } : {}}
@@ -287,13 +287,13 @@ export default function RiverSection() {
                   >
                     {t.friction}
                   </text>
-                </motion.g>
+                </m.g>
               );
             })}
           </svg>
 
           {/* Legend */}
-          <motion.div
+          <m.div
             initial={{ opacity: 0, y: 20 }}
             animate={isInView ? { opacity: 1, y: 0 } : {}}
             transition={{ delay: 2 }}
@@ -318,8 +318,8 @@ export default function RiverSection() {
               </svg>
               Pools = Destinations
             </span>
-          </motion.div>
-        </motion.div>
+          </m.div>
+        </m.div>
       </div>
     </section>
   );

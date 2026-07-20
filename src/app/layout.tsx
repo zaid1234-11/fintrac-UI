@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import { Inter, Lexend_Exa, Geist_Mono, Fraunces, Rozha_One } from "next/font/google";
+import Script from "next/script";
 import "./globals.css";
-import { ClerkProvider } from "@clerk/nextjs";
 import SmoothScrollProvider from "@/components/SmoothScrollProvider";
 import { ReactQueryProvider } from "@/components/ReactQueryProvider";
 
@@ -44,10 +44,9 @@ export const viewport: Viewport = {
   userScalable: false,
 };
 
-import NoiseOverlay from "@/components/NoiseOverlay";
-import ScrollProgress from "@/components/ScrollProgress";
-import GlobalMouseTracker from "@/components/GlobalMouseTracker";
 import PageTransition from "@/components/PageTransition";
+import FramerLazyProvider from "@/components/FramerLazyProvider";
+import ClientOverlays from "@/components/ClientOverlays";
 
 export default function RootLayout({
   children,
@@ -61,18 +60,20 @@ export default function RootLayout({
       suppressHydrationWarning
     >
       <body className="antialiased overflow-x-clip">
-        <ClerkProvider>
-          <ReactQueryProvider>
-            <GlobalMouseTracker />
-            <NoiseOverlay />
-            <ScrollProgress />
+        <link rel="preconnect" href="https://fonts.googleapis.com" />
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossOrigin="anonymous" />
+        <link rel="preconnect" href="https://d8j0ntlcm91z4.cloudfront.net" crossOrigin="anonymous" />
+        <Script src="/liquid-glass.js" strategy="afterInteractive" />
+        <ReactQueryProvider>
+          <FramerLazyProvider>
+            <ClientOverlays />
             <SmoothScrollProvider>
               <PageTransition>
                 {children}
               </PageTransition>
             </SmoothScrollProvider>
-          </ReactQueryProvider>
-        </ClerkProvider>
+          </FramerLazyProvider>
+        </ReactQueryProvider>
       </body>
     </html>
   );

@@ -14,7 +14,7 @@ import { RecentDecisions } from './components/RecentDecisions';
 import { RecentProgress } from './components/RecentProgress';
 import { AiMonitoringFooter } from './components/AiMonitoringFooter';
 import { Activity } from 'lucide-react';
-import { motion, useScroll, useTransform, useMotionTemplate, useVelocity, useSpring } from 'framer-motion';
+import { m, useScroll, useTransform, useMotionTemplate, useVelocity, useSpring } from 'framer-motion';
 
 export function DashboardView() {
   const { data, isLoading, error } = useDashboard();
@@ -83,23 +83,15 @@ export function DashboardView() {
           style={{ background: 'radial-gradient(ellipse at center, rgba(36,44,30,.08), rgba(36,44,30,0) 70%)' }}
         />
         
-        <div 
-          className="mx-auto fintrac-glass-card w-full max-w-[1600px] h-full min-h-[calc(100vh-64px)] rounded-[40px] flex flex-col p-8 md:p-12 relative"
-        >
-            
-            {/* Edge highlights simulating physical glass thickness */}
-            <div className="absolute inset-0 rounded-[40px] pointer-events-none shadow-[inset_0_1px_20px_rgba(255,255,255,0.05)] z-0" />
-
-            {/* Canvas Content */}
-            <div className="relative z-10 flex flex-col gap-12 w-full h-full max-w-7xl mx-auto">
+        <div className="relative z-10 flex flex-col gap-12 w-full max-w-7xl mx-auto pt-24">
               
               {/* Context Engine: Top Row */}
-              <motion.div 
+              <m.div 
                 initial={{ opacity: 0, y: 15 }} animate={{ opacity: 1, y: 0 }} transition={{ duration: 0.6 }}
                 className="flex justify-between items-start w-full"
               >
                 {dashboardState && <FinancialStatusHeader state={dashboardState} />}
-              </motion.div>
+              </m.div>
 
               {/* Action Engine: Hero Module & Forecast & Goals */}
               <div className="flex-1 w-full flex flex-col justify-start mt-8 relative">
@@ -108,43 +100,42 @@ export function DashboardView() {
                 <div className="absolute left-[28px] top-6 bottom-12 w-px bg-gradient-to-b from-[#2A2E06]/0 via-[#2A2E06]/10 to-[#2A2E06]/0 z-0 pointer-events-none" />
 
                 <div className="flex flex-col gap-10 pl-[64px] relative z-10 w-full">
-                  <motion.div 
+                  <m.div 
                     initial={{ opacity: 0, x: -20 }} animate={{ opacity: 1, x: 0 }} transition={{ duration: 0.6, delay: 0.15 }}
                     className="relative"
                   >
                     <div className="absolute -left-[40px] top-7 w-2 h-2 rounded-full bg-[#2A2E06]/40 shadow-[0_0_8px_rgba(42,46,6,0.3)] ring-4 ring-white/50" />
                     <HeroRecommendation recommendation={heroRecommendation} forecast={primaryForecast} />
-                  </motion.div>
+                  </m.div>
                   
-                  <motion.div initial={{ opacity: 0, x: -20 }} animate={{ opacity: 1, x: 0 }} transition={{ duration: 0.6, delay: 0.45 }} className="relative">
+                  <m.div initial={{ opacity: 0, x: -20 }} animate={{ opacity: 1, x: 0 }} transition={{ duration: 0.6, delay: 0.45 }} className="relative">
                     <div className="absolute -left-[40px] top-8 w-2 h-2 rounded-full bg-emerald-500 shadow-[0_0_8px_rgba(16,185,129,0.5)] ring-4 ring-white/50" />
                     <GoalSnapshot goals={goals} />
-                  </motion.div>
+                  </m.div>
                   
                   {signals && signals.length > 0 && (
-                    <motion.div 
+                    <m.div 
                       initial={{ opacity: 0, x: -20 }} animate={{ opacity: 1, x: 0 }} transition={{ duration: 0.6, delay: 0.6 }}
                       className="relative"
                     >
                       <div className="absolute -left-[40px] top-8 w-2 h-2 rounded-full bg-[#2A2E06]/40 shadow-[0_0_8px_rgba(42,46,6,0.3)] ring-4 ring-white/50" />
                       <FinancialSignals signals={signals} />
-                    </motion.div>
+                    </m.div>
                   )}
                   
-                  <motion.div 
+                  <m.div 
                     initial={{ opacity: 0, x: -20 }} animate={{ opacity: 1, x: 0 }} transition={{ duration: 0.6, delay: 0.75 }}
                     className="grid grid-cols-1 md:grid-cols-2 gap-8 relative"
                   >
                     <div className="absolute -left-[40px] top-8 w-2 h-2 rounded-full bg-[#547C59] shadow-[0_0_8px_rgba(84,124,89,0.5)] ring-4 ring-white/50" />
                     <RecentDecisions />
                     <RecentProgress />
-                  </motion.div>
+                  </m.div>
                 </div>
               </div>
 
               <AiMonitoringFooter />
             </div>
-        </div>
       </main>
     </div>
   );

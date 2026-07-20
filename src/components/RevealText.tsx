@@ -1,5 +1,5 @@
 "use client";
-import { motion, useInView } from "framer-motion";
+import { m, useInView } from "framer-motion";
 import { useRef } from "react";
 
 export default function RevealText({ text, className = "", delay = 0, as: Component = "span" }: { text: string, className?: string, delay?: number, as?: any }) {
@@ -33,7 +33,7 @@ export default function RevealText({ text, className = "", delay = 0, as: Compon
     }
   };
 
-  const MotionComponent = motion.create(Component as any);
+  const MotionComponent = m.create(Component as any);
 
   return (
     <MotionComponent
@@ -45,9 +45,9 @@ export default function RevealText({ text, className = "", delay = 0, as: Compon
     >
       {words.map((word, index) => (
         <span key={index} className="inline-block overflow-hidden pb-1 -mb-1 mr-[0.25em]">
-          <motion.span variants={child} className="inline-block">
+          <m.span variants={child} className="inline-block">
             {word}
-          </motion.span>
+          </m.span>
         </span>
       ))}
     </MotionComponent>

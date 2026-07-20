@@ -2,7 +2,7 @@
 
 import React from 'react';
 
-export function DashboardVideoBackground() {
+export function DashboardVideoBackground({ src = "/dashboard video.mp4" }: { src?: string }) {
   return (
     <video
       className="fixed z-[-50] object-cover"
@@ -17,7 +17,7 @@ export function DashboardVideoBackground() {
       muted
       playsInline
     >
-      <source src="/dashboard video.mp4" type="video/mp4" />
+      <source src={src} type="video/mp4" />
     </video>
   );
 }

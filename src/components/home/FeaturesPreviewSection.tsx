@@ -1,8 +1,5 @@
-"use client";
-
 import React from "react";
-import { motion } from "framer-motion";
-import { EASE_REVEAL, STAGGER_DELAY } from "@/lib/chartTheme";
+import ScrollFadeIn from "@/components/ScrollFadeIn";
 import Magnetic from "@/components/Magnetic";
 import Link from "next/link";
 
@@ -48,13 +45,7 @@ export default function FeaturesPreviewSection({
     >
       <div className="max-w-[1200px] mx-auto">
         {/* Section header */}
-        <motion.div
-          initial={{ opacity: 0, y: 12 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true, margin: "-40px" }}
-          transition={{ duration: 0.7, ease: EASE_REVEAL }}
-          className="mb-10 sm:mb-14 text-center"
-        >
+        <ScrollFadeIn delay={0} yOffset={12} className="mb-10 sm:mb-14 text-center">
           <div className="font-mono text-[10px] tracking-[0.3em] text-white/40 mb-3">
             THE ARCHITECTURE
           </div>
@@ -63,30 +54,28 @@ export default function FeaturesPreviewSection({
             <br />
             <span className="text-white/50">Not optimistic guesses.</span>
           </h2>
-        </motion.div>
+        </ScrollFadeIn>
 
         {/* Feature cards — static mode, staggered fade */}
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6 mb-10">
           {features.map((feature, i) => (
-            <motion.article
+            <ScrollFadeIn
               key={feature.title}
-              initial={{ opacity: 0, y: 16 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true, margin: "-40px" }}
-              transition={{
-                duration: 0.7,
-                delay: i * STAGGER_DELAY,
-                ease: EASE_REVEAL,
-              }}
+              delay={i * 0.15}
+              yOffset={16}
               className="group rounded-3xl p-6 sm:p-7 relative overflow-hidden cursor-pointer transition-all duration-300 hover:translate-y-[-2px]"
-              style={{
-                background:
-                  "linear-gradient(135deg, rgba(255,255,255,0.05), rgba(255,255,255,0.015))",
-                border: "1px solid rgba(255, 255, 255, 0.06)",
-              }}
             >
+              <div
+                className="absolute inset-0 z-0 pointer-events-none"
+                style={{
+                  background:
+                    "linear-gradient(135deg, rgba(255,255,255,0.05), rgba(255,255,255,0.015))",
+                  border: "1px solid rgba(255, 255, 255, 0.06)",
+                  borderRadius: "1.5rem" // 3xl
+                }}
+              />
               {/* Hover glow */}
-              <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-500 rounded-3xl bg-gradient-to-br from-white/[0.03] to-transparent pointer-events-none" />
+              <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-500 rounded-3xl bg-gradient-to-br from-white/[0.03] to-transparent pointer-events-none z-0" />
 
               <div className="relative z-10">
                 <h3 className="font-display text-[18px] sm:text-[20px] text-white font-medium mb-3 leading-tight">
@@ -97,7 +86,7 @@ export default function FeaturesPreviewSection({
                 </p>
                 <Link
                   href={feature.href}
-                  className="inline-flex items-center gap-1 text-[11px] font-mono text-white/40 group-hover:text-white/70 transition-colors"
+                  className="inline-flex items-center gap-1 text-[11px] font-mono text-white/40 group-hover:text-white/70 transition-colors before:absolute before:inset-0"
                 >
                   Explore
                   <span className="text-[10px] transition-transform group-hover:translate-x-0.5">
@@ -105,7 +94,7 @@ export default function FeaturesPreviewSection({
                   </span>
                 </Link>
               </div>
-            </motion.article>
+            </ScrollFadeIn>
           ))}
         </div>
 

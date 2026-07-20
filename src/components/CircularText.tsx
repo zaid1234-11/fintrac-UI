@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useEffect } from 'react';
-import { motion, useAnimation, useMotionValue } from 'framer-motion';
+import { m, useAnimation, useMotionValue } from 'framer-motion';
 
 interface CircularTextProps {
   text: string;
@@ -88,7 +88,7 @@ const CircularText = ({ text, spinDuration = 20, onHover = 'speedUp', className 
   };
 
   return (
-    <motion.div
+    <m.div
       className={`m-0 mx-auto rounded-full w-[180px] h-[180px] relative font-black text-center cursor-pointer origin-center ${className}`}
       style={{ rotate: rotation }}
       initial={{ rotate: 0 }}
@@ -110,7 +110,7 @@ const CircularText = ({ text, spinDuration = 20, onHover = 'speedUp', className 
           </span>
         );
       })}
-    </motion.div>
+    </m.div>
   );
 };
 

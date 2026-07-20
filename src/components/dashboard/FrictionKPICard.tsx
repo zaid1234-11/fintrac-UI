@@ -1,7 +1,7 @@
 "use client";
 
 import React from "react";
-import { motion } from "framer-motion";
+import { m } from "framer-motion";
 import { FADE_UP } from "@/lib/chartTheme";
 
 interface FrictionCardProps {
@@ -10,7 +10,7 @@ interface FrictionCardProps {
 
 export default function FrictionKPICard({ pendingCount }: FrictionCardProps) {
   return (
-    <motion.div
+    <m.div
       {...FADE_UP}
       className="min-w-[180px] rounded-2xl bg-white/[0.03] border border-white/[0.06] p-5 flex flex-col gap-2"
     >
@@ -38,6 +38,6 @@ export default function FrictionKPICard({ pendingCount }: FrictionCardProps) {
           />
         ))}
       </div>
-    </motion.div>
+    </m.div>
   );
 }

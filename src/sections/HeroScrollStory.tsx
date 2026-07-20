@@ -2,7 +2,7 @@
 
 import React, { useRef, useState, useEffect } from "react";
 import {
-  motion,
+  m,
   useScroll,
   useTransform,
   MotionValue,
@@ -11,6 +11,13 @@ import {
   useSpring,
   useMotionTemplate,
 } from "framer-motion";
+import Image from "next/image";
+import branch1 from "../../public/1.webp";
+import branch2 from "../../public/2.webp";
+import branch3 from "../../public/3.webp";
+import branch4 from "../../public/4.webp";
+
+const branches = [branch1, branch2, branch3, branch4];
 
 /**
  * MOBILE STRATEGY
@@ -55,21 +62,20 @@ function useIsMobile(breakpoint = MOBILE_BREAKPOINT) {
 }
 
 const STORY_CARDS = [
-  { key: "fail", bgImage: "/card-bg-1.png", title: "Why Traditional Budgets Fail", render: () => <BudgetCompare /> },
+  { key: "fail", title: "Why Traditional Budgets Fail", render: () => <BudgetCompare /> },
   {
     key: "friction",
-    bgImage: "/card-bg-2.png",
     title: "Behavioral Friction",
     render: () => (
-      <p className="font-light text-[16px] leading-[1.4] tracking-[-0.02em] text-[#474842] max-w-[34ch]">
+      <p className="font-light text-[16px] leading-[1.4] tracking-[-0.02em] text-white/80 max-w-[34ch]">
         Some habits are harder to change than others. FinTrac measures
         that resistance and lets your budget breathe around it.
       </p>
     ),
   },
-  { key: "seasons", bgImage: "/card-bg-3.png", title: "Financial Seasons", render: () => <SeasonGrid /> },
-  { key: "engine", bgImage: "/card-bg-4.png", title: "The FinTrac Engine", render: () => <EnginePipeline /> },
-  { key: "math", bgImage: "/card-bg-5.png", title: "Built on Honest Math", render: () => <HonestMath /> },
+  { key: "seasons", title: "Financial Seasons", render: () => <SeasonGrid /> },
+  { key: "engine", title: "The FinTrac Engine", render: () => <EnginePipeline /> },
+  { key: "math", title: "Built on Honest Math", render: () => <HonestMath /> },
 ];
 
 export default function HeroScrollStory() {
@@ -186,7 +192,7 @@ function DesktopHero() {
     >
       <div className="sticky top-0 h-screen w-full overflow-hidden pointer-events-none flex flex-col items-center justify-center">
         {/* Background Grid Lines (static) */}
-        <motion.div
+        <m.div
           style={{ x: bgMouseX, y: bgMouseY }}
           className="absolute inset-0 w-full h-screen z-0 pointer-events-none max-w-[1600px] mx-auto px-8 md:px-14 flex justify-center"
         >
@@ -196,10 +202,10 @@ function DesktopHero() {
             <div className="border-r border-white/[0.04] h-full" />
             <div className="h-full" />
           </div>
-        </motion.div>
+        </m.div>
 
         {/* Ghost Wordmark Layer - Persists throughout the scroll */}
-        <motion.div
+        <m.div
           className="absolute inset-x-0 bottom-[-6%] flex justify-center pointer-events-none select-none z-0"
           style={{ opacity: 0.04, x: bgMouseX, y: bgMouseY }}
         >
@@ -216,15 +222,15 @@ function DesktopHero() {
           >
             FINTRAC AI
           </span>
-        </motion.div>
+        </m.div>
 
         {/* Horizontal Moving Branch Layer */}
-        <motion.div
+        <m.div
           style={{ x: branchX }}
           className="absolute inset-x-0 bottom-[-5vh] flex items-end z-0 pointer-events-none origin-bottom-left"
         >
           {/* Continuous panoramic artwork sliced into 4 chunks */}
-          <motion.div
+          <m.div
             style={{ x: branchMouseX, y: branchMouseY, rotateX, rotateY, perspective: 2000, transformStyle: "preserve-3d" }}
             className="absolute flex items-end origin-bottom"
           >
@@ -232,25 +238,27 @@ function DesktopHero() {
               className="absolute flex items-end"
               style={{ left: "-5vw", bottom: 0 }}
             >
-              {[1, 2, 3, 4].map((num, i) => (
-                <img
-                  key={num}
-                  src={`/${num}.png`}
+              {branches.map((src, i) => (
+                <Image
+                  key={i}
+                  src={src}
                   alt=""
                   draggable={false}
+                  placeholder="blur"
+                  priority={i < 2}
                   style={{ filter: "drop-shadow(0px 10px 20px rgba(0,0,0,.15)) drop-shadow(0px 30px 80px rgba(0,0,0,.25)) drop-shadow(0px 80px 160px rgba(0,0,0,.12))" }}
-                  className={`w-[100vw] max-w-none h-auto object-contain select-none grayscale-[15%] shrink-0 ${i !== 0 ? "-ml-[2px]" : ""}`}
+                  className={`w-[100vw] max-w-none h-auto object-contain select-none grayscale-[15%] shrink-0 ${i !== 0 ? "-ml-[2px]" : ""} ${i === 0 ? "mix-blend-multiply" : ""}`}
                 />
               ))}
             </div>
-          </motion.div>
+          </m.div>
 
           {/* soft dynamic-light overlay */}
           <div className="absolute inset-0 pointer-events-none" style={{ background: "radial-gradient(50% 50% at 50% 50%, rgba(255,240,200,0.03), transparent 80%)", mixBlendMode: "soft-light" }} />
-        </motion.div>
+        </m.div>
 
         {/* Unified Hero Content Layer */}
-        <motion.div
+        <m.div
           style={{
             opacity: heroOpacity,
             y: heroY,
@@ -286,19 +294,19 @@ function DesktopHero() {
               </button>
             </div>
           </div>
-        </motion.div>
+        </m.div>
 
         {/* Central Stationary Cards Layer */}
-        <motion.div
+        <m.div
           style={{ x: cardMouseX, y: cardMouseY }}
           className="relative z-10 w-full max-w-[500px] mx-auto px-6 h-[400px] flex items-center justify-center"
         >
           {STORY_CARDS.map((card, i) => (
-            <StoryCard key={card.key} bgImage={card.bgImage} progress={scrollYProgress} range={ranges[i]} title={card.title}>
+            <StoryCard key={card.key} progress={scrollYProgress} range={ranges[i]} title={card.title} priority={i === 0}>
               {card.render()}
             </StoryCard>
           ))}
-        </motion.div>
+        </m.div>
       </div>
     </section>
   );
@@ -363,8 +371,8 @@ function MobileHero() {
 
       {/* Story cards — vertical stack, fade-up on scroll into view instead of pinned scrub */}
       <div className="relative z-10 mt-16 flex flex-col gap-6 max-w-[480px] mx-auto">
-        {STORY_CARDS.map((card) => (
-          <MobileStoryCard key={card.key} bgImage={card.bgImage} title={card.title}>
+        {STORY_CARDS.map((card, i) => (
+          <MobileStoryCard key={card.key} title={card.title} priority={i === 0}>
             {card.render()}
           </MobileStoryCard>
         ))}
@@ -376,43 +384,35 @@ function MobileHero() {
 function MobileStoryCard({
   title,
   children,
-  bgImage,
+  priority = false,
 }: {
   title: string;
   children: React.ReactNode;
-  bgImage?: string;
+  priority?: boolean;
 }) {
   return (
-    <motion.div
-      initial={{ opacity: 0, y: 24 }}
-      whileInView={{ opacity: 1, y: 0 }}
-      viewport={{ once: true, margin: "-60px" }}
-      transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
+    <m.div
+      initial={priority ? false : { opacity: 0, y: 24 }}
+      animate={priority ? { opacity: 1, y: 0 } : undefined}
+      whileInView={priority ? undefined : { opacity: 1, y: 0 }}
+      viewport={priority ? undefined : { once: true, margin: "-60px" }}
+      transition={priority ? undefined : { duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
       className="relative w-full"
     >
-      <div className="absolute inset-0 bg-[#D7D8D6] rounded-[28px] -z-10" />
-      <div className="relative glass-panel rounded-[28px] p-6 border border-white/10 overflow-hidden shadow-2xl">
-        {bgImage && (
-          <img
-            src={bgImage}
-            alt=""
-            draggable={false}
-            className="absolute inset-0 w-full h-full object-cover opacity-100 pointer-events-none z-0"
-          />
-        )}
+      <div className="relative liquid-glass-card rounded-[28px] p-6 overflow-hidden shadow-2xl h-full w-full">
         <div className="relative z-10">
-          <h3 className="font-display text-[18px] text-[#474842] font-medium mb-5">{title}</h3>
+          <h3 className="font-display text-[18px] text-white font-medium mb-5">{title}</h3>
           {children}
         </div>
       </div>
-    </motion.div>
+    </m.div>
   );
 }
 
 /* ───────────────────────────────────────────────────────────────────────
    Shared: desktop StoryCard wrapper (pinned-scrub version)
    ─────────────────────────────────────────────────────────────────────── */
-function StoryCard({ progress, range, title, children, bgImage }: { progress: MotionValue<number>, range: number[], title: string, children: React.ReactNode, bgImage?: string }) {
+function StoryCard({ progress, range, title, children, priority = false }: { progress: MotionValue<number>, range: number[], title: string, children: React.ReactNode, priority?: boolean }) {
   // If range has 4 points: [fadeInStart, holdStart, holdEnd, fadeOutEnd]
   // If range has 3 points: [fadeInStart, holdStart, holdEnd] -> never fades out
   const hasFadeOut = range.length === 4;
@@ -426,50 +426,40 @@ function StoryCard({ progress, range, title, children, bgImage }: { progress: Mo
   const blurTemplate = useMotionTemplate`blur(${blurValue}px)`;
 
   return (
-    <motion.div
+    <m.div
       style={{ opacity, x, scale, filter: blurTemplate }}
       className="absolute inset-x-0 mx-auto w-fit flex flex-col pointer-events-auto"
     >
-      <div className="absolute inset-0 bg-[#D7D8D6] rounded-[40px] -z-10" />
-      <div className="relative glass-panel rounded-[40px] p-8 md:p-10 border border-white/10 overflow-hidden shadow-2xl">
-        {bgImage && (
-          <img
-            src={bgImage}
-            alt=""
-            draggable={false}
-            className="absolute inset-0 w-full h-full object-cover opacity-100 pointer-events-none z-0"
-          />
-        )}
+      <div className="relative liquid-glass-card rounded-[40px] p-8 md:p-10 overflow-hidden shadow-2xl h-full w-full">
         <div className="relative z-10">
-          <h3 className="font-display text-[20px] text-[#474842] font-medium mb-6">{title}</h3>
+          <h3 className="font-display text-[20px] text-white font-medium mb-6">{title}</h3>
           {children}
         </div>
       </div>
-    </motion.div>
+    </m.div>
   );
 }
 
-/* ---------- Card 1: Traditional vs FinTrac comparison ---------- */
+/* ---------- Card 1: Budget Compare ---------- */
 function BudgetCompare() {
   const trad = [
-    { k: "Food", v: "-10%" },
-    { k: "Transport", v: "-10%" },
-    { k: "Shopping", v: "-10%" },
-    { k: "Dining", v: "-10%" },
+    { k: "Focus", v: "Rigid categories" },
+    { k: "Guilt", v: "High (when breaking rules)" },
+    { k: "Adaptability", v: "Low (manual resets)" },
   ];
   const fin = [
-    { k: "Food", v: "-2%" },
-    { k: "Transport", v: "-1%" },
-    { k: "Shopping", v: "-15%" },
-    { k: "Dining", v: "-12%" },
+    { k: "Focus", v: "Behavioral momentum" },
+    { k: "Guilt", v: "Zero (auto-correcting)" },
+    { k: "Adaptability", v: "High (elastic limits)" },
   ];
+
   return (
-    <div className="grid grid-cols-2 gap-6 sm:gap-8 max-w-[400px]">
+    <div className="flex flex-col gap-6 max-w-[380px]">
       <div>
-        <div className="text-[10px] tracking-[0.25em] text-[#474842]/50 font-mono mb-3">TRADITIONAL</div>
+        <div className="text-[10px] tracking-[0.25em] text-white/50 font-mono mb-3">TRADITIONAL</div>
         <ul className="space-y-2.5">
           {trad.map((r) => (
-            <li key={r.k} className="flex justify-between gap-3 sm:gap-6 font-light text-[14px] sm:text-[16px] leading-[1.4] tracking-[-0.02em] text-[#474842]/70">
+            <li key={r.k} className="flex justify-between gap-3 sm:gap-6 font-light text-[14px] sm:text-[16px] leading-[1.4] tracking-[-0.02em] text-white/60">
               <span>{r.k}</span>
               <span className="font-mono">{r.v}</span>
             </li>
@@ -505,11 +495,11 @@ function SeasonGrid() {
       {seasons.map((s) => (
         <li key={s.name} className="flex items-center gap-3 sm:gap-4 flex-wrap">
           <span className="w-2 h-2 rounded-full shrink-0" style={{ background: s.color }} />
-          <span className="font-light text-[15px] sm:text-[16px] leading-[1.4] tracking-[-0.02em] text-[#474842] w-[72px] sm:w-[80px]">{s.name}</span>
-          <span className="font-mono text-[12px] text-[#474842]/70">Score: {s.score}</span>
+          <span className="font-light text-[15px] sm:text-[16px] leading-[1.4] tracking-[-0.02em] text-white/90 w-[72px] sm:w-[80px]">{s.name}</span>
+          <span className="font-mono text-[12px] text-white/70">Score: {s.score}</span>
           {/* Note text now shown on its own line on small screens instead of being
               dropped entirely (`hidden md:inline` previously had no mobile fallback). */}
-          <span className="font-light text-[13px] sm:text-[14px] leading-[1.4] tracking-[-0.02em] text-[#474842]/50 w-full sm:w-auto sm:ml-auto basis-full sm:basis-auto pl-5 sm:pl-0">
+          <span className="font-light text-[13px] sm:text-[14px] leading-[1.4] tracking-[-0.02em] text-white/50 w-full sm:w-auto sm:ml-auto basis-full sm:basis-auto pl-5 sm:pl-0">
             {s.note}
           </span>
         </li>
@@ -524,8 +514,8 @@ function EnginePipeline() {
   return (
     <ol className="space-y-3 max-w-[300px]">
       {steps.map((s, i) => (
-        <li key={s} className="flex items-center gap-4 font-light text-[15px] sm:text-[16px] leading-[1.4] tracking-[-0.02em] text-[#474842]">
-          <span className="w-6 h-6 rounded-full border border-[#474842]/20 flex items-center justify-center font-mono text-[11px] text-[#474842]/60 shrink-0">
+        <li key={s} className="flex items-center gap-4 font-light text-[15px] sm:text-[16px] leading-[1.4] tracking-[-0.02em] text-white/90">
+          <span className="w-6 h-6 rounded-full border border-white/20 flex items-center justify-center font-mono text-[11px] text-white/60 shrink-0">
             {i + 1}
           </span>
           <span>{s}</span>
@@ -544,7 +534,7 @@ function HonestMath() {
     <div className="max-w-[440px]">
       <div className="flex flex-wrap gap-2 mb-6">
         {tags.map((t) => (
-          <span key={t} className="font-mono text-[10px] tracking-wide px-3 py-1.5 rounded-full border border-[#474842]/20 text-[#474842]/80">
+          <span key={t} className="font-mono text-[10px] tracking-wide px-3 py-1.5 rounded-full border border-white/20 text-white/80">
             {t}
           </span>
         ))}
@@ -552,13 +542,13 @@ function HonestMath() {
       <div className="grid grid-cols-2 gap-4 sm:gap-6">
         <div>
           <div className="text-[10px] tracking-[0.25em] text-[#8FA876] font-mono mb-2">VALIDATED</div>
-          <ul className="space-y-1.5 font-light text-[14px] sm:text-[15px] leading-[1.4] tracking-[-0.02em] text-[#474842]">
+          <ul className="space-y-1.5 font-light text-[14px] sm:text-[15px] leading-[1.4] tracking-[-0.02em] text-white/90">
             {validated.map((v) => <li key={v}>· {v}</li>)}
           </ul>
         </div>
         <div>
           <div className="text-[10px] tracking-[0.25em] text-[#A9714F] font-mono mb-2">NOT YET</div>
-          <ul className="space-y-1.5 font-light text-[14px] sm:text-[15px] leading-[1.4] tracking-[-0.02em] text-[#474842]/60">
+          <ul className="space-y-1.5 font-light text-[14px] sm:text-[15px] leading-[1.4] tracking-[-0.02em] text-white/60">
             {unvalidated.map((v) => <li key={v}>· {v}</li>)}
           </ul>
         </div>
