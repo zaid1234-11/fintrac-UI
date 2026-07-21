@@ -22,8 +22,14 @@ export default function FinalCTA({
   return (
     <section
       data-testid="final-cta"
-      className="relative w-full min-h-[40vh] md:min-h-[60vh] flex items-center justify-center py-24 sm:py-32 px-6 sm:px-8 md:px-14"
+      className="relative w-full min-h-[40vh] md:min-h-[60vh] flex items-center justify-center py-16 sm:py-24 md:py-32 px-5 sm:px-8 md:px-14 overflow-hidden"
     >
+      {/* Ambient glow */}
+      <div className="ambient-glow bg-[#474842] w-[400px] h-[400px] sm:w-[600px] sm:h-[600px] md:w-[1000px] md:h-[1000px] top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 opacity-30 mix-blend-screen" />
+      
+      {/* Frosted backdrop */}
+      <div className="absolute inset-0 z-0 pointer-events-none" style={{ backdropFilter: "blur(60px)", WebkitBackdropFilter: "blur(60px)" }} />
+
       <m.div
         initial={{ opacity: 0, y: 16 }}
         whileInView={{ opacity: 1, y: 0 }}
@@ -31,10 +37,10 @@ export default function FinalCTA({
         transition={{ duration: 0.9, ease: EASE_REVEAL }}
         className="max-w-[800px] mx-auto text-center"
       >
-        <h2 className="font-display font-light text-white text-[32px] sm:text-[40px] md:text-[56px] lg:text-[64px] leading-[1.05] tracking-tight mb-4">
-          {headline}
-          <br />
-          <span className="text-white/50">{subline}</span>
+        <h2 className="font-display font-light text-white text-[26px] sm:text-[36px] md:text-[56px] lg:text-[64px] leading-[1.1] sm:leading-[1.05] tracking-tight mb-4">
+          {headline}{" "}
+          <br className="hidden sm:inline" />
+          <span className="text-white/50 block sm:inline">{subline}</span>
         </h2>
 
         <div className="flex flex-col items-center gap-5 mt-10 sm:mt-12">
