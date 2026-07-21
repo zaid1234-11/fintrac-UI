@@ -25,15 +25,13 @@ export default function FounderNote({ quote, name, role }: FounderNoteProps) {
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true, margin: "-60px" }}
       transition={{ duration: 0.9, ease: EASE_REVEAL }}
-      className="rounded-3xl p-8 sm:p-10 relative overflow-hidden"
-      style={{
-        background:
-          "linear-gradient(135deg, rgba(255,255,255,0.06), rgba(255,255,255,0.02))",
-        border: "1px solid rgba(255, 255, 255, 0.08)",
-      }}
+      className="glass-tile p-5 sm:p-8 md:p-10 relative overflow-hidden"
     >
+      {/* Subtle brand left border accent */}
+      <div className="absolute top-0 left-0 bottom-0 w-[2px] bg-gradient-to-b from-[var(--color-season-growth)] to-transparent opacity-60" />
+
       {/* Quote */}
-      <p className="font-serif text-[17px] sm:text-[19px] md:text-[21px] text-white/85 leading-relaxed italic mb-6 max-w-[48ch]">
+      <p className="relative z-10 font-serif text-[15px] sm:text-[18px] md:text-[21px] text-white/85 leading-relaxed italic mb-5 sm:mb-6 max-w-[48ch]">
         &ldquo;{quote}&rdquo;
       </p>
 
