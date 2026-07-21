@@ -773,7 +773,7 @@ export default function FeaturesScrollPage() {
       </div>
 
       {/* DETAIL SECTIONS (DARK SCROLL SECTION) */}
-      <div className="relative w-full z-20 pt-32 pb-32 bg-[#0a0a0a] overflow-hidden">
+      <div className="relative w-full z-20 pt-16 sm:pt-24 md:pt-32 pb-16 sm:pb-24 md:pb-32 bg-[#0a0a0a] overflow-hidden">
         {/* Ambient background glows for glassmorphism */}
         <div className="absolute top-0 left-0 w-full h-full pointer-events-none overflow-hidden">
           <div className="absolute top-[10%] left-[10%] w-[50vw] h-[50vw] bg-[#2a3028] rounded-full mix-blend-screen filter blur-[120px] opacity-40 animate-slow-drift" />
@@ -785,9 +785,8 @@ export default function FeaturesScrollPage() {
           <div
             key={section.id}
             id={section.id}
-            className="flex flex-col justify-center mx-auto relative z-20 w-[92vw] sm:w-[85vw] max-w-[860px] p-8 sm:p-16 mb-16 sm:mb-20"
+            className="flex flex-col justify-center mx-auto relative z-20 w-[92vw] sm:w-[85vw] max-w-[860px] p-6 sm:p-10 md:p-16 mb-12 sm:mb-16 md:mb-20 min-h-0 sm:min-h-screen"
             style={{
-              minHeight: "100vh",
               background: "rgba(255, 255, 255, 0.03)",
               backdropFilter: "blur(40px)",
               WebkitBackdropFilter: "blur(40px)",
@@ -798,30 +797,30 @@ export default function FeaturesScrollPage() {
               containIntrinsicSize: "1000px"
             }}
           >
-            <div className="font-mono text-white/30 text-[12px] mb-4">
+            <div className="font-mono text-white/30 text-[11px] sm:text-[12px] mb-3 sm:mb-4">
               {section.num}
             </div>
-            <h2 className="font-display text-4xl md:text-6xl text-white font-light mb-8 drop-shadow-sm">
+            <h2 className="font-display text-[26px] sm:text-4xl md:text-6xl text-white font-light mb-6 sm:mb-8 drop-shadow-sm leading-tight">
               {section.title}
             </h2>
-            <p className="text-white/80 text-lg md:text-xl leading-relaxed mb-10 max-w-[640px]">
+            <p className="text-white/80 text-[15px] sm:text-lg md:text-xl leading-relaxed mb-8 sm:mb-10 max-w-[640px]">
               {section.body}
             </p>
 
             {section.highlight && (
-              <div className="bg-white/5 border border-white/10 rounded-2xl p-6 md:p-8 mb-8 backdrop-blur-md">
-                <p className="font-mono text-white/90 text-sm md:text-base leading-relaxed drop-shadow-sm">
+              <div className="bg-white/5 border border-white/10 rounded-2xl p-4 sm:p-6 md:p-8 mb-6 sm:mb-8 backdrop-blur-md">
+                <p className="font-mono text-white/90 text-[13px] sm:text-sm md:text-base leading-relaxed drop-shadow-sm">
                   {section.highlight}
                 </p>
               </div>
             )}
 
             {section.metrics && (
-              <div className="flex flex-col md:flex-row gap-4 md:gap-8 border-t border-white/10 pt-8 mb-8">
+              <div className="grid grid-cols-3 md:flex md:flex-row gap-4 md:gap-8 border-t border-white/10 pt-6 sm:pt-8 mb-6 sm:mb-8">
                 {section.metrics.map((metric, i) => (
                   <div key={i} className="flex-1">
-                    <div className="text-white/40 font-mono text-[10px] uppercase tracking-widest mb-1">{metric.label}</div>
-                    <div className="text-white/90 font-semibold text-lg">{metric.value}</div>
+                    <div className="text-white/40 font-mono text-[9px] sm:text-[10px] uppercase tracking-widest mb-1">{metric.label}</div>
+                    <div className="text-white/90 font-semibold text-sm sm:text-lg">{metric.value}</div>
                   </div>
                 ))}
               </div>

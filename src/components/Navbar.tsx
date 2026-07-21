@@ -34,7 +34,7 @@ export default function Navbar({ variant = "fixed", rightOpacity = 1 }: { varian
       <nav
         data-testid="fintrac-nav"
         className={`${variant === "fixed" ? "fixed pointer-events-none" : "relative"
-          } top-0 left-0 right-0 z-50 flex items-center justify-between px-4 md:px-12 py-4 md:py-6`}
+          } top-0 left-0 right-0 z-50 flex items-center justify-between px-5 sm:px-6 md:px-12 py-4 md:py-6 safe-area-top`}
       >
         {/* leaf/bulb logo */}
       <div className="pointer-events-auto flex items-center gap-3">
@@ -132,7 +132,7 @@ export default function Navbar({ variant = "fixed", rightOpacity = 1 }: { varian
           data-testid="nav-menu"
           aria-label="Menu"
           onClick={() => setIsMobileMenuOpen(true)}
-          className="md:hidden w-10 h-10 flex items-center justify-center text-white bg-white/10 rounded-full backdrop-blur-md border border-white/20 shadow-lg"
+          className="md:hidden w-11 h-11 flex items-center justify-center text-white bg-white/10 rounded-full backdrop-blur-md border border-white/20 shadow-lg active:scale-95 transition-transform"
         >
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" className="w-5 h-5" strokeWidth="2" strokeLinecap="round">
             <path d="M4 10h16M4 14h16" />

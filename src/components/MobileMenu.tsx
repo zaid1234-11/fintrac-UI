@@ -43,21 +43,21 @@ export default function MobileMenu({ isOpen, onClose }: MobileMenuProps) {
           className="fixed inset-0 z-[100] flex flex-col justify-between bg-[#11120f]"
         >
           {/* Header Controls */}
-          <div className="relative z-10 flex items-center justify-between px-6 py-6">
+          <div className="relative z-10 flex items-center justify-between px-5 sm:px-6 py-5 safe-area-top">
             <div className="flex items-center gap-2">
-              <img src="/logo.png" alt="FinTrac" className="h-[40px] md:h-[63px] w-auto object-contain" draggable={false} />
+              <img src="/logo.png" alt="FinTrac" className="h-[36px] sm:h-[40px] md:h-[63px] w-auto object-contain" draggable={false} />
             </div>
             <button
               onClick={onClose}
               aria-label="Close menu"
-              className="w-10 h-10 flex items-center justify-center rounded-full text-white/80 hover:text-white transition-colors"
+              className="w-11 h-11 flex items-center justify-center rounded-full text-white/80 hover:text-white bg-white/5 border border-white/10 active:scale-95 transition-transform"
             >
-              <X size={24} strokeWidth={1.5} />
+              <X size={22} strokeWidth={1.5} />
             </button>
           </div>
 
           {/* Grand Typography Navigation */}
-          <div className="relative z-10 flex-1 flex flex-col items-start justify-center px-8 gap-8">
+          <div className="relative z-10 flex-1 flex flex-col items-start justify-center px-6 sm:px-8 gap-5 sm:gap-7">
             {NAV_ITEMS.map((item, i) => (
               <m.div
                 key={item.label}
@@ -69,7 +69,7 @@ export default function MobileMenu({ isOpen, onClose }: MobileMenuProps) {
                 <Link
                   href={item.href}
                   onClick={onClose}
-                  className="font-display text-[10vw] sm:text-5xl tracking-tight text-white/90 hover:text-white transition-colors"
+                  className="font-display text-[28px] sm:text-[36px] md:text-5xl tracking-tight text-white/90 hover:text-white transition-colors py-1 block"
                 >
                   {item.label}
                 </Link>
@@ -83,9 +83,9 @@ export default function MobileMenu({ isOpen, onClose }: MobileMenuProps) {
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: 10 }}
             transition={{ delay: 0.3, duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
-            className="relative z-10 px-6 pb-12 w-full flex justify-center"
+            className="relative z-10 px-5 sm:px-6 pb-8 sm:pb-12 safe-area-bottom w-full flex justify-center"
           >
-            <Link href="/sign-up" className="w-full max-w-[420px] bg-white text-black py-4 rounded-[32px] font-medium tracking-wide transition-transform active:scale-[0.98] flex items-center justify-center" onClick={onClose}>
+            <Link href="/sign-up" className="w-full max-w-[420px] bg-white text-black min-h-[52px] py-3.5 rounded-[32px] font-medium tracking-wide transition-transform active:scale-[0.98] flex items-center justify-center text-[15px]" onClick={onClose}>
               Join Waitlist
             </Link>
           </m.div>

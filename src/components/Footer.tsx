@@ -5,18 +5,18 @@ import Link from "next/link";
 
 export default function Footer() {
   return (
-    <footer className="bg-shadow border-t border-white/5">
-      <div className="max-w-7xl mx-auto px-6 lg:px-8 py-16">
-        <div className="grid md:grid-cols-4 gap-12">
+    <footer className="bg-shadow border-t border-white/5 safe-area-bottom">
+      <div className="max-w-7xl mx-auto px-5 sm:px-6 lg:px-8 py-12 sm:py-16">
+        <div className="grid md:grid-cols-4 gap-8 sm:gap-10 md:gap-12">
           {/* Brand */}
           <div className="md:col-span-2">
-            <Link href="/" className="flex items-center gap-2.5 mb-4 cursor-pointer">
+            <Link href="/" className="inline-flex items-center gap-2.5 mb-4 cursor-pointer">
               <Waves className="w-7 h-7 text-river-sky" strokeWidth={2.2} />
               <span className="font-[family-name:var(--font-display)] text-lg font-semibold text-white tracking-tight">
                 FinTrac
               </span>
             </Link>
-            <p className="text-white/40 text-sm leading-relaxed max-w-md">
+            <p className="text-white/40 text-[13px] sm:text-sm leading-relaxed max-w-md">
               Money behaves like a living system. FinTrac routes budget
               adjustments where they create the least behavioral resistance,
               adapting over time instead of forcing change all at once.
@@ -28,11 +28,11 @@ export default function Footer() {
             <h4 className="text-white/60 text-xs font-semibold uppercase tracking-widest mb-4">
               Product
             </h4>
-            <ul className="space-y-3">
+            <ul className="space-y-2">
               <li>
                 <a
                   href="#behavior"
-                  className="text-white/40 text-sm hover:text-white/70 transition-colors cursor-pointer"
+                  className="text-white/40 text-sm hover:text-white/70 transition-colors cursor-pointer py-1.5 inline-block"
                 >
                   How It Works
                 </a>
@@ -40,7 +40,7 @@ export default function Footer() {
               <li>
                 <a
                   href="#river"
-                  className="text-white/40 text-sm hover:text-white/70 transition-colors cursor-pointer"
+                  className="text-white/40 text-sm hover:text-white/70 transition-colors cursor-pointer py-1.5 inline-block"
                 >
                   The River System
                 </a>
@@ -48,7 +48,7 @@ export default function Footer() {
               <li>
                 <a
                   href="#seasons"
-                  className="text-white/40 text-sm hover:text-white/70 transition-colors cursor-pointer"
+                  className="text-white/40 text-sm hover:text-white/70 transition-colors cursor-pointer py-1.5 inline-block"
                 >
                   Seasons
                 </a>
@@ -56,7 +56,7 @@ export default function Footer() {
               <li>
                 <Link
                   href="/dashboard"
-                  className="text-white/40 text-sm hover:text-white/70 transition-colors cursor-pointer"
+                  className="text-white/40 text-sm hover:text-white/70 transition-colors cursor-pointer py-1.5 inline-block"
                 >
                   Dashboard
                 </Link>
@@ -69,23 +69,23 @@ export default function Footer() {
             <h4 className="text-white/60 text-xs font-semibold uppercase tracking-widest mb-4">
               Research
             </h4>
-            <ul className="space-y-3">
+            <ul className="space-y-2">
               <li>
                 <a
                   href="#research"
-                  className="text-white/40 text-sm hover:text-white/70 transition-colors cursor-pointer"
+                  className="text-white/40 text-sm hover:text-white/70 transition-colors cursor-pointer py-1.5 inline-block"
                 >
                   Methodology
                 </a>
               </li>
               <li>
-                <span className="text-white/40 text-sm">
+                <span className="text-white/40 text-sm py-1.5 inline-block">
                   POMDP Paper
                   <span className="ml-1.5 text-xs text-amber/60">(Coming soon)</span>
                 </span>
               </li>
               <li>
-                <span className="text-white/40 text-sm">
+                <span className="text-white/40 text-sm py-1.5 inline-block">
                   Simulation Data
                   <span className="ml-1.5 text-xs text-amber/60">(Coming soon)</span>
                 </span>
@@ -95,20 +95,20 @@ export default function Footer() {
         </div>
 
         {/* Bottom */}
-        <div className="mt-12 pt-8 border-t border-white/5 flex flex-col sm:flex-row items-center justify-between gap-4">
-          <p className="text-white/25 text-xs">
+        <div className="mt-10 sm:mt-12 pt-6 sm:pt-8 border-t border-white/5 flex flex-col sm:flex-row items-center justify-between gap-4">
+          <p className="text-white/25 text-xs text-center sm:text-left">
             &copy; {new Date().getFullYear()} FinTrac AI. All rights reserved.
           </p>
           <div className="flex items-center gap-6">
             <a
               href="#"
-              className="text-white/25 text-xs hover:text-white/50 transition-colors cursor-pointer"
+              className="text-white/25 text-xs hover:text-white/50 transition-colors cursor-pointer py-1"
             >
               Privacy
             </a>
             <a
               href="#"
-              className="text-white/25 text-xs hover:text-white/50 transition-colors cursor-pointer"
+              className="text-white/25 text-xs hover:text-white/50 transition-colors cursor-pointer py-1"
             >
               Terms
             </a>
