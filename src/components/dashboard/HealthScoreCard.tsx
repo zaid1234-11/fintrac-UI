@@ -16,17 +16,24 @@ export default function HealthScoreCard({ score }: HealthScoreCardProps) {
   return (
     <m.div
       {...FADE_UP}
-      className="min-w-[180px] rounded-2xl bg-white/[0.03] border border-white/[0.06] p-5 flex flex-col gap-2"
+      className="min-w-[180px] glass-tile glass-depth-hover p-5 flex flex-col gap-2 relative overflow-hidden"
     >
-      <div className="text-[10px] tracking-[0.25em] text-white/45 font-mono uppercase">
+      <div className="text-[10px] tracking-[0.25em] text-white/45 font-mono uppercase relative z-10">
         Health Score
       </div>
-      <div className="flex items-baseline gap-3">
-        <span className="font-display text-white text-[28px] leading-none">
-          {score}
-        </span>
+      <div className="flex items-baseline gap-3 relative z-10">
+        <div className="relative">
+          <m.div
+            animate={{ boxShadow: [`0 0 0 0px ${color}00`, `0 0 0 12px ${color}10`, `0 0 0 24px ${color}00`] }}
+            transition={{ duration: 2, repeat: Infinity, ease: "easeOut" }}
+            className="absolute inset-0 rounded-full"
+          />
+          <span className="font-display text-white text-[28px] leading-none relative z-10">
+            {score}
+          </span>
+        </div>
         <span
-          className="font-mono text-[12px] px-2.5 py-0.5 rounded-full"
+          className="font-mono text-[12px] px-2.5 py-0.5 rounded-full relative z-10"
           style={{
             color,
             backgroundColor: `${color}18`,
@@ -36,10 +43,13 @@ export default function HealthScoreCard({ score }: HealthScoreCardProps) {
           {label}
         </span>
       </div>
-      <div className="mt-2 h-1.5 rounded-full bg-white/10 overflow-hidden">
-        <div
-          className="h-full rounded-full transition-all duration-700 ease-out"
-          style={{ width: `${score}%`, backgroundColor: color }}
+      <div className="mt-2 h-1.5 rounded-full bg-white/10 overflow-hidden relative z-10">
+        <m.div
+          initial={{ width: 0 }}
+          animate={{ width: `${score}%` }}
+          className="h-full rounded-full"
+          style={{ backgroundColor: color }}
+          transition={{ duration: 1, delay: 0.2, ease: "easeOut" }}
         />
       </div>
     </m.div>

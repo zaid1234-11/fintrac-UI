@@ -1,8 +1,8 @@
 "use client";
 
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { formatINR } from "@/lib/formatINR";
-import { m } from "framer-motion";
+import { m, animate } from "framer-motion";
 import { FADE_UP } from "@/lib/chartTheme";
 
 interface SavingsCardProps {
@@ -12,19 +12,29 @@ interface SavingsCardProps {
 
 export default function SavingsCard({ amount, deltaPercent }: SavingsCardProps) {
   const isPositive = deltaPercent >= 0;
+  const [displayAmount, setDisplayAmount] = useState(0);
+
+  useEffect(() => {
+    const controls = animate(0, amount, {
+      duration: 1.5,
+      ease: "easeOut",
+      onUpdate: (value) => setDisplayAmount(Math.round(value)),
+    });
+    return controls.stop;
+  }, [amount]);
 
   return (
     <m.div
       {...FADE_UP}
-      className="min-w-[180px] rounded-2xl bg-white/[0.03] border border-white/[0.06] p-5 flex flex-col gap-2"
+      className="min-w-[180px] glass-tile glass-depth-hover p-5 flex flex-col gap-2 relative overflow-hidden"
     >
-      <div className="text-[10px] tracking-[0.25em] text-white/45 font-mono uppercase">
+      <div className="text-[10px] tracking-[0.25em] text-white/45 font-mono uppercase relative z-10">
         Monthly Savings
       </div>
-      <div className="font-mono text-white text-[28px] leading-none tabular-nums">
-        {formatINR(amount)}
+      <div className="font-mono text-white text-[28px] leading-none tabular-nums relative z-10">
+        {formatINR(displayAmount)}
       </div>
-      <div className="flex items-center gap-1.5 mt-1">
+      <div className="flex items-center gap-1.5 mt-1 relative z-10">
         <span
           className={`inline-flex items-center gap-1 text-[12px] font-mono ${
             isPositive ? "text-[#8FA876]" : "text-[#A9714F]"
