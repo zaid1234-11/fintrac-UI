@@ -54,9 +54,9 @@ export default function BehaviorSection() {
     <section
       id="behavior"
       ref={ref}
-      className="relative py-24 sm:py-32 z-10"
+      className="relative py-16 sm:py-24 lg:py-32 z-10"
     >
-      <div className="max-w-7xl mx-auto px-6 lg:px-12">
+      <div className="max-w-7xl mx-auto px-5 sm:px-6 lg:px-12">
         {/* Section header */}
         <m.div
           initial={{ opacity: 0, y: 40 }}
