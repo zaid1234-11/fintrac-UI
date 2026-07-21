@@ -9,7 +9,7 @@ import { useRef, useEffect } from 'react';
  *   return <div ref={ref} className="goal-liquid-glass">...</div>
  */
 export function useLiquidGlass<T extends HTMLElement = HTMLDivElement>(
-  opts: { scale?: number; chroma?: number } = {}
+  opts: { scale?: number; chroma?: number; blur?: number } = {}
 ) {
   const ref = useRef<T>(null);
 
@@ -24,7 +24,7 @@ export function useLiquidGlass<T extends HTMLElement = HTMLDivElement>(
       });
       return () => { if (glass && glass.destroy) glass.destroy(); };
     }
-  }, []);
+  }, [opts.scale, opts.chroma, opts.blur]);
 
   return ref;
 }
