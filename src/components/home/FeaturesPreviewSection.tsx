@@ -41,9 +41,12 @@ export default function FeaturesPreviewSection({
   return (
     <section
       data-testid="features-preview"
-      className="relative w-full py-20 sm:py-28 px-6 sm:px-8"
+      className="relative w-full py-16 sm:py-20 md:py-28 px-5 sm:px-6 md:px-8 overflow-hidden"
     >
-      <div className="max-w-[1200px] mx-auto">
+      {/* Ambient Glow Background */}
+      <div className="ambient-glow bg-[var(--color-season-dormancy)] w-[300px] h-[300px] sm:w-[600px] sm:h-[600px] top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 opacity-20" />
+
+      <div className="max-w-[1200px] mx-auto relative z-10">
         {/* Section header */}
         <ScrollFadeIn delay={0} yOffset={12} className="mb-10 sm:mb-14 text-center">
           <div className="font-mono text-[10px] tracking-[0.3em] text-white/40 mb-3">
@@ -63,21 +66,12 @@ export default function FeaturesPreviewSection({
               key={feature.title}
               delay={i * 0.15}
               yOffset={16}
-              className="group rounded-3xl p-6 sm:p-7 relative overflow-hidden cursor-pointer transition-all duration-300 hover:translate-y-[-2px]"
+              className="group glass-tile glass-depth-hover glass-shimmer p-5 sm:p-6 md:p-7 relative overflow-hidden cursor-pointer"
             >
-              <div
-                className="absolute inset-0 z-0 pointer-events-none"
-                style={{
-                  background:
-                    "linear-gradient(135deg, rgba(255,255,255,0.05), rgba(255,255,255,0.015))",
-                  border: "1px solid rgba(255, 255, 255, 0.06)",
-                  borderRadius: "1.5rem" // 3xl
-                }}
-              />
-              {/* Hover glow */}
-              <div className="absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-500 rounded-3xl bg-gradient-to-br from-white/[0.03] to-transparent pointer-events-none z-0" />
-
               <div className="relative z-10">
+                <div className="font-mono text-[10px] tracking-[0.2em] text-white/30 mb-4 font-semibold">
+                  0{i + 1}
+                </div>
                 <h3 className="font-display text-[18px] sm:text-[20px] text-white font-medium mb-3 leading-tight">
                   {feature.title}
                 </h3>

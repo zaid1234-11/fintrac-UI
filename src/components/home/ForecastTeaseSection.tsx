@@ -56,15 +56,11 @@ export default function ForecastTeaseSection({
           No backend. No lag. Just cause and effect.
         </p>
 
+        {/* Ambient Glow Background */}
+        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[80%] h-[80%] max-w-[300px] max-h-[300px] sm:max-w-none sm:max-h-none bg-[var(--color-season-growth)] ambient-glow mix-blend-screen opacity-30" />
+
         {/* Glass card wrapping the full interactive chart */}
-        <div
-          className="rounded-3xl p-5 sm:p-6"
-          style={{
-            background:
-              "linear-gradient(135deg, rgba(255,255,255,0.06), rgba(255,255,255,0.02))",
-            border: "1px solid rgba(255, 255, 255, 0.08)",
-          }}
-        >
+        <div className="glass-tile p-4 sm:p-5 md:p-6 relative z-10">
           <ForecastChartShell
             baselineData={baselineData}
             todayIndex={todayIndex}
