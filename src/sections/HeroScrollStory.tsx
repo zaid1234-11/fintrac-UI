@@ -319,7 +319,7 @@ function MobileHero() {
   return (
     <section
       data-testid="hero-scroll-story-mobile"
-      className="relative w-full px-5 sm:px-6 pt-28 pb-20"
+      className="relative w-full px-5 sm:px-8 pt-24 sm:pt-32 pb-16 sm:pb-24"
       style={{ background: "linear-gradient(to bottom, var(--color-bg-1) 0%, var(--color-bg-2) 100%)" }}
     >
       {/* Ghost wordmark — kept as a quiet background watermark, scaled down */}
@@ -399,7 +399,7 @@ function MobileStoryCard({
       transition={priority ? undefined : { duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
       className="relative w-full"
     >
-      <div className="relative liquid-glass-card rounded-[28px] p-6 overflow-hidden shadow-2xl h-full w-full">
+      <div className="relative liquid-glass-card rounded-[28px] p-6 overflow-hidden shadow-2xl h-full w-full glass-shimmer glass-specular">
         <div className="relative z-10">
           <h3 className="font-display text-[18px] text-white font-medium mb-5">{title}</h3>
           {children}
@@ -430,7 +430,8 @@ function StoryCard({ progress, range, title, children, priority = false }: { pro
       style={{ opacity, x, scale, filter: blurTemplate }}
       className="absolute inset-x-0 mx-auto w-fit flex flex-col pointer-events-auto"
     >
-      <div className="relative liquid-glass-card rounded-[40px] p-8 md:p-10 overflow-hidden shadow-2xl h-full w-full">
+      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[120%] h-[120%] bg-[#8FA876] ambient-glow opacity-10 mix-blend-screen" />
+      <div className="relative liquid-glass-card rounded-[40px] p-8 md:p-10 overflow-hidden shadow-2xl h-full w-full glass-shimmer glass-specular">
         <div className="relative z-10">
           <h3 className="font-display text-[20px] text-white font-medium mb-6">{title}</h3>
           {children}
