@@ -57,34 +57,57 @@ export default function EditorialCard({
       <m.article
         style={{ y, scale, opacity }}
         className={`
-          relative rounded-[28px] isolate cursor-pointer overflow-hidden
+          relative rounded-[20px] md:rounded-[28px] isolate cursor-pointer overflow-hidden
           shadow-[0px_0px_0px_0px_rgba(255,255,255,0.3)]
           col-span-12 ${isWide ? "md:col-span-6" : "md:col-span-4"}
           ${side === "left" ? "md:col-start-2 md:-translate-x-[4vw]" : (isWide ? "md:col-start-6" : "md:col-start-8 md:translate-x-[4vw]")}
           ${isWide ? "max-w-[620px]" : "max-w-[420px]"}
+          glass-depth-hover glass-shimmer glass-specular
         `}
+        onMouseMove={(e) => {
+          const rect = e.currentTarget.getBoundingClientRect();
+          const x = (e.clientX - rect.left) / rect.width;
+          const y = (e.clientY - rect.top) / rect.height;
+          e.currentTarget.style.setProperty("--mx", x.toString());
+          e.currentTarget.style.setProperty("--my", y.toString());
+        }}
+        onMouseLeave={(e) => {
+          e.currentTarget.style.setProperty("--mx", "0.5");
+          e.currentTarget.style.setProperty("--my", "0.5");
+        }}
+        style={{ 
+          y, scale, opacity,
+          "--mx": 0.5,
+          "--my": 0.5
+        } as React.CSSProperties}
       >
         {/* Tint and inner shadow layer */}
-        <div className="absolute inset-0 z-0 rounded-[28px] shadow-[inset_0_0_16px_4px_rgba(255,255,255,0.7)] bg-[#F8F8F4]/70 md:bg-transparent pointer-events-none" />
+        <div 
+          className="absolute inset-0 z-0 rounded-[20px] md:rounded-[28px] pointer-events-none" 
+          style={{
+            background: "radial-gradient(ellipse 60% 60% at calc(var(--mx) * 100%) calc(var(--my) * 100%), rgba(255, 255, 255, 0.6), transparent 70%)",
+            boxShadow: "inset 0 0 16px 4px rgba(255,255,255,0.7)",
+          }}
+        />
 
         {/* Backdrop blur and distortion layer */}
         <div
-          className="absolute inset-0 z-[-1] rounded-[28px] pointer-events-none isolate"
+          className="absolute inset-0 z-[-1] rounded-[20px] md:rounded-[28px] pointer-events-none isolate bg-[#F8F8F4]/70 md:bg-transparent"
           style={{
-            backdropFilter: "blur(2px)",
-            WebkitBackdropFilter: "blur(2px)",
+            backdropFilter: "blur(12px) saturate(140%)",
+            WebkitBackdropFilter: "blur(12px) saturate(140%)",
             filter: "url(#glass-distortion)",
             WebkitFilter: "url(#glass-distortion)"
           }}
         />
 
         {/* content */}
-        <div className="relative z-10 flex flex-col p-7 md:p-9 pb-24 md:pb-24 text-[#474842]">
+        <div className="relative z-10 flex flex-col p-5 sm:p-7 md:p-9 pb-20 md:pb-24 text-[#474842]">
           <header>
-            <div className="font-mono text-[11px] tracking-[0.25em] text-[#474842]/60 mb-3 font-semibold">
+            <div className="font-mono text-[10px] sm:text-[11px] tracking-[0.25em] text-[#474842]/60 mb-2 sm:mb-3 font-semibold">
               0{index} / 06
             </div>
-            <h3 className="font-display font-bold text-[#474842] text-[28px] md:text-[36px] leading-[1.08] max-w-[15ch]">
+            <h3 className="font-display font-bold text-[#474842] text-[24px] sm:text-[28px] md:text-[36px] leading-[1.08] max-w-[15ch]">
               {title}
             </h3>
           </header>
