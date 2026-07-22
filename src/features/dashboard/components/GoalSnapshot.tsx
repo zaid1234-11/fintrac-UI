@@ -3,26 +3,18 @@ import { m } from 'framer-motion';
 import { GoalObject } from '../types/dashboardTypes';
 import { Target, AlertCircle, CheckCircle2, Clock, Zap } from 'lucide-react';
 
+import LiquidCard from '@/components/liquid/LiquidCard';
+
 function GoalCard({ goal, mounted }: { goal: GoalObject, mounted: boolean }) {
-  const cardRef = React.useRef<HTMLDivElement>(null);
-
-  useEffect(() => {
-    // @ts-ignore
-    if (typeof window !== 'undefined' && window.liquidGlass && cardRef.current) {
-      // @ts-ignore
-      const glass = window.liquidGlass(cardRef.current, { scale: -112, chroma: 6 });
-      return () => { if (glass && glass.destroy) glass.destroy(); };
-    }
-  }, []);
-
   return (
-    <div
-      ref={cardRef}
-      className="goal-liquid-glass p-8 cursor-pointer transition-all group relative overflow-hidden"
+    <LiquidCard
+      level={2}
+      interactive={true}
+      className="p-8 cursor-pointer transition-all group relative overflow-hidden rounded-[28px]"
     >
       <div className="absolute top-0 right-0 w-32 h-32 bg-emerald-500/5 rounded-full blur-[40px] -z-10 group-hover:bg-emerald-500/10 transition-colors" />
 
-      <div className="flex justify-between items-start mb-10">
+      <div className="flex justify-between items-start mb-10 relative z-10">
         <div>
           <h3 className="text-2xl font-display text-white mb-1 transition-colors">{goal.name}</h3>
         </div>
@@ -31,7 +23,7 @@ function GoalCard({ goal, mounted }: { goal: GoalObject, mounted: boolean }) {
         </div>
       </div>
       
-      <div className="mb-6">
+      <div className="mb-6 relative z-10">
         <div className="flex flex-col mb-4 font-geist font-medium">
           <span className="text-white text-4xl font-display mb-2">{goal.progress}%</span>
           <span className="text-white/60 text-base font-lexend tracking-wide">₹{(goal.target_amount * (1 - goal.progress/100)).toLocaleString()} left</span>
@@ -44,7 +36,7 @@ function GoalCard({ goal, mounted }: { goal: GoalObject, mounted: boolean }) {
         </div>
       </div>
 
-      <div className="mt-6 pt-5 border-t border-white/10 flex flex-col gap-2">
+      <div className="mt-6 pt-5 border-t border-white/10 flex flex-col gap-2 relative z-10">
         <div className="flex flex-col gap-2">
           <div className="flex items-center justify-between text-xs">
             <span className="text-white/50 font-semibold uppercase tracking-[0.22em]">Current ETA</span>
@@ -67,7 +59,7 @@ function GoalCard({ goal, mounted }: { goal: GoalObject, mounted: boolean }) {
           )}
         </div>
       </div>
-    </div>
+    </LiquidCard>
   );
 }
 

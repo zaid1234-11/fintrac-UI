@@ -3,6 +3,8 @@ import { m } from 'framer-motion';
 import { RecommendationObject } from '../types/dashboardTypes';
 import { Activity, AlertTriangle, TrendingUp, Info } from 'lucide-react';
 
+import LiquidCard from '@/components/liquid/LiquidCard';
+
 export function FinancialSignals({ signals }: { signals: RecommendationObject[] }) {
   if (!signals || signals.length === 0) return null;
 
@@ -33,20 +35,20 @@ export function FinancialSignals({ signals }: { signals: RecommendationObject[] 
             initial={{ opacity: 0, scale: 0.95 }}
             animate={{ opacity: 1, scale: 1 }}
             transition={{ duration: 0.4, delay: 0.4 + (i * 0.1) }}
-            whileHover={{ y: -4 }}
-            className="goal-liquid-glass p-6 transition-all overflow-hidden"
           >
-            <div className="flex items-start gap-3 mb-3 relative z-10">
-              <div className="mt-1">{getIcon(signal.type)}</div>
-              <div>
-                <h3 className="text-white mb-1 text-lg leading-tight font-medium">{signal.title}</h3>
-                <p className="text-white/60 text-sm">{signal.subtitle}</p>
+            <LiquidCard level={2} interactive={true} className="p-6 rounded-[28px]">
+              <div className="flex items-start gap-3 mb-3 relative z-10">
+                <div className="mt-1">{getIcon(signal.type)}</div>
+                <div>
+                  <h3 className="text-white mb-1 text-lg leading-tight font-medium">{signal.title}</h3>
+                  <p className="text-white/60 text-sm">{signal.subtitle}</p>
+                </div>
               </div>
-            </div>
-            
-            <div className="mt-4 pt-4 border-t border-white/10 relative z-10">
-              <p className="text-white/50 text-xs">{signal.reason}</p>
-            </div>
+              
+              <div className="mt-4 pt-4 border-t border-white/10 relative z-10">
+                <p className="text-white/50 text-xs">{signal.reason}</p>
+              </div>
+            </LiquidCard>
           </m.div>
         ))}
       </div>
