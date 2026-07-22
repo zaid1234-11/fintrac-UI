@@ -9,15 +9,19 @@ interface HealthScoreCardProps {
   score: number;
 }
 
+import LiquidCard from "@/components/liquid/LiquidCard";
+
+interface HealthScoreCardProps {
+  score: number;
+}
+
 export default function HealthScoreCard({ score }: HealthScoreCardProps) {
   const color = scoreToColor(score);
   const label = scoreToLabel(score);
 
   return (
-    <m.div
-      {...FADE_UP}
-      className="min-w-[180px] glass-tile glass-depth-hover p-5 flex flex-col gap-2 relative overflow-hidden"
-    >
+    <m.div {...FADE_UP}>
+      <LiquidCard level={2} interactive={true} className="min-w-[180px] p-5 flex flex-col gap-2 rounded-[24px]">
       <div className="text-[10px] tracking-[0.25em] text-white/45 font-mono uppercase relative z-10">
         Health Score
       </div>
@@ -51,7 +55,7 @@ export default function HealthScoreCard({ score }: HealthScoreCardProps) {
           style={{ backgroundColor: color }}
           transition={{ duration: 1, delay: 0.2, ease: "easeOut" }}
         />
-      </div>
+      </LiquidCard>
     </m.div>
   );
 }

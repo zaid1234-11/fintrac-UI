@@ -8,12 +8,16 @@ interface FrictionCardProps {
   pendingCount: number;
 }
 
+import LiquidCard from "@/components/liquid/LiquidCard";
+
+interface FrictionCardProps {
+  pendingCount: number;
+}
+
 export default function FrictionKPICard({ pendingCount }: FrictionCardProps) {
   return (
-    <m.div
-      {...FADE_UP}
-      className="min-w-[180px] glass-tile glass-depth-hover p-5 flex flex-col gap-2 relative overflow-hidden"
-    >
+    <m.div {...FADE_UP}>
+      <LiquidCard level={2} interactive={true} className="min-w-[180px] p-5 flex flex-col gap-2 rounded-[24px]">
       <div className="text-[10px] tracking-[0.25em] text-white/45 font-mono uppercase relative z-10">
         Friction Points
       </div>
@@ -39,7 +43,7 @@ export default function FrictionKPICard({ pendingCount }: FrictionCardProps) {
             }}
           />
         ))}
-      </div>
+      </LiquidCard>
     </m.div>
   );
 }
