@@ -41,31 +41,23 @@ export default function GoalOSPage() {
   );
 }
 
+import LiquidCard from '@/components/liquid/LiquidCard';
+
 function GoalSidebar() {
   const { summary, totalAllocatedPreview, totalMonthlyBudget } = useGoalEngine();
-  const cardRef = React.useRef<HTMLDivElement>(null);
-
-  React.useEffect(() => {
-    // @ts-ignore
-    if (typeof window !== 'undefined' && window.liquidGlass && cardRef.current) {
-      // @ts-ignore
-      const glass = window.liquidGlass(cardRef.current, { scale: -112, chroma: 6 });
-      return () => { if (glass && glass.destroy) glass.destroy(); };
-    }
-  }, []);
 
   return (
     <m.div
       initial={{ opacity: 0, y: -20 }}
       animate={{ opacity: 1, y: 0 }}
     >
-      <div ref={cardRef} className="goal-liquid-glass flex flex-col gap-6 p-6">
+      <LiquidCard level={2} className="flex flex-col gap-6 p-6 rounded-[28px]">
         <div>
           <h1 className="font-display text-xl mb-1 text-white">Goal OS</h1>
           <p className="text-xs font-lexend text-white/60">How do I reach what matters faster?</p>
         </div>
 
-        <div className="flex flex-col gap-3 pt-4 border-t border-white/10">
+        <div className="flex flex-col gap-3 pt-4 border-t border-white/10 relative z-10">
           <div className="flex items-center justify-between">
             <span className="text-xs font-medium text-white/60">Active Goals</span>
             <span className="text-lg font-display text-emerald-400">
@@ -89,7 +81,7 @@ function GoalSidebar() {
             />
           </div>
         </div>
-      </div>
+      </LiquidCard>
     </m.div>
   );
 }

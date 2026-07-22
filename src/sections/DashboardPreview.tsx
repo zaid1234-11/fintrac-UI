@@ -3,6 +3,7 @@
 import React from "react";
 import { m } from "framer-motion";
 import { ArrowUpRight, MoveUpRight } from "lucide-react";
+import LiquidCard from "@/components/liquid/LiquidCard";
 
 /**
  * Dashboard Preview — 80% software, 20% atmosphere.
@@ -172,9 +173,11 @@ function Tile({ children, span = "", delay = 0 }: { children: React.ReactNode; s
         hidden: { opacity: 0, y: 30 },
         visible: { opacity: 1, y: 0, transition: { duration: 0.6, ease: [0.25, 0.8, 0.25, 1], delay } }
       }}
-      className={`${span} glass-tile p-4 sm:p-5 md:p-6`}
+      className={span}
     >
-      {children}
+      <LiquidCard level={2} className="p-4 sm:p-5 md:p-6 rounded-[28px] h-full w-full">
+        {children}
+      </LiquidCard>
     </m.div>
   );
 }

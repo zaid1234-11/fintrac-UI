@@ -38,18 +38,9 @@ const MOCK_EVENTS: GoalEvent[] = [
   }
 ];
 
+import LiquidCard from '@/components/liquid/LiquidCard';
+
 export function GoalEventsLog() {
-  const cardRef = useRef<HTMLDivElement>(null);
-
-  useEffect(() => {
-    // @ts-ignore
-    if (typeof window !== 'undefined' && window.liquidGlass && cardRef.current) {
-      // @ts-ignore
-      const glass = window.liquidGlass(cardRef.current, { scale: -112, chroma: 6 });
-      return () => { if (glass && glass.destroy) glass.destroy(); };
-    }
-  }, []);
-
   const getEventIcon = (type: GoalEvent['eventType']) => {
     switch (type) {
       case 'goal_created': return <Clock className="w-4 h-4 text-white/50" />;
@@ -71,10 +62,9 @@ export function GoalEventsLog() {
         <h2 className="text-xs font-semibold uppercase tracking-[0.22em] text-white/80">Goal Events</h2>
       </div>
 
-      <div ref={cardRef} className="goal-liquid-glass p-10 relative z-10 flex flex-col gap-6">
-
+      <LiquidCard level={2} className="p-10 rounded-[28px] flex flex-col gap-6">
         {/* Event Timeline */}
-        <div className="flex flex-col gap-8 relative pl-4">
+        <div className="flex flex-col gap-8 relative pl-4 z-10">
           <div className="absolute top-2 bottom-2 left-[23px] w-px bg-white/10" />
 
           {[...MOCK_EVENTS].reverse().map((evt, idx) => (
@@ -94,8 +84,7 @@ export function GoalEventsLog() {
             </div>
           ))}
         </div>
-
-      </div>
+      </LiquidCard>
     </m.section>
   );
 }

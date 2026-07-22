@@ -3,18 +3,10 @@ import { m } from 'framer-motion';
 import { useGoalEngine } from '../hooks/useGoalEngine';
 import { Zap, Clock, ShieldCheck, Activity } from 'lucide-react';
 
+import LiquidCard from '@/components/liquid/LiquidCard';
+
 export function PrimaryGoalFocus() {
   const { goals, getPreviewForGoal } = useGoalEngine();
-  const cardRef = useRef<HTMLDivElement>(null);
-
-  useEffect(() => {
-    // @ts-ignore
-    if (typeof window !== 'undefined' && window.liquidGlass && cardRef.current) {
-      // @ts-ignore
-      const glass = window.liquidGlass(cardRef.current, { scale: -112, chroma: 6 });
-      return () => { if (glass && glass.destroy) glass.destroy(); };
-    }
-  }, []);
 
   // Find the highest priority active goal (Critical or High)
   const primaryGoal = goals.find(g => g.priorityLabel === 'critical' || g.priorityLabel === 'high');
@@ -45,12 +37,10 @@ export function PrimaryGoalFocus() {
         <h2 className="text-xs font-semibold uppercase tracking-[0.22em] text-white/80">Primary Focus</h2>
       </div>
 
-      <div ref={cardRef} className="goal-liquid-glass p-10 overflow-hidden relative group">
-
+      <LiquidCard level={4} className="p-10 rounded-[32px] overflow-hidden relative group">
         <div className="flex flex-col md:flex-row justify-between gap-12 relative z-10">
-
           <div className="flex-1">
-            <div className="inline-flex items-center gap-2 px-3 py-1 bg-emerald-500/10 border border-emerald-500/20 rounded-full text-xs font-semibold text-emerald-400 uppercase tracking-wider mb-6">
+            <div className="inline-flex items-center gap-2 px-3 py-1 bg-amber-500/10 border border-amber-500/20 rounded-full text-xs font-semibold text-amber-400 uppercase tracking-wider mb-6">
               <Zap className="w-3 h-3" />
               Top Priority
             </div>
@@ -132,9 +122,8 @@ export function PrimaryGoalFocus() {
             )}
 
           </div>
-
         </div>
-      </div>
+      </LiquidCard>
     </m.section>
   );
 }

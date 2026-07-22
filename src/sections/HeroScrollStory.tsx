@@ -1,6 +1,7 @@
 "use client";
 
 import React, { useRef, useState, useEffect } from "react";
+import LiquidCard from "@/components/liquid/LiquidCard";
 import {
   m,
   useScroll,
@@ -399,12 +400,12 @@ function MobileStoryCard({
       transition={priority ? undefined : { duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
       className="relative w-full"
     >
-      <div className="relative liquid-glass-card rounded-[28px] p-6 overflow-hidden shadow-2xl h-full w-full glass-shimmer glass-specular">
+      <LiquidCard level={3} className="rounded-[28px] p-6 overflow-hidden h-full w-full">
         <div className="relative z-10">
           <h3 className="font-display text-[18px] text-white font-medium mb-5">{title}</h3>
           {children}
         </div>
-      </div>
+      </LiquidCard>
     </m.div>
   );
 }
@@ -431,12 +432,12 @@ function StoryCard({ progress, range, title, children, priority = false }: { pro
       className="absolute inset-x-0 mx-auto w-fit flex flex-col pointer-events-auto"
     >
       <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[120%] h-[120%] bg-[#8FA876] ambient-glow opacity-10 mix-blend-screen" />
-      <div className="relative liquid-glass-card rounded-[40px] p-8 md:p-10 overflow-hidden shadow-2xl h-full w-full glass-shimmer glass-specular">
+      <LiquidCard level={3} className="rounded-[40px] p-8 md:p-10 overflow-hidden h-full w-full">
         <div className="relative z-10">
           <h3 className="font-display text-[20px] text-white font-medium mb-6">{title}</h3>
           {children}
         </div>
-      </div>
+      </LiquidCard>
     </m.div>
   );
 }
