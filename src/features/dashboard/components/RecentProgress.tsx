@@ -30,20 +30,11 @@ export function RecentProgress() {
   );
 }
 
+import LiquidCard from '@/components/liquid/LiquidCard';
+
 function GlassCard({ item }: { item: any }) {
-  const cardRef = useRef<HTMLDivElement>(null);
-
-  useEffect(() => {
-    // @ts-ignore
-    if (typeof window !== 'undefined' && window.liquidGlass && cardRef.current) {
-      // @ts-ignore
-      const glass = window.liquidGlass(cardRef.current, { scale: -112, chroma: 6 });
-      return () => { if (glass && glass.destroy) glass.destroy(); };
-    }
-  }, []);
-
   return (
-    <div ref={cardRef} className="goal-liquid-glass p-6 transition-all flex items-center justify-between group relative overflow-hidden">
+    <LiquidCard level={2} className="p-6 transition-all flex items-center justify-between group relative overflow-hidden rounded-[28px]">
       <div className="relative z-10">
         <div className="text-3xl font-display text-white leading-none mb-1">{item.metric}</div>
         <div className="text-xs font-semibold uppercase tracking-[0.22em] text-white/60">{item.subtitle}</div>
@@ -51,6 +42,6 @@ function GlassCard({ item }: { item: any }) {
       <div className="text-right flex flex-col items-end relative z-10">
         <div className="text-white/80 text-[11px] mt-1 px-3 py-1.5 rounded-full font-medium border border-white/10 bg-white/5 shadow-[inset_0_1px_2px_rgba(255,255,255,0.1)]">{item.context}</div>
       </div>
-    </div>
+    </LiquidCard>
   );
 }

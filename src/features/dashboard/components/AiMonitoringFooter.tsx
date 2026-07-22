@@ -1,32 +1,15 @@
-import React, { useRef, useEffect } from 'react';
+import React from 'react';
 import { m } from 'framer-motion';
-import { Bot, CheckCircle2 } from 'lucide-react';
+import LiquidCard from '@/components/liquid/LiquidCard';
 
 export function AiMonitoringFooter() {
-  const watching = [
-    'Subscriptions',
-    'Dining',
-    'Emergency Fund'
-  ];
-
-  const cardRef = useRef<HTMLDivElement>(null);
-
-  useEffect(() => {
-    // @ts-ignore
-    if (typeof window !== 'undefined' && window.liquidGlass && cardRef.current) {
-      // @ts-ignore
-      const glass = window.liquidGlass(cardRef.current, { scale: -112, chroma: 6 });
-      return () => { if (glass && glass.destroy) glass.destroy(); };
-    }
-  }, []);
-
   return (
     <m.section
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.6, delay: 0.6, ease: [0.22, 1, 0.36, 1] }}
     >
-      <div ref={cardRef} className="goal-liquid-glass flex flex-col gap-4 w-full p-10 md:p-14 group overflow-hidden transition-all mt-8 md:mt-12 mb-8">
+      <LiquidCard level={2} className="flex flex-col gap-4 w-full p-10 md:p-14 group overflow-hidden transition-all mt-8 md:mt-12 mb-8 rounded-[32px]">
         <div className="absolute top-0 right-0 p-8 opacity-20 pointer-events-none group-hover:opacity-40 transition-opacity duration-1000">
            <div className="w-32 h-32 rounded-full blur-[60px] bg-blue-500" />
         </div>
@@ -48,7 +31,7 @@ export function AiMonitoringFooter() {
             </h2>
           </div>
         </div>
-      </div>
+      </LiquidCard>
     </m.section>
   );
 }
