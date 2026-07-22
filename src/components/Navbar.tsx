@@ -7,6 +7,7 @@ import { useState, useEffect } from "react";
 import { usePathname, useRouter } from "next/navigation";
 import { m } from "framer-motion";
 import BorderGlow from "./BorderGlow";
+import LiquidSurface from "./liquid/LiquidSurface";
 import dynamic from "next/dynamic";
 
 const MobileMenu = dynamic(() => import("./MobileMenu"), { ssr: false });
@@ -43,22 +44,26 @@ export default function Navbar({ variant = "fixed", rightOpacity = 1 }: { varian
         </div>
       </div>
 
-      {/* capsule nav */}
+      {/* capsule nav consuming Level 1 LiquidSurface material */}
       <div
         data-testid="capsule-nav"
         className="pointer-events-auto hidden md:flex absolute left-1/2 -translate-x-1/2 group"
       >
-        <BorderGlow
-          borderRadius={32}
-          backgroundColor="rgba(0, 0, 0, 0.1)"
-          glowColor="40 80 80"
-          glowRadius={20}
-          glowIntensity={0.8}
-          coneSpread={20}
-          animated={true}
-          className="border-white/[0.08] backdrop-blur-md px-3 py-1 md:px-6 md:py-1.5"
+        <LiquidSurface
+          level={1}
+          className="rounded-[32px] overflow-hidden"
         >
-          <div className="flex flex-row items-center gap-1 md:gap-3">
+          <BorderGlow
+            borderRadius={32}
+            backgroundColor="rgba(var(--liquid-moss-rgb), 0.04)"
+            glowColor="143 168 118"
+            glowRadius={20}
+            glowIntensity={0.8}
+            coneSpread={20}
+            animated={true}
+            className="border-[var(--liquid-border-level-1)] px-3 py-1 md:px-6 md:py-1.5"
+          >
+            <div className="flex flex-row items-center gap-1 md:gap-3">
             {NAV_ITEMS.map((item) => {
               const isActive = activeItem === item;
               return (
@@ -104,6 +109,7 @@ export default function Navbar({ variant = "fixed", rightOpacity = 1 }: { varian
             })}
           </div>
         </BorderGlow>
+        </LiquidSurface>
       </div>
 
       {/* right side login + menu */}
