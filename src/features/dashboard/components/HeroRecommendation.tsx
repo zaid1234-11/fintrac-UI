@@ -3,19 +3,11 @@ import { m, AnimatePresence } from 'framer-motion';
 import { RecommendationObject, ForecastObject } from '../types/dashboardTypes';
 import { Target, Zap, Clock, ShieldCheck, ChevronDown, CheckCircle2, ArrowRight } from 'lucide-react';
 
+import LiquidCard from '@/components/liquid/LiquidCard';
+
 export function HeroRecommendation({ recommendation, forecast }: { recommendation: RecommendationObject | null, forecast?: ForecastObject | null }) {
   const [isExpanded, setIsExpanded] = useState(false);
-  const cardRef = useRef<HTMLDivElement>(null);
 
-  useEffect(() => {
-    // @ts-ignore
-    if (typeof window !== 'undefined' && window.liquidGlass && cardRef.current) {
-      // @ts-ignore
-      const glass = window.liquidGlass(cardRef.current, { scale: -112, chroma: 6 });
-      return () => { if (glass && glass.destroy) glass.destroy(); };
-    }
-  }, []);
-  
   if (!recommendation) return null;
 
   // Timeline Data
@@ -36,9 +28,9 @@ export function HeroRecommendation({ recommendation, forecast }: { recommendatio
       </div>
 
       <div className="relative w-full">
-        <div
-          ref={cardRef}
-          className="goal-liquid-glass w-full p-8 md:p-10 flex flex-col items-start text-left group transition-all overflow-hidden"
+        <LiquidCard
+          level={3}
+          className="w-full p-8 md:p-10 flex flex-col items-start text-left group transition-all overflow-hidden rounded-[36px]"
         >
           <div className="absolute top-0 right-0 p-10 pointer-events-none flex items-center justify-center -translate-y-20 translate-x-20">
             <Target className="w-[400px] h-[400px] text-white opacity-[0.03] mix-blend-overlay rotate-12" />
@@ -136,7 +128,7 @@ export function HeroRecommendation({ recommendation, forecast }: { recommendatio
               </div>
             </div>
           </div>
-        </div>
+        </LiquidCard>
       </div>
     </section>
   );

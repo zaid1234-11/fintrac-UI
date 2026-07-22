@@ -1,25 +1,16 @@
-import React, { useEffect, useRef } from 'react';
+import React, { useEffect } from 'react';
 import { m, useMotionValue, animate, useTransform } from 'framer-motion';
 import { DashboardState } from '../types/dashboardTypes';
+import LiquidCard from '@/components/liquid/LiquidCard';
 
 export function FinancialStatusHeader({ state }: { state: DashboardState }) {
   const count = useMotionValue(0);
   const rounded = useTransform(count, Math.round);
-  const cardRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     const controls = animate(count, state.healthScore, { duration: 1.5, ease: "easeOut" });
     return controls.stop;
   }, [state.healthScore, count]);
-
-  useEffect(() => {
-    // @ts-ignore
-    if (typeof window !== 'undefined' && window.liquidGlass && cardRef.current) {
-      // @ts-ignore
-      const glass = window.liquidGlass(cardRef.current, { scale: -112, chroma: 6 });
-      return () => { if (glass && glass.destroy) glass.destroy(); };
-    }
-  }, []);
 
   return (
     <m.div 
@@ -27,7 +18,7 @@ export function FinancialStatusHeader({ state }: { state: DashboardState }) {
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.8, ease: "easeOut" }}
     >
-      <div ref={cardRef} className="goal-liquid-glass flex flex-col gap-4 w-full p-10 md:p-14 group overflow-hidden transition-all">
+      <LiquidCard level={2} className="w-full p-10 md:p-14 rounded-[32px] group relative">
         <div className="absolute top-0 right-0 p-8 opacity-20 pointer-events-none group-hover:opacity-40 transition-opacity duration-1000">
            <div className={`w-32 h-32 rounded-full blur-[60px] ${state.trend === 'improving' ? 'bg-emerald-500' : state.trend === 'declining' ? 'bg-red-500' : 'bg-amber-500'}`} />
         </div>
@@ -72,7 +63,8 @@ export function FinancialStatusHeader({ state }: { state: DashboardState }) {
             </div>
           </div>
         </div>
-      </div>
+      </LiquidCard>
     </m.div>
   );
 }
+
