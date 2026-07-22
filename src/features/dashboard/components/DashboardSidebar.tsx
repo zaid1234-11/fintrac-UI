@@ -4,7 +4,7 @@ import Link from 'next/link';
 import Image from 'next/image';
 import { usePathname } from 'next/navigation';
 import { m, AnimatePresence } from 'framer-motion';
-import { useRef, useEffect } from 'react';
+import LiquidSurface from '@/components/liquid/LiquidSurface';
 import {
   LayoutDashboard,
   Wallet,
@@ -31,29 +31,17 @@ const navItems = [
 
 export function DashboardSidebar({ isCollapsed = false, onToggle }: { isCollapsed?: boolean; onToggle?: () => void }) {
   const pathname = usePathname();
-  const sidebarRef = useRef<HTMLDivElement>(null);
-
-  useEffect(() => {
-    // @ts-ignore
-    if (typeof window !== 'undefined' && window.liquidGlass && sidebarRef.current) {
-      // @ts-ignore
-      const glass = window.liquidGlass(sidebarRef.current, { scale: -112, chroma: 6 });
-      return () => {
-        if (glass && glass.destroy) glass.destroy();
-      };
-    }
-  }, []);
 
   return (
     <m.aside 
-      ref={sidebarRef}
       initial={false}
       animate={{ width: isCollapsed ? 72 : 240 }}
       transition={{ duration: 0.3, ease: [0.25, 0.1, 0.25, 1] }}
-      className="sidebar-liquid-glass !fixed left-4 top-4 h-[calc(100vh-2rem)] z-50 flex-col hidden md:flex overflow-hidden"
+      className="!fixed left-4 top-4 h-[calc(100vh-2rem)] z-50 flex-col hidden md:flex overflow-hidden rounded-[32px] shadow-[var(--liquid-shadow-card)] shadow-[var(--liquid-shadow-glow)]"
     >
-      {/* Brand & Toggle */}
-      <div className={`h-24 flex items-center justify-between relative z-10 ${isCollapsed ? 'px-5' : 'px-6'}`}>
+      <LiquidSurface level={2} className="h-full w-full flex flex-col rounded-[32px] border-[var(--liquid-border-level-2)]">
+        {/* Brand & Toggle */}
+        <div className={`h-24 flex items-center justify-between relative z-10 ${isCollapsed ? 'px-5' : 'px-6'}`}>
         <Link 
           href="/dashboard" 
           className={`flex items-center gap-3 group ${isCollapsed ? 'cursor-pointer' : ''}`}
@@ -100,19 +88,19 @@ export function DashboardSidebar({ isCollapsed = false, onToggle }: { isCollapse
             <Link
               key={item.href}
               href={item.href}
-              className={`relative flex items-center gap-3 px-3 py-2.5 rounded-xl transition-all duration-300 group ${isActive
+              className={`relative flex items-center gap-3 px-3 py-2.5 rounded-2xl transition-all duration-300 group ${isActive
                   ? 'text-[#FFFBE6]'
-                  : 'text-[#FFFBE6]/80 hover:text-[#FFFBE6] hover:bg-[#FFFBE6]/5'
+                  : 'text-[#FFFBE6]/80 hover:text-[#FFFBE6] hover:bg-[#FFFBE6]/10'
                 }`}
             >
               {isActive && (
                 <m.div
                   layoutId="sidebar-active"
-                  className="absolute inset-0 bg-white/[0.04] rounded-xl shadow-[inset_0_1px_4px_rgba(255,255,255,0.05)]"
-                  transition={{ type: 'spring', stiffness: 200, damping: 25 }}
+                  className="absolute inset-0 bg-[var(--liquid-bg-level-3)] border border-[var(--liquid-border-level-3)] rounded-2xl shadow-md"
+                  transition={{ type: 'spring', stiffness: 250, damping: 25 }}
                 />
               )}
-              <item.icon className={`w-4 h-4 relative z-10 transition-colors shrink-0 ${isActive ? 'text-[#FFFBE6] drop-shadow-[0_0_8px_rgba(255,251,230,0.2)]' : 'group-hover:text-[#FFFBE6]'}`} />
+              <item.icon className={`w-4 h-4 relative z-10 transition-colors shrink-0 ${isActive ? 'text-[#FFFBE6] drop-shadow-[0_0_8px_rgba(143,168,118,0.4)]' : 'group-hover:text-[#FFFBE6]'}`} />
               <AnimatePresence>
                 {!isCollapsed && (
                   <m.span 
@@ -132,12 +120,12 @@ export function DashboardSidebar({ isCollapsed = false, onToggle }: { isCollapse
 
       {/* User Section */}
       <div className={`relative z-10 mb-2 ${isCollapsed ? 'p-3' : 'p-4'}`}>
-        <div className="flex items-center gap-3 px-3 py-2 rounded-xl hover:bg-[#FFFBE6]/5 transition-colors cursor-pointer group">
+        <div className="flex items-center gap-3 px-3 py-2 rounded-2xl bg-[var(--liquid-bg-level-1)] border border-[var(--liquid-border-level-1)] hover:bg-[var(--liquid-bg-level-3)] transition-colors cursor-pointer group">
           <div className="shrink-0">
             <UserButton
               appearance={{
                 elements: {
-                  userButtonAvatarBox: "w-8 h-8 border border-[#FFFBE6]/10 shadow-md"
+                  userButtonAvatarBox: "w-8 h-8 border border-[#FFFBE6]/20 shadow-md rounded-full"
                 }
               }}
             />
@@ -157,6 +145,8 @@ export function DashboardSidebar({ isCollapsed = false, onToggle }: { isCollapse
           </AnimatePresence>
         </div>
       </div>
+      </LiquidSurface>
     </m.aside>
   );
 }
+
