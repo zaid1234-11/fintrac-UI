@@ -14,6 +14,8 @@ interface ForecastVisualizerProps {
   projectedSavings: number;
 }
 
+import LiquidCard from '@/components/liquid/LiquidCard';
+
 export function ForecastVisualizer({
   chartData,
   todayIndex,
@@ -27,17 +29,6 @@ export function ForecastVisualizer({
     currentPath: p.currentPath,
   }));
 
-  const cardRef = React.useRef<HTMLDivElement>(null);
-
-  React.useEffect(() => {
-    // @ts-ignore
-    if (typeof window !== 'undefined' && window.liquidGlass && cardRef.current) {
-      // @ts-ignore
-      const glass = window.liquidGlass(cardRef.current, { scale: -112, chroma: 6 });
-      return () => { if (glass && glass.destroy) glass.destroy(); };
-    }
-  }, []);
-
   return (
     <m.section
       initial={{ opacity: 0, y: 10 }}
@@ -49,12 +40,12 @@ export function ForecastVisualizer({
         <h2 className="text-[10px] tracking-[0.2em] text-white/40 font-mono uppercase">Current Path vs Optimized</h2>
       </div>
 
-      <div ref={cardRef} className="goal-liquid-glass p-6">
+      <LiquidCard level={2} className="p-6 rounded-[32px]">
         <ForecastForkChart
           baselineData={baselineData}
           todayIndex={todayIndex}
         />
-      </div>
+      </LiquidCard>
     </m.section>
   );
 }

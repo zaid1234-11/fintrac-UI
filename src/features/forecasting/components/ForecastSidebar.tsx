@@ -6,25 +6,17 @@ import { Activity, TrendingUp, Clock, ShieldCheck } from 'lucide-react';
 import { useForecastEngine } from '../hooks/useForecastEngine';
 import { formatINR } from '@/lib/formatINR';
 
+import LiquidCard from '@/components/liquid/LiquidCard';
+
 export function ForecastSidebar() {
   const { overallConfidence, totalTimeSaved, projectedSavings } = useForecastEngine();
-  const cardRef = React.useRef<HTMLDivElement>(null);
-
-  React.useEffect(() => {
-    // @ts-ignore
-    if (typeof window !== 'undefined' && window.liquidGlass && cardRef.current) {
-      // @ts-ignore
-      const glass = window.liquidGlass(cardRef.current, { scale: -112, chroma: 6 });
-      return () => { if (glass && glass.destroy) glass.destroy(); };
-    }
-  }, []);
 
   return (
     <m.div
       initial={{ opacity: 0, y: -20 }}
       animate={{ opacity: 1, y: 0 }}
     >
-      <div ref={cardRef} className="goal-liquid-glass flex flex-col gap-6 p-6">
+      <LiquidCard level={2} className="flex flex-col gap-6 p-6 rounded-[28px]">
         <div>
           <h1 className="font-display text-xl mb-1 text-white">Forecast Engine</h1>
           <p className="text-xs font-lexend text-white/60">What happens if I change something?</p>
@@ -69,7 +61,7 @@ export function ForecastSidebar() {
             />
           </div>
         </div>
-      </div>
+      </LiquidCard>
     </m.div>
   );
 }
