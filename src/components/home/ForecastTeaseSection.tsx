@@ -1,6 +1,7 @@
 import React from "react";
 import ForecastChartShell from "@/components/home/ForecastChartShell";
 import ScrollFadeIn from "@/components/ScrollFadeIn";
+import LiquidCard from "@/components/liquid/LiquidCard";
 
 // ──────────────────────────────────────────────
 // Mock baseline data — realistic 12-month projection
@@ -60,12 +61,12 @@ export default function ForecastTeaseSection({
         <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[80%] h-[80%] max-w-[300px] max-h-[300px] sm:max-w-none sm:max-h-none bg-[var(--color-season-growth)] ambient-glow mix-blend-screen opacity-30" />
 
         {/* Glass card wrapping the full interactive chart */}
-        <div className="glass-tile p-4 sm:p-5 md:p-6 relative z-10">
+        <LiquidCard level={2} className="p-4 sm:p-5 md:p-6 relative z-10 rounded-[32px]">
           <ForecastChartShell
             baselineData={baselineData}
             todayIndex={todayIndex}
           />
-        </div>
+        </LiquidCard>
       </ScrollFadeIn>
     </section>
   );

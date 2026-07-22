@@ -2,6 +2,7 @@ import React from "react";
 import ScrollFadeIn from "@/components/ScrollFadeIn";
 import Magnetic from "@/components/Magnetic";
 import Link from "next/link";
+import LiquidCard from "@/components/liquid/LiquidCard";
 
 // ──────────────────────────────────────────────
 // Feature teasers — static cards, NOT scroll-scrub
@@ -66,28 +67,29 @@ export default function FeaturesPreviewSection({
               key={feature.title}
               delay={i * 0.15}
               yOffset={16}
-              className="group glass-tile glass-depth-hover glass-shimmer p-5 sm:p-6 md:p-7 relative overflow-hidden cursor-pointer"
             >
-              <div className="relative z-10">
-                <div className="font-mono text-[10px] tracking-[0.2em] text-white/30 mb-4 font-semibold">
-                  0{i + 1}
+              <LiquidCard level={2} interactive={true} className="p-5 sm:p-6 md:p-7 rounded-[28px]">
+                <div className="relative z-10">
+                  <div className="font-mono text-[10px] tracking-[0.2em] text-white/30 mb-4 font-semibold">
+                    0{i + 1}
+                  </div>
+                  <h3 className="font-display text-[18px] sm:text-[20px] text-white font-medium mb-3 leading-tight">
+                    {feature.title}
+                  </h3>
+                  <p className="text-[13px] sm:text-[14px] text-white/50 leading-relaxed mb-5">
+                    {feature.caption}
+                  </p>
+                  <Link
+                    href={feature.href}
+                    className="inline-flex items-center gap-1 text-[11px] font-mono text-white/40 group-hover:text-white/70 transition-colors before:absolute before:inset-0"
+                  >
+                    Explore
+                    <span className="text-[10px] transition-transform group-hover:translate-x-0.5">
+                      →
+                    </span>
+                  </Link>
                 </div>
-                <h3 className="font-display text-[18px] sm:text-[20px] text-white font-medium mb-3 leading-tight">
-                  {feature.title}
-                </h3>
-                <p className="text-[13px] sm:text-[14px] text-white/50 leading-relaxed mb-5">
-                  {feature.caption}
-                </p>
-                <Link
-                  href={feature.href}
-                  className="inline-flex items-center gap-1 text-[11px] font-mono text-white/40 group-hover:text-white/70 transition-colors before:absolute before:inset-0"
-                >
-                  Explore
-                  <span className="text-[10px] transition-transform group-hover:translate-x-0.5">
-                    →
-                  </span>
-                </Link>
-              </div>
+              </LiquidCard>
             </ScrollFadeIn>
           ))}
         </div>
