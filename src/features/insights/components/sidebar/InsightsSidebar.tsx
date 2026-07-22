@@ -1,21 +1,11 @@
 import React from 'react';
 import { WeeklyImpactCard } from './WeeklyImpactCard';
 import { TrustScoreCard } from './TrustScoreCard';
+import LiquidCard from '@/components/liquid/LiquidCard';
 
 function RecommendationStats() {
-  const cardRef = React.useRef<HTMLDivElement>(null);
-
-  React.useEffect(() => {
-    // @ts-ignore
-    if (typeof window !== 'undefined' && window.liquidGlass && cardRef.current) {
-      // @ts-ignore
-      const glass = window.liquidGlass(cardRef.current, { scale: -112, chroma: 6 });
-      return () => { if (glass && glass.destroy) glass.destroy(); };
-    }
-  }, []);
-
   return (
-    <div ref={cardRef} className="goal-liquid-glass p-5">
+    <LiquidCard level={2} className="p-5">
       <h3 className="text-sm font-semibold text-white/70 mb-4">Recommendation Stats</h3>
       <div className="space-y-3">
         <div className="flex justify-between items-center text-sm">
@@ -31,7 +21,7 @@ function RecommendationStats() {
           <span className="text-white">1</span>
         </div>
       </div>
-    </div>
+    </LiquidCard>
   );
 }
 
@@ -44,3 +34,4 @@ export function InsightsSidebar() {
     </div>
   );
 }
+

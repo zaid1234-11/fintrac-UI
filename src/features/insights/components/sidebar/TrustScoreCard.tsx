@@ -1,19 +1,9 @@
 import React from 'react';
+import LiquidCard from '@/components/liquid/LiquidCard';
 
 export function TrustScoreCard() {
-  const cardRef = React.useRef<HTMLDivElement>(null);
-
-  React.useEffect(() => {
-    // @ts-ignore
-    if (typeof window !== 'undefined' && window.liquidGlass && cardRef.current) {
-      // @ts-ignore
-      const glass = window.liquidGlass(cardRef.current, { scale: -112, chroma: 6 });
-      return () => { if (glass && glass.destroy) glass.destroy(); };
-    }
-  }, []);
-
   return (
-    <div ref={cardRef} className="goal-liquid-glass p-5">
+    <LiquidCard level={2} className="p-5">
       <div className="flex items-center justify-between mb-4">
         <h3 className="text-sm font-semibold text-white/70">Trust Score</h3>
         <span className="text-lg font-bold text-white">96%</span>
@@ -42,6 +32,7 @@ export function TrustScoreCard() {
           Recent financial activity
         </li>
       </ul>
-    </div>
+    </LiquidCard>
   );
 }
+
