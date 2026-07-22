@@ -6,18 +6,10 @@ interface TrustScoreHeroProps {
   score: TrustScore;
 }
 
+import LiquidCard from '@/components/liquid/LiquidCard';
+
 export function TrustScoreHero({ score }: TrustScoreHeroProps) {
   const isPositive = score.trend > 0;
-  const cardRef = React.useRef<HTMLDivElement>(null);
-
-  React.useEffect(() => {
-    // @ts-ignore
-    if (typeof window !== 'undefined' && window.liquidGlass && cardRef.current) {
-      // @ts-ignore
-      const glass = window.liquidGlass(cardRef.current, { scale: -112, chroma: 6 });
-      return () => { if (glass && glass.destroy) glass.destroy(); };
-    }
-  }, []);
 
   // Dummy sparkline points
   const points = score.history.map((val, i) => {
@@ -27,8 +19,7 @@ export function TrustScoreHero({ score }: TrustScoreHeroProps) {
   }).join(' ');
 
   return (
-    <div ref={cardRef} className="goal-liquid-glass w-full p-8 relative overflow-hidden flex flex-col md:flex-row gap-12">
-      
+    <LiquidCard level={3} className="w-full p-8 relative overflow-hidden flex flex-col md:flex-row gap-12 rounded-[32px]">
       {/* Background glow */}
       <div className="absolute top-0 left-0 w-64 h-64 blur-[80px] opacity-20 -ml-20 -mt-20 rounded-full bg-blue-500" />
 
@@ -57,7 +48,7 @@ export function TrustScoreHero({ score }: TrustScoreHeroProps) {
       </div>
 
       {/* Right: Sparkline */}
-      <div className="flex-1 flex flex-col justify-end relative h-40 mt-auto">
+      <div className="flex-1 flex flex-col justify-end relative h-40 mt-auto z-10">
         <svg className="w-full h-full overflow-visible" preserveAspectRatio="none" viewBox="0 0 100 100">
           {/* Sparkline Path */}
           <polyline 
@@ -93,6 +84,6 @@ export function TrustScoreHero({ score }: TrustScoreHeroProps) {
           <span>Today</span>
         </div>
       </div>
-    </div>
+    </LiquidCard>
   );
 }

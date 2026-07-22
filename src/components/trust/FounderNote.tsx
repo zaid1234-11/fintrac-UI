@@ -18,6 +18,8 @@ interface FounderNoteProps {
  * Never names the founder explicitly (by design, per CONCEPT_V3.2 §4.0).
  * One canonical copy source, used identically on /trust and homepage.
  */
+import LiquidCard from "../liquid/LiquidCard";
+
 export default function FounderNote({ quote, name, role }: FounderNoteProps) {
   return (
     <m.blockquote
@@ -25,8 +27,8 @@ export default function FounderNote({ quote, name, role }: FounderNoteProps) {
       whileInView={{ opacity: 1, y: 0 }}
       viewport={{ once: true, margin: "-60px" }}
       transition={{ duration: 0.9, ease: EASE_REVEAL }}
-      className="glass-tile p-5 sm:p-8 md:p-10 relative overflow-hidden"
     >
+      <LiquidCard level={2} className="p-5 sm:p-8 md:p-10 relative overflow-hidden rounded-[28px]">
       {/* Subtle brand left border accent */}
       <div className="absolute top-0 left-0 bottom-0 w-[2px] bg-gradient-to-b from-[var(--color-season-growth)] to-transparent opacity-60" />
 
@@ -51,6 +53,7 @@ export default function FounderNote({ quote, name, role }: FounderNoteProps) {
           <div className="text-[11px] text-white/40 font-mono">{role}</div>
         </div>
       </footer>
+      </LiquidCard>
     </m.blockquote>
   );
 }

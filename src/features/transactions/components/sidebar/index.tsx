@@ -6,36 +6,27 @@ import { AlertCircle, Zap, RefreshCw, BarChart2, ShieldAlert } from 'lucide-reac
 import { useTransactions } from '../../hooks/useTransactions';
 import { formatINR } from '@/lib/formatINR';
 
+import LiquidCard from '@/components/liquid/LiquidCard';
+
 function CardWrapper({ children, title, icon: Icon, delay = 0, alert = false }: any) {
-  const cardRef = React.useRef<HTMLDivElement>(null);
-
-  React.useEffect(() => {
-    // @ts-ignore
-    if (typeof window !== 'undefined' && window.liquidGlass && cardRef.current) {
-      // @ts-ignore
-      const glass = window.liquidGlass(cardRef.current, { scale: -112, chroma: 6 });
-      return () => { if (glass && glass.destroy) glass.destroy(); };
-    }
-  }, []);
-
   return (
     <m.div
       initial={{ opacity: 0, y: 15 }}
       animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.5, delay }}
     >
-      <div 
-        ref={cardRef} 
-        className={`goal-liquid-glass p-5 transition-all duration-300 ${alert ? 'border-red-500/20' : ''}`}
+      <LiquidCard 
+        level={2} 
+        className={`p-5 rounded-[28px] transition-all duration-300 ${alert ? 'border-red-500/30' : ''}`}
       >
-        <div className="flex items-center gap-2 mb-4">
+        <div className="flex items-center gap-2 mb-4 relative z-10">
           <Icon className={`w-4 h-4 ${alert ? 'text-red-400' : 'text-white/60'}`} />
           <h3 className={`text-[11px] font-mono uppercase tracking-wider ${alert ? 'text-red-400 font-bold' : 'text-white/50'}`}>
             {title}
           </h3>
         </div>
-        {children}
-      </div>
+        <div className="relative z-10">{children}</div>
+      </LiquidCard>
     </m.div>
   );
 }
